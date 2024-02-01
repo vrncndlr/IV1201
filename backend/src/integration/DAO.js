@@ -2,7 +2,7 @@ class DAO{
   constructor(){
 
   }
-  loginUser(username, password){
+  login(username, password){
     const user = new Object();
     user.name = "Joelle";
     user.surname = "Wilkinson";

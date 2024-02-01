@@ -1,19 +1,14 @@
 'use strict';
-
+const Controller = require('../controller/Controller');
 const express = require('express');
+
 const router = express.Router();
 
-const user = new Object();
-user.name = "Joelle";
-user.surname = "Wilkinson";
-user.username = "JoelleWilkinson";
-const userJson = JSON.stringify(user);
 
-const DAO = require('../integration/DAO');
-const dao = new DAO();
+const contr = new Controller();
 
 router.post('/login', async (req, res) => {
-  return res.send(dao.loginUser());
+  return res.send(contr.login());
 })
 
 module.exports = router;
