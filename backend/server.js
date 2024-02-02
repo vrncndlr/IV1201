@@ -13,22 +13,19 @@ app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-
+app.use((req, res, next) => {
+  res.header({"Access-Control-Allow-Origin": "*"});
+  next();
+}) 
 
 app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });
 
 
-
 const loginRoute = require('./src/api')
 app.use(loginRoute);
 
-/*app.post('/login', async (req, res) => {
-  return res.send(userJson);
-})
-
-'/login', */
 
 const server = app.listen(
   //process.env.SERVER_PORT,
@@ -39,4 +36,4 @@ const server = app.listen(
   },
 );
 
-module.exports = server, app; // Needed for tests.
+module.exports = server, app;
