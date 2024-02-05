@@ -26,7 +26,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  res.header({"Access-Control-Allow-Origin": "*"});
+  res.set({"Access-Control-Allow-Origin": "*"});
+  res.set('Access-Control-Allow-Headers', 'Content-Type')
   next();
 }) 
 

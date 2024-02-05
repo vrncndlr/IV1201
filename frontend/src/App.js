@@ -6,12 +6,17 @@ import React, { useState, useEffect } from "react";
 // npm i cors bcrypt jsonwebtoken lowdb
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const setLoggedInState = (bool) =>{
+    console.log(bool)
+    setLoggedIn(bool);
+}
   function callDB(user){
-    Authenticate(user);
+    Authenticate(user, setLoggedInState);
   }
   return (
     <div className="App">
-      <Login callDB = {callDB}/>
+      <Login callDB = {callDB} loggedIn={loggedIn}/>
     </div>
   );
 }
