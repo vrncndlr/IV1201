@@ -3,9 +3,9 @@ export default LoginView;
 function LoginView(props) {
     let username ="";
     let password="";
-    function usernameHandlerACB(e){username=e.target.value}
+    function usernameHandlerACB(e){username+=e.target.value; }
     function passwordHandlerACB(e){password=e.target.value}
-
+//console.log(username)
     function loginACB(){
         props.onLogin({
             username: username,
