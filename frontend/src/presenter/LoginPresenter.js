@@ -1,19 +1,53 @@
 import LoginView from "../view/LoginView";
+import UserView from "../view/UserView"
+import {useState, useEffect} from 'react';
 
 export default
 
 function Login(props) {
-    let cred;
-    function loginACB(cred) {
-        let user = cred.username; //code to show object
-        let pass = cred.password; //it needs model?
-        console.log(cred)
-        props.callDB(cred);
+    
+    let user;
+    
+    async function loginACB(cred) {
+        if(!cred) return null;
+        //let user = cred.username; //code to show object
+        //let pass = cred.password; //it needs model?   user = await 
+        console.log(cred);
+        user = await props.callDB(cred)
+        console.log("in presenter")
+        console.log({user});
+        //setLoggedIn(true);
+        //setLoggedInState(true);
     }
     //console.log(cred)
-    return (
-        <LoginView
-            onLogin={loginACB}
-        />
+    return (<>
+        <div>{!props.loggedIn && <LoginView onLogin={loginACB}/>}</div>
+        <div>{props.loggedIn && <UserView user={user}/>}</div>
+        </>
+    )
+}
+
+function Login2(props) {
+    const [loggedIn, setLoggedIn] = useState(false);
+    let user;
+    const setLoggedInState = (bool) =>{
+        return setLoggedIn(bool);
+    }
+    async function loginACB(cred) {
+        if(!cred) return null;
+        //let user = cred.username; //code to show object
+        //let pass = cred.password; //it needs model?   user = await 
+        console.log(cred);
+        user = await props.callDB(cred, setLoggedInState)
+        console.log("in presenter")
+        console.log({user});
+        //setLoggedIn(true);
+        //setLoggedInState(true);
+    }
+    //console.log(cred)
+    return (<>
+        <div>{!loggedIn && <LoginView onLogin={loginACB}/>}</div>
+        <div>{loggedIn && <UserView user={user}/>}</div>
+        </>
     )
 }
