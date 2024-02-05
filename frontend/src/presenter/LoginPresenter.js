@@ -10,7 +10,7 @@ function Login(props) {
         console.log(cred)
         props.callDB(cred);
     }
-console.log(cred)
+    //console.log(cred)
     return (
         <LoginView
             onLogin={loginACB}
