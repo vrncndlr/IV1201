@@ -7,7 +7,6 @@ import React,{useState, useEffect} from 'react';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  const forceUpdate = React.useCallback(() => React.updateState({}), []);
   
   function callDB(user){
     Authenticate(user);
