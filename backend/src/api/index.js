@@ -1,5 +1,5 @@
 'use strict';
-const Controller = require('../controller/Controller');
+/*const Controller = require('../controller/Controller');
 const express = require('express');
 
 const router = express.Router();
@@ -16,6 +16,6 @@ router.post('/login', async (req, res) => {
 router.get('/login', async (req, res) => {
   console.log("get request")
   return res.send(contr.login());
-})
+})*/
 
-module.exports = router;
+//module.exports = router;

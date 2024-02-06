@@ -1,12 +1,32 @@
-import app from '../server.js';
 'use strict';
 
-const express = require('express');
 const Controller = require('../controller/Controller');
-const DAO = require('../integration/DAO');
+const express = require('express');
+const Authorization = require('./Authorization')
+const router = express.Router();
 
-app.post('/login', async (req, res) => {
-  return res.send(userJson);
+
+const contr = new Controller();
+
+router.post('/login', async (req, res) => {
+  console.log("post request")
+  console.log(req.body)
+  const user = await contr.login(req.body.username, req.body.password);
+  if(!user){
+    this.sendHttpResponse(res, 404, 'No user found in database');
+    return;
+  }
+  if(user){
+    //if(!Authorization.verifyIfAuthorized(req, res))
+      Authorization.setAuthCookie(req.body, res);
+    console.log("authorized");
+    console.log(res)
+  }
+  return res.send(user);
 })
 
-module.exports = Login;
+router.get('/login', async (req, res) => {
+  console.log("get request")
+  return res.send(null);
+})
+module.exports = router;
