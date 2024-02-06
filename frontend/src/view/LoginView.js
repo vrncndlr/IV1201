@@ -1,8 +1,10 @@
-export default LoginView;
+import React, { useState } from 'react';
+import '../styling/forms.css'
 
 function LoginView(props) {
     let username ="";
     let password="";
+    const [error, setError] = useState('');
     function usernameHandlerACB(e){username+=e.target.value; }
     function passwordHandlerACB(e){password=e.target.value}
 //console.log(username)
@@ -12,13 +14,37 @@ function LoginView(props) {
             password: password
         })
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!username || !password) {
+            setError('Please fill in all fields');
+            return;
+        }
+        // Your sign-in logic here
+    };
 
     return (
-        <div>
-            <input onChange={usernameHandlerACB} value={props.username || ""} placeholder="Username"/>
-            <input onChange={passwordHandlerACB} value={props.password || ""} placeholder="Password"/> {/*TODO hide pass*/}
-            <button onClick={loginACB}>Log in</button>
+        <div className={"mainContainer"}>
+            <h1>Welcome!</h1>
+            <p>Please sign in before submitting an application</p>
+            <form onSubmit={handleSubmit}>
+                <div className={"inputContainer"}>
+                    <input type="username"
+                           placeholder="Username"
+                           onChange={usernameHandlerACB}
+                           className={"inputBox"}/>
+                </div>
+                <div className={"inputContainer"}>
+                    <input onChange={passwordHandlerACB}
+                           type={"password"}
+                           placeholder="Password"
+                           className={"inputBox"}/> {/*TODO hide pass*/}
+                </div>
+                {error && <div style={{ color: 'red' }}>{error}</div>}
+                <button type="submit" onClick={loginACB}>Log in</button>
+            </form>
+                <p>Not registered? Sign up here</p>
         </div>
-    )
+)
 }
-
+export default LoginView;
