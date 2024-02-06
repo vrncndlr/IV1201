@@ -32,7 +32,7 @@ function Authenticate(usernameAndPassword, setLoggedInState){
     .then(user=>{
       console.log("dbc")
       console.log(user.name);
-      setLoggedInState(true);
+      setLoggedInState(true, user);
     })
     .catch(error => console.log(error));
   }catch(e) {
