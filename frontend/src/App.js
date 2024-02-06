@@ -1,21 +1,20 @@
 import './App.css';
 import Login from "./presenter/LoginPresenter"
 import {Authenticate} from './integration/DBCaller'
-import {useState, useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const setLoggedInState = (bool) =>{
-    console.log(bool)
-    setLoggedIn(bool);
-}
+  const [user, setUser] = useState({});
+  const forceUpdate = React.useCallback(() => React.updateState({}), []);
+  
   function callDB(user){
-    Authenticate(user, setLoggedInState);
+    Authenticate(user);
   }
   return (
     <div className="App">
-      <Login callDB = {callDB} loggedIn={loggedIn}/>
+      <Login callDB = {callDB} user={user}/>
     </div>
   );
 }
