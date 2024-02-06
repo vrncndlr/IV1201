@@ -3,14 +3,13 @@ const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
-/**
- * Load the configuration files
+//Load the configuration files
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
     example: path.join(APP_ROOT_DIR, '.env-example'),
 });
- */
+ 
 const express = require('express');
 const app = express();
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
@@ -26,7 +25,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  res.header({"Access-Control-Allow-Origin": "*"});
+  res.set({"Access-Control-Allow-Origin": "*"});
+  res.set('Access-Control-Allow-Headers', 'Content-Type')
   next();
 }) 
 
@@ -34,9 +34,7 @@ app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });
 
-//const loginRoute = require('./api')
-
-const loginRoute = require('./api')
+const loginRoute = require('./api/login')
 app.use(loginRoute);
 
 
