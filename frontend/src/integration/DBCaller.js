@@ -13,7 +13,6 @@ async function Authenticate2(usernameAndPassword){
     const user = await response.json();
     console.log("in dbcaller")
     console.log(user.name);
-    return await user;
   }catch(e) {
     console.log(e);
   }
