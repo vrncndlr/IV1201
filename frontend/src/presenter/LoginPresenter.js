@@ -1,7 +1,6 @@
 import LoginView from "../view/LoginView";
 import UserView from "../view/UserView"
 import React, { useState , useEffect} from "react";
-import {useState, useEffect} from 'react';
 
 export default function Login(props) {
     const [email, setEmail] = useState("");
@@ -38,7 +37,7 @@ export default function Login(props) {
     }
     return (<>
         <div>{!loggedIn && <LoginView onLogin={loginACB}/>}</div>
-        <div>{loggedIn && <UserView user={user}/>}</div>
+        <div>{loggedIn && <UserView user={userObject}/>}</div>
         </>
     )
 }
