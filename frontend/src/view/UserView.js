@@ -1,11 +1,9 @@
 export default UserView;
 
-function UserView(user){
-  console.log("props: \n")
-  console.log(user.name)
+function UserView(props){
   return<>
     <h1>
-      Hello, {user.name}
+      Hello, {props.user.name}
     </h1>
   </>
 }
