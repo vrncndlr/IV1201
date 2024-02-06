@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styling/forms.css'
+import {Link} from 'react-router-dom';
 
 function LoginView(props) {
     let username ="";
@@ -43,8 +44,9 @@ function LoginView(props) {
                 {error && <div style={{ color: 'red' }}>{error}</div>}
                 <button type="submit" onClick={loginACB}>Log in</button>
             </form>
-                <p>Not registered? Sign up here</p>
+            <p>Not registered? <Link to={"/register"}>Sign up here</Link></p>
         </div>
-)
+    )
 }
+
 export default LoginView;

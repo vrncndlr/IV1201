@@ -1,7 +1,9 @@
 ├──client
 |   ├── src
 |   │   ├── presenter
+|   |   │   ├── LoginPresenter.js
 |   │   └── view
+|   |   │   ├── LoginView.js
 |   └── package.json
 |   └── app.js
 |   └── ...
@@ -19,3 +21,6 @@
 
 
 Browser --> HTTP --> Node --> Express --> api layer
+
+
+
