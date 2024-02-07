@@ -1,0 +1,26 @@
+├──client
+|   ├── src
+|   │   ├── presenter
+|   |   │   ├── LoginPresenter.js
+|   │   └── view
+|   |   │   ├── LoginView.js
+|   └── package.json
+|   └── app.js
+|   └── ...
+├──server
+|    ├── src
+|    │   ├── api -> this is the view, this is called by express
+|    │   ├── controller -> calls integration and model layers
+|    │   ├── model -> application state
+|    │   ├── integration -> database calls
+|    │   ├── util
+|    |   └── server.js
+|    └── package.json
+|    └── ...
+└── package.json
+
+
+Browser --> HTTP --> Node --> Express --> api layer
+
+
+
