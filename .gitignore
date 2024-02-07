@@ -11,6 +11,7 @@
 /**/*.env
 # Ignore environment variables and secrets
 .env
+/**/dbenv.env
 
 # Ignore build folder
 /dist
