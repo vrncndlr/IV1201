@@ -6,23 +6,25 @@ const Authorization = require('./Authorization')
 const router = express.Router();
 
 
-const contr = new Controller();
-
 router.post('/login', async (req, res) => {
+  const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
   const user = await contr.login(req.body.username, req.body.password);
-  if(!user){
-    this.sendHttpResponse(res, 404, 'No user found in database');
+  console.log("user retrieved from db")
+  if(user == undefined){
+    console.log("undefined user")
+    res.status(404).end();
     return;
   }
-  if(user){
+  if(user.row_to_json){
+    console.log(user.row_to_json)
     //if(!Authorization.verifyIfAuthorized(req, res))
       Authorization.setAuthCookie(req.body, res);
     console.log("authorized");
-    console.log(res)
+    //console.log(res)
   }
-  return res.send(user);
+  return res.send(user.row_to_json);
 })
 
 router.get('/login', async (req, res) => {

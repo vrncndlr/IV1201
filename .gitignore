@@ -8,9 +8,10 @@
 *.idea
 # Ignore node_modules folder
 /**/node_modules/
-/**/.env
+/**/*.env
 # Ignore environment variables and secrets
 .env
+/**/dbenv.env
 
 # Ignore build folder
 /dist

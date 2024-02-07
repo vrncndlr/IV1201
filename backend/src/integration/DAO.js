@@ -24,11 +24,13 @@ class DAO {
   async login(username, userpassword) {
     const client = await this.pool.connect();
     try {
+      console.log("database access")
       const { rows } = await client.query("SELECT row_to_json(user_alias)" +
         "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
         "FROM public.person where username = $1 AND password = $2) user_alias", [username, userpassword])
-      //console.log(rows)
-      return rows;
+      //const {rows} = await client.query("SELECT * FROM PUBLIC.PERSON");
+      console.log(rows)
+      return rows[0];
     } catch (e) {
       console.error(e);
     } finally {
