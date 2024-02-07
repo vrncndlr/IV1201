@@ -5,7 +5,7 @@ Database integration
 const path = require('path');
 require('dotenv').config({
   override: true,
-  path: path.join(__dirname, '.env')
+  path: path.join(__dirname, 'dbenv.env')
 
 });
 
@@ -13,11 +13,11 @@ class DAO {
   constructor() {
     const { Pool, Client } = require('pg');
     this.pool = new Pool({
-      user: process.env.DB_USER,
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      password: process.env.DB_PASSWD,
-      port: process.env.DB_PORT
+      user: process.env.USER,
+      host: process.env.HOST,
+      database: process.env.NAME,
+      password: process.env.PASSWD,
+      port: process.env.PORT
     })
   }
 
