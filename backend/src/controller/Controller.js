@@ -9,7 +9,7 @@ class Controller{
   async login(username, password){
     console.log("controller")
     console.log(username + " " + password)
-    return this.dao.login(username, password);
+    return await this.dao.login(username, password);
   }
 }
 module.exports = Controller;
