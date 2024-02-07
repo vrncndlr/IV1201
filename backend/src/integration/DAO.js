@@ -34,13 +34,13 @@ class DAO {
     } finally {
       client.end()
     }
-    return null;
+    return {};
   };
 }
 
 module.exports = DAO;
 /*const dblog = new DAO()
-  dblog.login('JoelleWilkinson', 'LiZ98qvL8Lw').then(
+  dblog.login('JoelleWilkinson', 'hdfd').then(
 
     result => console.log(result)
 
