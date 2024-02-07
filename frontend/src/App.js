@@ -8,6 +8,10 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 // npm i cors bcrypt jsonwebtoken lowdb
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
+  const forceUpdate = React.useCallback(() => React.updateState({}), []);
+  
   function callDB(user){
     Authenticate(user);
   }

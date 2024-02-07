@@ -1,11 +1,14 @@
 const DAO = require('../integration/DAO');
 
+
 class Controller{
   constructor(){
     this.dao = new DAO();
   }
 
-  login(username, password){
+  async login(username, password){
+    console.log("controller")
+    console.log(username + " " + password)
     return this.dao.login(username, password);
   }
 }

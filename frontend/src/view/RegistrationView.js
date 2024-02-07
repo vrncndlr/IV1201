@@ -211,3 +211,4 @@ function RegistrationView(props) {
 }
 
 export default RegistrationView;
+
