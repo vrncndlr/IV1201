@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 
-function LoginView(props) {
+function FailedLoginView(props){
     let username ="";
     let password="";
     const [error, setError] = useState('');
-    function usernameHandlerACB(e){username=e.target.value; }
+    function usernameHandlerACB(e){username+=e.target.value; }
     function passwordHandlerACB(e){password=e.target.value}
 //console.log(username)
     function loginACB(){
@@ -28,6 +28,7 @@ function LoginView(props) {
         <div className={"mainContainer"}>
             <h1>Welcome!</h1>
             <p>Please sign in before submitting an application</p>
+            <p>Bad username or password</p>
             <form onSubmit={handleSubmit}>
                 <div className={"inputContainer"}>
                     <input type="username"
@@ -49,4 +50,4 @@ function LoginView(props) {
     )
 }
 
-export default LoginView;
+export default FailedLoginView;
