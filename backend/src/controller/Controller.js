@@ -7,8 +7,6 @@ class Controller{
   }
 
   async login(username, password){
-    console.log("controller")
-    console.log(username + " " + password)
     return await this.dao.login(username, password);
   }
 }
