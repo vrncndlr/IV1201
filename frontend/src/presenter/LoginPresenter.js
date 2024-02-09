@@ -9,7 +9,7 @@ export default function Login(props) {
     
     return (<>
       <div>{!props.loggedIn && !props.failedLogin &&  <LoginView onLogin={props.callDB}/>}</div>
-      <div>{props.loggedIn && <UserView user={props.userObject}/>}</div>
+      <div>{props.loggedIn && <UserView user={props.user}/>}</div>
       <div>{props.failedLogin && <FailedLoginView onLogin={props.callDB}/>}</div>
     </>)
 }

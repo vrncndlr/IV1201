@@ -10,7 +10,13 @@ router.post('/login', async (req, res) => {
   const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
-  const user = await contr.login(req.body.username, req.body.password);
+  try{
+    const user = await contr.login(req.body.username, req.body.password);
+  }catch(e){
+    console.log(e)
+    res.status(500).end();
+    return;
+  }
   console.log("user retrieved from db")
   if(user == undefined){
     console.log("undefined user")
