@@ -12,11 +12,7 @@ router.post('/login', async (req, res) => {
   console.log(req.body)
   try{
     const user = await contr.login(req.body.username, req.body.password);
-  }catch(e){
-    console.log(e)
-    res.status(500).end();
-    return;
-  }
+  
   console.log("user retrieved from db")
   if(user == undefined){
     console.log("undefined user")
@@ -31,6 +27,11 @@ router.post('/login', async (req, res) => {
     //console.log(res)
   }
   return res.send(user.row_to_json);
+}catch(e){
+  console.log(e)
+  res.status(500).end();
+  return;
+}
 })
 
 router.get('/login', async (req, res) => {

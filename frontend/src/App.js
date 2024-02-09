@@ -18,7 +18,8 @@ function App() {
     const response = await Authenticate(user);
     if(response === 404)
       setFailedLogin(true)
-    else if(response !== 200){
+    else if(response !== 200 && response.name === undefined){
+      console.log(response.status)
       console.log("error code in http response")
       setError(true)
     }
