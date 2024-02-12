@@ -29,7 +29,8 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 /**
- * CORS: put in root URL without / in the first header below
+ * CORS: put in root URL without / in the first header below. 
+ * Has to include http://
  */
 app.use((req, res, next) => {
   res.set({"Access-Control-Allow-Origin": "http://localhost:3000"});
