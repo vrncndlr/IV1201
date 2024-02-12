@@ -1,9 +1,17 @@
 'use strict';
+
+/**
+ * Starts the server process that receives all HTTP requests and passes them on to relevant handler component.
+ * All url routes to be accessed must be registered here with app.use(<url>)
+ * Sets up BodyParser, CookieParser and handles CORS permissions.
+ * 
+ * Handle HTTP responses - is this part needed??
+ * @type {{json: Function, raw: Function, text: Function, urlencoded: Function}|{json?: *, raw?: *, text?: *, urlencoded?: *}}
+ */
+
 const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
-
-//Load the configuration files
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
@@ -14,10 +22,6 @@ const express = require('express');
 const app = express();
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
-/**
- * Handle HTTP responses
- * @type {{json: Function, raw: Function, text: Function, urlencoded: Function}|{json?: *, raw?: *, text?: *, urlencoded?: *}}
- */
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -30,6 +34,10 @@ app.use((req, res, next) => {
   next();
 }) 
 
+/**
+ * Handles requests to /.
+ * @returns {HTTPResponse} with a dummy message. 
+ */
 app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });

@@ -29,10 +29,12 @@ class DAO {
         "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
         "FROM public.person where username = $1 AND password = $2) user_alias", [username, userpassword])
       //const {rows} = await client.query("SELECT * FROM PUBLIC.PERSON");
-      //console.log(rows)
+      console.log(rows)
+      if(rows.length === 0) console.log("undefined user in dao")
       return rows[0];
     } catch (e) {
       console.error(e);
+      throw new Error("database error") 
     } finally {
       client.end()
     }
