@@ -9,9 +9,9 @@ const router = express.Router();
  * Handles all post requests to /login, takes json object {username: <susername>, password:<password>}
  * On succesful login sets JWT as cookie in the response
  * @returns user object if username and password was found in database, otherwise sends empty response
- * with 404 status. If any other error is produced sends a response with 500 status.
+ * with 404 status. 
  */
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
@@ -31,8 +31,7 @@ router.post('/login', async (req, res) => {
     }
     return res.send(user.row_to_json);
   }catch(e){
-    console.log(e)
-    res.status(500).end();
+    next("server or database error")
     return;
   }
 })

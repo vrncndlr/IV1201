@@ -46,9 +46,11 @@ app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });
 
-const loginRoute = require('./api/login')
+const loginRoute = require('./api/Login')
 app.use(loginRoute);
 
+const errorHandler = require('./api/ErrorHandler')
+app.use(errorHandler);
 
 const server = app.listen(
   //process.env.SERVER_PORT,
