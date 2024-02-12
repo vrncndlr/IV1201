@@ -29,13 +29,13 @@ function LoginView(props) {
             <h1>Welcome!</h1>
             <p>Please sign in before submitting an application</p>
             <form onSubmit={handleSubmit}>
-                <div className={"inputContainer"}>
+                <div className={"inputGroup"}>
                     <input type="username"
                            placeholder="Username"
                            onChange={usernameHandlerACB}
                            className={"inputBox"}/>
                 </div>
-                <div className={"inputContainer"}>
+                <div className={"inputGroup"}>
                     <input onChange={passwordHandlerACB}
                            type={"password"}
                            placeholder="Password"
