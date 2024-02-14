@@ -1,4 +1,9 @@
-
+/**
+ * Calls backend api to authenticate a user on login. 
+ * @param {Object} usernameAndPassword takes argument on the form of: {username: 'username', password:'pw'}
+ * @returns a user json object on a succesful authentication, 
+ * otherwise returns an int with the http error status.
+ */
 async function Authenticate(usernameAndPassword){
   const URL = 'http://localhost:8000/login';
   try{
