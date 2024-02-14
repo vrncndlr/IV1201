@@ -28,8 +28,12 @@ app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+/**
+ * CORS: put in root URL without / in the first header below. 
+ * Has to include http://
+ */
 app.use((req, res, next) => {
-  res.set({"Access-Control-Allow-Origin": "*"});
+  res.set({"Access-Control-Allow-Origin": "http://localhost:3000"});
   res.set('Access-Control-Allow-Headers', 'Content-Type')
   next();
 }) 
@@ -42,9 +46,11 @@ app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });
 
-const loginRoute = require('./api/login')
+const loginRoute = require('./api/Login')
 app.use(loginRoute);
 
+const errorHandler = require('./api/ErrorHandler')
+app.use(errorHandler);
 
 const server = app.listen(
   //process.env.SERVER_PORT,

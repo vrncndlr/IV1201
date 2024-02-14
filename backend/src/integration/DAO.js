@@ -25,14 +25,17 @@ class DAO {
     const client = await this.pool.connect();
     try {
       //console.log("database access")
+      await client.query('BEGIN')
       const { rows } = await client.query("SELECT row_to_json(user_alias)" +
         "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
         "FROM public.person where username = $1 AND password = $2) user_alias", [username, userpassword])
       //const {rows} = await client.query("SELECT * FROM PUBLIC.PERSON");
       console.log(rows)
       if(rows.length === 0) console.log("undefined user in dao")
+      await client.query('COMMIT')
       return rows[0];
     } catch (e) {
+      await client.query('ROLLBACK')
       console.error(e);
       throw new Error("database error") 
     } finally {
