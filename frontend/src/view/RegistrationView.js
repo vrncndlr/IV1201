@@ -3,7 +3,27 @@ import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 import {useFormik} from 'formik'
 
-function RegistrationView(props) {
+/**
+ *
+ * @param onRegister
+ * @returns {Element}
+ * @constructor
+ */
+function RegistrationView({onRegister}) {
+    /**
+    function registerACB(){
+        props.onRegister({
+            firstname: formik.values.firstname,
+            lastname: formik.values.lastname,
+            pid: formik.values.pid,
+            email: formik.values.email,
+            username: formik.values.username,
+            password: formik.values.password,
+
+        })
+    }
+     *
+     */
     const formik = useFormik({
         // Manage form state
         initialValues: {
@@ -16,8 +36,8 @@ function RegistrationView(props) {
             confirmPassword: ''
         },
         // Submit form data
-        onSubmit: values => {
-            //TODO: call the api with the data as the payload
+        onSubmit: (values) => {
+            onRegister(values); // Call onRegister prop with form values
         },
         // Validate
         validate: values => {

@@ -2,6 +2,7 @@
 const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
+const cors = require('cors');
 
 //Load the configuration files
 
@@ -12,6 +13,7 @@ require('dotenv-safe').config({
  
 const express = require('express');
 const app = express();
+
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 /**

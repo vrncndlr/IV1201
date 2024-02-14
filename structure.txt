@@ -1,18 +1,27 @@
-├──client
+├──frontend
 |   ├── src
+|   │   ├── integration
+|   |   │   └── ... DBCaller.js.js
 |   │   ├── presenter
 |   |   │   ├── LoginPresenter.js
+|   |   │   ├── RegistrationPresenter.js
+|   |   │   └── ...
 |   │   └── view
 |   |   │   ├── LoginView.js
+|   |   │   ├── RegistrationView.js
+|   |   │   └── ...
 |   └── package.json
-|   └── app.js
+|   └── App.js - acts as the head controller
 |   └── ...
-├──server
+├──backend
 |    ├── src
 |    │   ├── api -> this is the view, this is called by express
+|    │   |  ├── login.js
+|    │   |  └── registration.js
 |    │   ├── controller -> calls integration and model layers
 |    │   ├── model -> application state
 |    │   ├── integration -> database calls
+|    │      └── DAO.js
 |    │   ├── util
 |    |   └── server.js
 |    └── package.json

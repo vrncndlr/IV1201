@@ -2,7 +2,7 @@ import './App.css';
 import Login from "./presenter/LoginPresenter"
 import Registration from "./presenter/RegistrationPresenter";
 import Error from "./view/ErrorView";
-import {Authenticate} from './integration/DBCaller'
+import {Authenticate, saveRegistrationData} from './integration/DBCaller'
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 // Express-based auth server that uses JWT tokens to authenticate users
@@ -30,7 +30,32 @@ function App() {
       setLoggedIn(true)
     }
   }
-  return (
+
+    /**
+     *
+     * @param fieldValues The values provided by the user trying to register
+     * @returns {Promise<void>}
+     */
+    async function handleRegistration(fieldValues) {
+        try {
+            // Make API call to register the user
+            const response = await saveRegistrationData(fieldValues);
+            // Check if registration was successful
+            if (response && response.status === 201) {
+                // Registration successful, do something (e.g., redirect to login page)
+                console.log('User registered successfully');
+            } else {
+                // Registration failed, handle error (e.g., display error message)
+                console.error('Registration failed:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('Error registering user:', error);
+        }
+    }
+
+
+    return (
         <div className={"App"}>
           <Router>
             <Routes>
@@ -39,7 +64,8 @@ function App() {
                   failedLogin = {failedLogin} 
                   user = {userObject}
                   loggedIn={loggedIn}/>}/>
-                <Route path="/register" element={!error && <Registration/>}/>
+                <Route path="/register" element={!error && <Registration
+                    handleRegistration={handleRegistration}/>}/>
                 
             </Routes>
           </Router>

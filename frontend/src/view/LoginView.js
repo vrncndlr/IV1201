@@ -39,7 +39,7 @@ function LoginView(props) {
                     <input onChange={passwordHandlerACB}
                            type={"password"}
                            placeholder="Password"
-                           className={"inputBox"}/> {/*TODO hide pass*/}
+                           className={"inputBox"}/>
                 </div>
                 {error && <div style={{ color: 'red' }}>{error}</div>}
                 <button type="submit" onClick={loginACB}>Log in</button>
