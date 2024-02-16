@@ -27,5 +27,27 @@ class Controller{
   async login(username, password){
     return await this.dao.login(username, password);
   }
+
+  /**
+   * Calls the database layer with register api function and returns a boolean
+   * Takes the values of the user registration as separate values
+   * @param firstname
+   * @param lastname
+   * @param pid
+   * @param email
+   * @param password
+   * @param username
+   * @returns true if registration successful and false if not {Promise<boolean>}
+   */
+  async register(firstname, lastname, pid, email, password, username){
+    try {
+      await this.dao.register(firstname, lastname, pid, email, password, username);
+      return true;
+    } catch (error) {
+      console.error('Error registering user:', error);
+      return false;
+    }
+  }
+
 }
 module.exports = Controller;

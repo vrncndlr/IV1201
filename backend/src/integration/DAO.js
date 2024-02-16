@@ -8,13 +8,12 @@ const path = require('path');
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, 'dbenv.env')
-
 });
 
 //Constructor to create module and establish connection to database.
 class DAO {
   constructor() {
-    const { Pool, Client } = require('pg');
+    const {Pool, Client} = require('pg');
     this.pool = new Pool({
       user: process.env.USER,
       host: process.env.HOST,
@@ -50,6 +49,33 @@ class DAO {
   };
 
   /**
+   * Inserts data sent from the frontend into the PostreSQL database
+   * @param firstname
+   * @param lastname
+   * @param pid
+   * @param email
+   * @param username
+   * @param password
+   * @returns {Promise<*>} The inserted object with user data
+   */
+  async register(firstname, lastname, pid, email, username, password) {
+    console.log("DAO: ", firstname, lastname, pid, email, username, password);
+    const client = await this.pool.connect();
+    try {
+      const { rows } = await client.query("INSERT INTO public.person (name, surname, pnr, email, password, role_id, username)" +
+                                          "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
+                                          "RETURNING *;", [firstname, lastname, pid, email, password, username]);
+        console.log("return object (DBCaller.js): ", rows[0]);
+        return rows[0];
+    } catch (error) {
+      console.error('Error inserting user:', error);
+      throw error;
+    } finally {
+      client.end();
+    }
+  }
+
+/**
 * Get user from database.
 * @param  person_id the person id
 * @return selected user
@@ -565,7 +591,7 @@ class DAO {
     }
   };
 
-    /**
+/**
 * get all statuses
 * @return all user status
 */
@@ -590,10 +616,4 @@ class DAO {
 }
 
 module.exports = DAO;
-/*
-const dblog = new DAO()
-dblog.getAllStatus().then(
-  result => console.log(result)
-)
-*/
-//change status
+
