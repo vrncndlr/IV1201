@@ -16,8 +16,8 @@ function errorHandler(e, req, res, next){
   if(res.headersSent){
     return next(e)  
   }
-  console.log("errorhandler " + e)
-  return res.status(500).send({error: e})
+  console.log("ErrorHandler: " + e)
+  return res.status(500).send({error: "server or database error"})
 }
 
 module.exports = errorHandler;

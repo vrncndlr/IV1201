@@ -20,6 +20,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userObject, setUserObject] = useState({});
   const[failedLogin, setFailedLogin] = useState(false);
+  
   const[error, setError] = useState(false);
   const [registered, setRegistered] = useState(false);
 

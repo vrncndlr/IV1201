@@ -48,7 +48,8 @@ class Mail{
   }
 
   async getAccountRestoringCode(){
-    return "1234";
+    return Math.floor(Math.random() * 10000).toString();
+    //return "1234";
   }
 
 }

@@ -49,6 +49,22 @@ class Controller{
       return false;
     }
   }
+  async restoreAccountByEmail(email){
+    const exists = await this.dao.checkUserEmail(email);
+
+    //add check so that you cant restore account if you have username and pw??
+
+    console.log("contr: " + exists.person_id)
+    console.log("contr: " + exists.email)
+    if(exists == undefined) throw new Error("email not found in database");
+    if(exists != undefined && exists.person_id){
+      const mailer = new Email();
+      const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)
+      console.log(messageSent + " " + accountRestoreCode)
+      return messageSent;
+    }
+    else
+      return false;}
 
 }
 module.exports = Controller;

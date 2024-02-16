@@ -10,10 +10,16 @@ router.post('/restoreAccountByEmail', async (req, res, next) => {
   //console.log("post request")
   //console.log(req.body.email)
   try{
-    await contr.restoreAccountByEmail(req.body.email);
+    const messageSent = await contr.restoreAccountByEmail(req.body.email);
+    if(messageSent){
+      console.log("successfully sent message")
+      res.send({emailSent:true})
+    }else{
+      console.log("no message sent")
+      res.status(404).end();
+    }
   }catch(e){
     next(e)
-    return;
   }
 })
 

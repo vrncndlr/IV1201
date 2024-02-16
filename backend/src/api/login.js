@@ -13,8 +13,8 @@ const router = express.Router();
  */
 router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
-  console.log("post request")
-  console.log(req.body)
+  //console.log("post request")
+  //console.log(req.body)
   try{
     const user = await contr.login(req.body.username, req.body.password);
     if(user == undefined){
@@ -23,7 +23,7 @@ router.post('/login', async (req, res, next) => {
       return;
     }
     if(user.row_to_json){
-      console.log(user.row_to_json)
+      //console.log(user.row_to_json)
       //if(!Authorization.verifyIfAuthorized(req, res))
         Authorization.setAuthCookie(user.row_to_json, res);
       console.log("authorized");
@@ -31,7 +31,8 @@ router.post('/login', async (req, res, next) => {
     }
     return res.send(user.row_to_json);
   }catch(e){
-    next("server or database error")
+    //next("server or database error on login")
+    next(e)
     return;
   }
 })

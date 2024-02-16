@@ -25,12 +25,13 @@ async function callAPI(url, data){
       },
       body: JSON.stringify(data)}
       ,{mode:'cors'},);
-    console.log(response)
+    //console.log("dbcaller in frontend")
+    //console.log(response)
     if(response.status !== 200)
       return response.status;
     const result = await response.json()
     //console.log("dbc")
-    //console.log(user);
+    //console.log(result);
     return result;
   }catch(e) {
     console.log(e);

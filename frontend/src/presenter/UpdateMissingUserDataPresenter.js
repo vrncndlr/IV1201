@@ -1,5 +1,33 @@
 import MissingUserDataView from "../view/MissingUserDataView"
+import RestoreAccountDataView from "../view/RestoreAccountDataView"
+import AccountUpdatedByEmailView from "../view/AccountUpdatedByEmailView"
+import {useState} from "react";
+import {restoreAccountByEmail} from '../integration/DBCaller'
 
 export default function MissingUserDataUpdate(props){
-  return <MissingUserDataView updateUserData = {props.updateUserData}/>
+  const [restoreEmailSent, setRestoreEmailSent] = useState(false);
+  const [accountUpdated, setAccountUpdated] = useState(false);
+
+  async function updateAccountByEmailCode(formData){
+    setRestoreEmailSent(false);
+    setAccountUpdated(true);
+  }
+
+  async function sendResetEmail(email){
+    console.log("jsoning email")
+    console.log(JSON.stringify(email))
+    const result = await restoreAccountByEmail(email)
+    console.log("app.js")
+    console.log(result.emailSent)
+    if(result.emailSent)
+      setRestoreEmailSent(true);
+  }
+
+  return <>
+      <div>{!restoreEmailSent && !accountUpdated &&
+        <MissingUserDataView sendResetEmail = {sendResetEmail}/>}</div>
+      <div>{restoreEmailSent && !accountUpdated &&
+        <RestoreAccountDataView updateAccountByEmailCode = {updateAccountByEmailCode}/>}</div>
+      <div>{accountUpdated && <AccountUpdatedByEmailView />}</div>
+    </>
 }

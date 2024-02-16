@@ -10,7 +10,7 @@ export default function MissingUserDataView(props){
     },
     // Submit form data
     onSubmit: values => {
-        props.updateUserData(values)
+        props.sendResetEmail(values)
     },
     // Validate
     validate: values => {
