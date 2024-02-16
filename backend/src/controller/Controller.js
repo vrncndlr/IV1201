@@ -1,4 +1,5 @@
 const DAO = require('../integration/DAO');
+const Email = require('../integration/Email');
 
 /**
  * Class that is called by api layer to make database calls.

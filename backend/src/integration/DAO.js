@@ -139,7 +139,7 @@ class DAO {
       if (rows.length == 0) {
         return false;
       } else {
-        return rows[0];
+        return rows[0].row_to_json;
       }
     } catch (e) {
       await client.query('ROLLBACK')

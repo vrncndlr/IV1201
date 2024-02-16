@@ -5,28 +5,38 @@
  * otherwise returns an int with the http error status.
  */
 async function Authenticate(usernameAndPassword){
-  const URL = 'http://localhost:8000/login';
+  const URL = 'login';
+  return await callAPI(URL, usernameAndPassword)
+}
+
+async function restoreAccountByEmail(email){
+  const URL = 'restoreAccountByEmail';
+  return await callAPI(URL, email);
+}
+
+async function callAPI(url, data){
+  const URL = 'http://localhost:8000/';
   try{
-    const response = await fetch(URL,
+    const response = await fetch(URL + url, 
       {method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(usernameAndPassword),
-      mode:'cors'
-      });
+      body: JSON.stringify(data)}
+      ,{mode:'cors'},);
     console.log(response)
     if(response.status !== 200)
       return response.status;
-    const user = await response.json()
+    const result = await response.json()
     //console.log("dbc")
     //console.log(user);
-    return user;
+    return result;
   }catch(e) {
     console.log(e);
   }
 }
+
 
 /**
  * Calls backend api to register a new user.
@@ -60,5 +70,4 @@ async function saveRegistrationData(userdata) {
   }
 }
 
-
-export {Authenticate, saveRegistrationData}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData}

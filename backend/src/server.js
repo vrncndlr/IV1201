@@ -55,6 +55,9 @@ app.use(loginRoute);
 const registerRoute = require('./api/registration')
 app.use(registerRoute);
 
+const restoreAccountRoute = require('./api/restoreAccountByEmail')
+app.use(restoreAccountRoute);
+
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 

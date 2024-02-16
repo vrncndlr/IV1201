@@ -44,6 +44,7 @@ function LoginView(props) {
                 <button type="submit" onClick={loginACB}>Log in</button>
             </form>
             <p>Not registered? <Link to={"/register"}>Sign up here</Link></p>
+            <p>Add username and password to an existing account? <Link to={"/updateUser"}>Click here</Link></p>
         </div>
     )
 }
