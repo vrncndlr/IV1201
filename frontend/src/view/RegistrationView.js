@@ -1,29 +1,32 @@
-import React, {useState} from "react";
-import '../styling/forms.css'
+import React, { useState, useEffect } from "react";
 import {Link} from 'react-router-dom';
 import {useFormik} from 'formik'
+import { useNavigate } from 'react-router-dom';
+import '../styling/forms.css'
 
 /**
  *
- * @param onRegister
- * @returns {Element}
- * @constructor
+ * The RegistrationView component handles user registration by capturing user  input,
+ * validating the form fields and submitting them to the server which inserts into the database.
+ * On successful registration the user is redirected to the login page.
+ * @param onRegister A function to handle user registration.
+ *                   It receives the form values as an argument and initiates the registration process.
+ * @requires useState
+ * @requires useEffect
+ * @requires useFormik
+ * @requires useNavigate
+ * @requires Link
  */
 function RegistrationView({onRegister}) {
-    /**
-    function registerACB(){
-        props.onRegister({
-            firstname: formik.values.firstname,
-            lastname: formik.values.lastname,
-            pid: formik.values.pid,
-            email: formik.values.email,
-            username: formik.values.username,
-            password: formik.values.password,
+    const navigate = useNavigate();
+    const [registered, setRegistered] = useState(false);
 
-        })
-    }
-     *
-     */
+    useEffect(() => {
+        if (registered) {
+            navigate('/login');
+        }
+    }, [registered]);
+
     const formik = useFormik({
         // Manage form state
         initialValues: {
@@ -36,10 +39,16 @@ function RegistrationView({onRegister}) {
             confirmPassword: ''
         },
         // Submit form data
-        onSubmit: (values) => {
-            onRegister(values); // Call onRegister prop with form values
+        onSubmit: async (values) => {
+            try {
+                await onRegister(values);
+                setRegistered(true);
+            } catch (error) {
+                // Handle error during registration
+                console.error('Error registering user:', error);
+            }
         },
-        // Validate
+        // Validate form fields
         validate: values => {
             let errors = {}
             if(!values.firstname){errors.firstname = "Required"}

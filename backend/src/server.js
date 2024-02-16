@@ -12,7 +12,6 @@
 const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
-const cors = require('cors');
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
@@ -21,7 +20,8 @@ require('dotenv-safe').config({
  
 const express = require('express');
 const app = express();
-
+const cors = require('cors');
+app.use(cors({origin: 'http://localhost:3000'}))
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
@@ -33,12 +33,13 @@ app.use(cookieParser());
 /**
  * CORS: put in root URL without / in the first header below. 
  * Has to include http://
- */
 app.use((req, res, next) => {
   res.set({"Access-Control-Allow-Origin": "http://localhost:3000"});
-  res.set('Access-Control-Allow-Headers', 'Content-Type')
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   next();
-}) 
+})
+ */
 
 /**
  * Handles requests to /.
@@ -48,8 +49,11 @@ app.get('/', (req, res) => {
   return res.send('hello from group 16');
 });
 
-const loginRoute = require('./api/Login')
+const loginRoute = require('./api/login')
 app.use(loginRoute);
+
+const registerRoute = require('./api/registration')
+app.use(registerRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);

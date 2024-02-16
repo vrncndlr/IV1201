@@ -44,20 +44,30 @@ class DAO {
     return {};
   };
 
-  //Lägg till profil i databas
+  /**
+   * Inserts data sent from the frontend into the PostreSQL database
+   * @param firstname
+   * @param lastname
+   * @param pid
+   * @param email
+   * @param username
+   * @param password
+   * @returns {Promise<*>} The inserted object with user data
+   */
   async register(firstname, lastname, pid, email, username, password) {
+    console.log("DAO: ", firstname, lastname, pid, email, username, password);
     const client = await this.pool.connect();
     try {
-      //const queryString = "INSERT INTO public.person (name, surname, pnr, email, username, password) VALUES ($1, $2, $3, $4, $5, $6); RETURNING *;"
-      const { rows } = await client.query("INSERT INTO public.person (name, surname, pnr, email, username, password)" +
-                                          "VALUES ($1, $2, $3, $4, $5, $6); " +
-                                          "RETURNING *;", [firstname, lastname, pid, email, username, password]);
+      const { rows } = await client.query("INSERT INTO public.person (name, surname, pnr, email, password, role_id, username)" +
+                                          "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
+                                          "RETURNING *;", [firstname, lastname, pid, email, password, username]);
+        console.log("return object (DBCaller.js): ", rows[0]);
         return rows[0];
     } catch (error) {
       console.error('Error inserting user:', error);
-      throw error; // Re-throw the error to handle it in the caller
+      throw error;
     } finally {
-      client.release(); // Release the client back to the pool
+      client.end();
     }
   }
 }
