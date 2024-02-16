@@ -5,17 +5,17 @@ Architecture &amp; design of web applications
 In this project assignment, we are hired by a company to build a new, robust, scalable and well-documented web based recruitment application.
 The aim is to have a functioning prototype of the system but the project also serves as an exercise in taking architectural decisions, understanding the design and structuring of applications and working together as a group towards a goal.
 
-##Architecture overview
+## Architecture overview
 Our application follows a semi-monolithic architecture, combining client-side rendering with separate backend and frontend servers for enhanced modularity and scalability.
-###Frontend
+### Frontend
 On the frontend, we use the JavaScript library React for building component-based user interfaces.
-###Backend
+### Backend
 The backend is powered by Node.js and Express, handling server-side logic, data processing, and API endpoints.
 
-###Database
+### Database
 PostgreSQL
 
-##Setup
+## Setup
 * Install Node.js and PostgreSQL
 * Create the databse by runing the existing-database.sql script in psql
 * Clone this repository ```git clone ...```
