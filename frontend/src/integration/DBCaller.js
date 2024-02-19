@@ -94,4 +94,4 @@ async function saveRegistrationData(userdata) {
   }
 }
 
-export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmailCode}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail}

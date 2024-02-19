@@ -2,7 +2,6 @@
 
 const Controller = require('../controller/Controller');
 const express = require('express');
-const Authorization = require('./Authorization')
 const router = express.Router();
 
 /**
