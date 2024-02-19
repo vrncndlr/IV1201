@@ -13,8 +13,9 @@ export default function RestoreAccountDataView(props){
     },
     // Submit form data
     onSubmit: values => {
+        console.log(formik.submitCount)
+        formik.setSubmitting(false);
         props.updateAccountByEmailCode(values);
-
     },
     // Validate
     validate: values => {
