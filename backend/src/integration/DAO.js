@@ -143,6 +143,20 @@ class DAO {
       client.end();
     }
   }
+  // TODO:
+  async getRowsFromTable(){
+    const client = await this.pool.connect();
+    try {
+      const { rows } = await client.query("SELECT name FROM public.competence");
+      console.log("DAO: ", rows);
+      return rows;
+    } catch (error) {
+      console.error('Error fetching rows from table:', error);
+      throw new Error('Database error: ' + error.message);
+    } finally {
+      client.end();
+    }
+  };
 
 /**
 * Get user from database.
@@ -170,7 +184,7 @@ class DAO {
   };
 
   /**
-* Get all userers from database.
+* Get all users from database.
 * @return all user
 */
   async getAllUsers() {

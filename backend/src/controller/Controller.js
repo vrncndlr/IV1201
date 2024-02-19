@@ -80,7 +80,14 @@ class Controller{
       return messageSent;
     }
     else
-      return false;}
+      return false;
+    }
+    
+  async fetch(){
+    const result = await this.dao.getRowsFromTable();
+    console.log("controller: ", result);
+    return result;
+  }
 
 }
 module.exports = Controller;
