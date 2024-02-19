@@ -20,8 +20,6 @@ async function Authenticate(usernameAndPassword){
     if(response.status !== 200)
       return response.status;
     const user = await response.json()
-    //console.log("dbc")
-    //console.log(user);
     return user;
   }catch(e) {
     console.log(e);
@@ -59,6 +57,27 @@ async function saveRegistrationData(userdata) {
     return false;
   }
 }
+async function fetchTable(){
+  const URL = 'http://localhost:8000/fetch';
+  try{
+    const response = await fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        mode:'cors'
+    });
+    console.log(response)
+    if(!response.ok) {
+      return response.status;
+    }
+    const data = await response.json();
+    console.log("DBCaller: ", data)
+    return data;
+  }catch(e) {
+    console.error(e);
+  }
+}
 
-
-export {Authenticate, saveRegistrationData}
+export {Authenticate, saveRegistrationData,fetchTable}

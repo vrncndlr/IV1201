@@ -4,7 +4,7 @@ function UserCardView(props) {
 
     return (
         <div>
-            {/* Render user information */}
+            <h2>Hello, {props.user.name}</h2>
         </div>
     )
 }

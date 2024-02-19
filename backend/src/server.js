@@ -55,6 +55,9 @@ app.use(loginRoute);
 const registerRoute = require('./api/registration')
 app.use(registerRoute);
 
+const fetchRoute = require('./api/fetch')
+app.use(fetchRoute);
+
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 

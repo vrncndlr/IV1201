@@ -24,10 +24,8 @@ router.post('/login', async (req, res, next) => {
     }
     if(user.row_to_json){
       console.log(user.row_to_json)
-      //if(!Authorization.verifyIfAuthorized(req, res))
-        Authorization.setAuthCookie(user.row_to_json, res);
+      Authorization.setAuthCookie(user.row_to_json, res);
       console.log("authorized");
-      //console.log(res)
     }
     return res.send(user.row_to_json);
   }catch(e){

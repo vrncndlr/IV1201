@@ -1,7 +1,7 @@
 import LoginView from "../view/LoginView";
 import FailedLoginView from "../view/FailedLoginView"
-import UserView from "../view/UserView"
 import React, { useState} from "react";
+import Applicant from "./ApplicantPresenter";
 
 /**
  * Handles logic for login-related views
@@ -14,11 +14,10 @@ import React, { useState} from "react";
  * UserView - landing page after succesful login
  */
 export default function Login(props) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     return (<>
-      <div>{!props.loggedIn && !props.failedLogin &&  <LoginView onLogin={props.callDB}/>}</div>
-      <div>{props.loggedIn && <UserView user={props.user}/>}</div>
-      <div>{props.failedLogin && <FailedLoginView onLogin={props.callDB}/>}</div>
-    </>)
+        <div>{!props.loggedIn && !props.failedLogin && <LoginView onLogin={props.callDB}/>}</div>
+        <div>{props.loggedIn && <Applicant user={props.user}/>}</div>
+        <div>{props.failedLogin && <FailedLoginView onLogin={props.callDB}/>}</div>
+    </>
+    )
 }

@@ -17,7 +17,7 @@ import '../styling/forms.css'
  * @requires useNavigate
  * @requires Link
  */
-function RegistrationView({onRegister}) {
+function RegistrationView({onRegister=[]}) {
     const navigate = useNavigate();
     const [registered, setRegistered] = useState(false);
 
