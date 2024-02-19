@@ -14,6 +14,11 @@ async function restoreAccountByEmail(email){
   return await callAPI(URL, email);
 }
 
+async function updateAccountByEmailCode(userdata){
+  const URL = 'updateAccountByEmailCode';
+  return await callAPI(URL, userdata);
+}
+
 async function callAPI(url, data){
   const URL = 'http://localhost:8000/';
   try{
@@ -71,4 +76,4 @@ async function saveRegistrationData(userdata) {
   }
 }
 
-export {Authenticate, restoreAccountByEmail, saveRegistrationData}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmailCode}

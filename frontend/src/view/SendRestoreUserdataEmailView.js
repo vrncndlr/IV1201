@@ -2,7 +2,7 @@ import {useFormik} from 'formik'
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 
-export default function MissingUserDataView(props){
+export default function SendRestoreUserdataEmailView(props){
   const formik = useFormik({
     // Manage form state
     initialValues: {

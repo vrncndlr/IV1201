@@ -13,8 +13,8 @@ const router = express.Router();
  */
 router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
-  //console.log("post request")
-  //console.log(req.body)
+  console.log("post request")
+  console.log(req.body)
   try{
     const user = await contr.login(req.body.username, req.body.password);
     if(user == undefined){

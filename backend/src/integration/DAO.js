@@ -23,6 +23,29 @@ class DAO {
     })
   }
 
+  async storeAccountRestoreCode(person_id, accountRestoreCode){
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN')
+      const { rows } = await client.query("SELECT * FROM account_reset_code WHERE person_id = $1", [person_id])
+      if(rows.length === 0){
+        await client.query("INSERT INTO account_reset_code(person_id, reset_code)" +
+        "VALUES($1, $2)", [person_id, accountRestoreCode])
+      }
+      else{
+        await client.query("UPDATE account_reset_code SET reset_code = $2 WHERE person_id = $1", 
+        [person_id, accountRestoreCode])
+      }
+      await client.query('COMMIT')
+    } catch (e) {
+      await client.query('ROLLBACK')
+      console.error(e);
+      throw new Error("database error")
+    } finally {
+      client.end()
+    }
+  }
+
   /**
   * Checks username and password with the datebase, if matching it returns the user, if not returns empty json.
   * @param  username the username input

@@ -35,18 +35,22 @@ function App() {
    */
   async function callDB(user){
     const response = await Authenticate(user);
-    if(response === 404)
-      setFailedLogin(true)
-    else if(response !== 200 && response.name === undefined){
-      console.log(response.status)
-      console.log("error code in http response")
+    try{
+      if(response === 404)
+        setFailedLogin(true)
+      else if(response === 500)
+        throw new Error("500 http code from server")
+      else{
+        console.log("loginpresenter")
+        console.log(response)
+        setFailedLogin(false)
+        setUserObject(response)
+        setLoggedIn(true)
+      }
+    }catch(e){
+      console.log("response in callDB: " + response)
+      console.log(`error in callDB: ${e}`)
       setError(true)
-    }
-    else{
-      console.log("loginpresenter")
-      console.log(response)
-      setUserObject(response)
-      setLoggedIn(true)
     }
   }
     /**

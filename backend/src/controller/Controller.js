@@ -61,6 +61,7 @@ class Controller{
       const mailer = new Email();
       const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)
       console.log(messageSent + " " + accountRestoreCode)
+      await this.dao.storeAccountRestoreCode(exists.person_id, accountRestoreCode);
       return messageSent;
     }
     else

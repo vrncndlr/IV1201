@@ -6,7 +6,7 @@ function FailedLoginView(props){
     let username ="";
     let password="";
     const [error, setError] = useState('');
-    function usernameHandlerACB(e){username+=e.target.value; }
+    function usernameHandlerACB(e){username=e.target.value; }
     function passwordHandlerACB(e){password=e.target.value}
 //console.log(username)
     function loginACB(){
