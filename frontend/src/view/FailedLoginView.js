@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 
+/**
+ * Is called when a login attempt has failed. Shows extra error message compared to regular login view.
+ * @param {function} onLogin takes username and password and passes it to the login API in the backend
+ * @returns forms for entering username and password
+ */
 function FailedLoginView(props){
     let username ="";
     let password="";

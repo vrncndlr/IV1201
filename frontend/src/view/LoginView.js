@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
-
+/**
+ * 
+ * @param {function} onLogin takes username and password and passes it to the login API in the backend
+ * @returns forms for entering username and password
+ */
 function LoginView(props) {
     let username ="";
     let password="";
     const [error, setError] = useState('');
     function usernameHandlerACB(e){username=e.target.value; }
     function passwordHandlerACB(e){password=e.target.value}
+
+    //two different functions are called at two different places in the forms, both handleSubmit and loginACB
     function loginACB(){
         props.onLogin({
             username: username,
@@ -20,7 +26,6 @@ function LoginView(props) {
             setError('Please fill in all fields');
             return;
         }
-        // Your sign-in logic here
     };
 
     return (

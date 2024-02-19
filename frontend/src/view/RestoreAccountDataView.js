@@ -1,19 +1,14 @@
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 import {useFormik} from 'formik'
-import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 
+/**
+ * 
+ * @param {function} updateAccountByEmailCode calls the /UpdateAccountByEmailCode api with entered username,
+ * password and email code. 
+ * @returns 
+ */
 export default function RestoreAccountDataView(props){
-    const navigate = useNavigate();
-    const [registered, setRegistered] = useState(false);
-    
-
-    useEffect(() => {
-        if (registered) {
-            navigate('/login');
-        }
-    }, [registered]);
   const formik = useFormik({
     // Manage form state
     initialValues: {
@@ -24,10 +19,8 @@ export default function RestoreAccountDataView(props){
     },
     // Submit form data
     onSubmit: async (values) => {
-        console.log(formik.submitCount)
         formik.setSubmitting(false);
         await props.updateAccountByEmailCode(values);
-        setRegistered(true);
     },
     // Validate
     validate: values => {

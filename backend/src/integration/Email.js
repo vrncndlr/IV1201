@@ -7,6 +7,10 @@ require('dotenv').config({
 
 });
 
+/**
+ * Class that sends email messages from address found in dbenv.env. 
+ * Currently only @kth.se addresses are supported.
+ */
 class Mail{
   constructor(){
     this.accountName = process.env.EMAIL;
@@ -14,6 +18,11 @@ class Mail{
     this.sender = this.accountName + "@kth.se"
   };
 
+  /**
+   * Generates and sends a number to the supplied email address.
+   * @param {String} email User address to be sent a account restoration code.
+   * @returns [true, secretCode] if the email was sent, [false, null] otherwise.
+   */
   async sendAccountRestoreMail(email){
     console.log("sending email to : " + email)
     try{
@@ -34,7 +43,7 @@ class Mail{
       const accountRestoringCode = await this.getAccountRestoringCode();
       const info = await transporter.sendMail({
         from: this.sender, // sender address
-        to: "fredrikehne@yahoo.se", // list of receivers
+        to: email, // list of receivers
         subject: "Account recovery", // Subject line
         text: accountRestoringCode, // plain text body
         html: "<b>" + accountRestoringCode + "</b>", // html body

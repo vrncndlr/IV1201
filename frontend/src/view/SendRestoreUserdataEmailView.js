@@ -1,7 +1,10 @@
 import {useFormik} from 'formik'
 import '../styling/forms.css'
-import {Link} from 'react-router-dom';
-
+/**
+ * 
+ * @param {function} sendResetEmail function that calls the /sendRestoreMail api with the entered email address 
+ * @returns 
+ */
 export default function SendRestoreUserdataEmailView(props){
   const formik = useFormik({
     // Manage form state
@@ -21,9 +24,11 @@ export default function SendRestoreUserdataEmailView(props){
     }})
   return <div>
     <div className={"mainContainer"}>
-            <h3>If you already have an account from earlier put in your email and a code will be sent allowing you to 
-              update your user info
+            <h3>If you already have an account from earlier put in your email and 
+                a code will be sent allowing you to 
             </h3>
+            {props.emailNotFound && <div>Email address was not found in user database 
+                or username and password exists for that user or the email domain does not exist</div>}
             <div className={"inputContainer"}>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="inputGroup">

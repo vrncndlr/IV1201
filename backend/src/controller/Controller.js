@@ -8,6 +8,16 @@ class Controller{
   constructor(){
     this.dao = new DAO();
   }
+
+  /**
+   * Calls the database layer for user data update and returns the result.
+   * @param {Object} userdata contains username, password, confirmPassword, email and resetCode fields.
+   * @returns 
+   */
+  async updateUserDataByEmailCode(userdata){
+    return await this.dao.updateUserDataByEmailCode(userdata);
+  }
+
   /**
    * Calls the database layer for login and returns the result. 
    * @async
@@ -38,8 +48,7 @@ class Controller{
    * @param email
    * @param password
    * @param username
-   * @returns true if registration successful and false if not {Promise<boolean>}
-   */
+   * @returns true if registration successful and false if not {Promise<boolean>}*/
   async register(firstname, lastname, pid, email, password, username){
     try {
       await this.dao.register(firstname, lastname, pid, email, password, username);
@@ -49,14 +58,20 @@ class Controller{
       return false;
     }
   }
+  /**
+   * Checks if a user with the supplied email exists in database and is missing username.
+   * If so, sends out a restoration code by email and stores it in the database.
+   * @param {String} email User email address
+   * @returns true if restoration code was succesfully sent, otherwise false.
+   */
   async restoreAccountByEmail(email){
     const exists = await this.dao.checkUserEmail(email);
 
-    //add check so that you cant restore account if you have username and pw??
-
-    console.log("contr: " + exists.person_id)
-    console.log("contr: " + exists.email)
-    if(exists == undefined) throw new Error("email not found in database");
+    if(exists == undefined)
+      return false;
+    if(exists != undefined && exists.username){
+      return false;
+    }
     if(exists != undefined && exists.person_id){
       const mailer = new Email();
       const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)

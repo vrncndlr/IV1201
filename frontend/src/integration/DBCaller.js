@@ -8,17 +8,35 @@ async function Authenticate(usernameAndPassword){
   const URL = 'login';
   return await callAPI(URL, usernameAndPassword)
 }
-
+/**
+ * Calls the API to check if account with this email exists and if it is missing username and password.
+ * If so, an email will to this email address with a restoration code.
+ * @param {String} email User email address as string
+ * @returns HTTP response containing {emailSent:true} if the restoration code was sent,
+ * 404 response otherwise.
+ */
 async function restoreAccountByEmail(email){
   const URL = 'restoreAccountByEmail';
   return await callAPI(URL, email);
 }
 
-async function updateAccountByEmailCode(userdata){
+/**
+ * Calls the API to set the username and password for the user with this email address if the restoration
+ * code is the same as the latest that was sent out.
+ * @param {Object} userdata Has username, password, email and resetCode fields.
+ * @returns 
+ */
+async function updateAccountByEmail(userdata){
   const URL = 'updateAccountByEmailCode';
   return await callAPI(URL, userdata);
 }
 
+/**
+ * This function calls the root api address plus the supplied URL and returns the HTTP response.
+ * @param {String} url The API URL that will be called
+ * @param {Object} data Will be sent in a POST request to the above address.
+ * @returns HTTP responseif response status is 200, otherwise returns response status code.
+ */
 async function callAPI(url, data){
   const URL = 'http://localhost:8000/';
   try{
