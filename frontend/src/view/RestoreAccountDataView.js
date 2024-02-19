@@ -1,8 +1,19 @@
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
 import {useFormik} from 'formik'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function RestoreAccountDataView(props){
+    const navigate = useNavigate();
+    const [registered, setRegistered] = useState(false);
+    
+
+    useEffect(() => {
+        if (registered) {
+            navigate('/login');
+        }
+    }, [registered]);
   const formik = useFormik({
     // Manage form state
     initialValues: {
@@ -12,10 +23,11 @@ export default function RestoreAccountDataView(props){
         resetCode: '',
     },
     // Submit form data
-    onSubmit: values => {
+    onSubmit: async (values) => {
         console.log(formik.submitCount)
         formik.setSubmitting(false);
-        props.updateAccountByEmailCode(values);
+        await props.updateAccountByEmailCode(values);
+        setRegistered(true);
     },
     // Validate
     validate: values => {
