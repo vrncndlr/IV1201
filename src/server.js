@@ -13,9 +13,9 @@ const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
-require('dotenv-safe').config({
+require('dotenv').config({
     path: path.join(APP_ROOT_DIR, '.env'),
-    example: path.join(APP_ROOT_DIR, '.env-example'),
+    //example: path.join(APP_ROOT_DIR, '.env-example'),
 });
  
 const express = require('express');
@@ -72,4 +72,4 @@ const server = app.listen(
   },
 );
 
-module.exports = server, app;
+module.exports = server;
