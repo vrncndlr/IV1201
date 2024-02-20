@@ -3,7 +3,7 @@ import UserCardView from "../view/UserCardView"
 import CompetenceView from "../view/CompetenceView"
 import AvailabilityView from "../view/AvailabilityView"
 import SummaryView from "../view/SummaryView"
-import {fetchTable} from '../integration/DBCaller'
+import {fetchTable, saveUpdatedData} from '../integration/DBCaller'
 
 
 /**
@@ -14,22 +14,35 @@ import {fetchTable} from '../integration/DBCaller'
  * @constructor
  */
 export default function Applicant({ user, handleSave }) {
-    const [competenceObject, setCompetenceObject] = useState([]);
+    const [competenceObject, setCompetenceObject] = useState(null);
+    const [updated, setUpdated] = useState(false);
+    async function updateData(data){
+        try {
+            const response = await saveUpdatedData(data);
+            console.log("App.js, saved data: ", response);
+            if (response) {
+                console.log("User registered successfully ", response);
+                setUpdated(true);
+            }
+        }catch (e){
+            console.error("Error saving user information: ", e);
+        }
+    }
     /**
      * Attempt to fetch rows from table competence in db,
      * so far not working
      */
     async function fetchCompetences() {
-        try {
-            const response = await fetchTable();
-            await setCompetenceObject(response);
-        } catch(e){
-            console.error(e);
-        }
+        if(!competenceObject){
+            try {
+                const response = await fetchTable();
+                await setCompetenceObject(response);
+            } catch(e){
+                console.error(e);
+            }}
     }
-    {console.log("Presenter: ", competenceObject)}
     return (<div>
-        <UserCardView user={user} handleSave={handleSave}/>
+        <UserCardView user={user} handleSave = {updateData}/>
         <CompetenceView competences={competenceObject} fetchCompetences={fetchCompetences}/>
         <AvailabilityView />
         <SummaryView />

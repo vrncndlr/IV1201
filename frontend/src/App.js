@@ -27,8 +27,6 @@ function App() {
   
   const[error, setError] = useState(false);
   const [registered, setRegistered] = useState(false);
-  const [updated, setUpdated] = useState(false);
-  const [competenceObject, setCompetenceObject] = useState([]);
 
     useEffect(() => {
     // Check sessionStorage on page load
@@ -99,18 +97,7 @@ function App() {
             setRegistered(false);
         }
     }
-    async function updateData(data){
-        try {
-            const response = await saveUpdatedData(data);
-            console.log("App.js, saved data: ", response);
-            if (response) {
-                console.log("User registered successfully ", response);
-                setUpdated(true);
-            }
-        }catch (e){
-            console.error("Error saving user information: ", e);
-        }
-    }
+    
 
   async function updateUserData(email){
     console.log("jsoning email")
@@ -132,8 +119,7 @@ function App() {
                   updateUserData = {updateUserData}/>}/>
                 <Route path="/register" element={!error && <Registration/>}/>
                 <Route path="/apply" element={loggedIn ? <Applicant
-                        user={userObject}
-                        handleSave={updateData}
+                        user = {userObject}
                         /> : <Error/>} />
                 <Route path="/error" element={error && <Error/>}  />
                 

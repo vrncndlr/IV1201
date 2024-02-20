@@ -3,7 +3,15 @@ import '../styling/forms.css';
 import {useFormik} from "formik";
 
 export default function UserCardView({user, handleSave}) {
-
+    async function storeUserData(values){
+        try {
+            const data = {...values, person_id: user.person_id}
+            console.log("Values send from form: ", data);
+            await handleSave(data);
+        } catch (error) {
+            console.error('Error updating user information:', error);
+        }
+    }
     const formik = useFormik({
         initialValues: {
             person_id: user.person_id,
@@ -12,14 +20,8 @@ export default function UserCardView({user, handleSave}) {
             pnr: user.pnr,
             email: user.email,
         },
-        onSubmit: async (values) => {
-            try {
-                const data = {...values, person_id: user.person_id}
-                console.log("Values send from form: ", data);
-                await handleSave(data);
-            } catch (error) {
-                console.error('Error updating user information:', error);
-            }
+        onSubmit: async (values)=>{
+            await storeUserData(values);
         },
         validate: values => {
             let errors = {}

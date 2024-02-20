@@ -4,7 +4,6 @@ import {useFormik, Field} from 'formik'
 import '../styling/forms.css'
 
 export default function CompetenceView({ fetchCompetences, competences }) {
-    console.log("View: ", competences)
 
     const formik = useFormik({
         initialValues: {
@@ -49,7 +48,7 @@ export default function CompetenceView({ fetchCompetences, competences }) {
                         <option value={"gt5"}> More than 5 years</option>
                     </select>
                 </div>
-                <button>Submit</button>
+                <button type = "submit">Submit</button>
             </form>
             </div>
         </div>
