@@ -21,8 +21,8 @@ require('dotenv-safe').config({
 const express = require('express');
 const app = express();
 const cors = require('cors');
-app.use(cors({origin: 'https://archdes-abbcfaefce39.herokuapp.com/'}))
-//app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
+//app.use(cors({origin: 'http://localhost:3000'}))
+app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
