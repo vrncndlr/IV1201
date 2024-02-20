@@ -42,7 +42,8 @@ class Authorization{
 
     const JWTToken = jwt.sign(
       {id:user.id, user:user.username},
-      process.env.JWT_SECRET,
+        '1234',
+      //process.env.JWT_SECRET,
       sessionCookie,
     );
     const cookieOptions = {...notAccessibleFromJs};
