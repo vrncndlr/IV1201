@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styling/forms.css'
 import {Link} from 'react-router-dom';
+import {useFormik} from 'formik'
 /**
  * 
  * @param {function} onLogin takes username and password and passes it to the login API in the backend
@@ -9,9 +10,6 @@ import {Link} from 'react-router-dom';
 function LoginView(props) {
     let username ="";
     let password="";
-    const [error, setError] = useState('');
-    function usernameHandlerACB(e){username=e.target.value; }
-    function passwordHandlerACB(e){password=e.target.value}
 
     //two different functions are called at two different places in the forms, both handleSubmit and loginACB
     function loginACB(){
@@ -20,38 +18,54 @@ function LoginView(props) {
             password: password
         })
     }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!username || !password) {
-            setError('Please fill in all fields');
-            return;
-        }
-    };
 
-    return (
-        <div className={"mainContainer"}>
-            <h1>Welcome!</h1>
-            <p>Please sign in before submitting an application</p>
-            <form onSubmit={handleSubmit}>
-                <div className={"inputGroup"}>
-                    <input type="username"
-                           placeholder="Username"
-                           onChange={usernameHandlerACB}
-                           className={"inputBox"}/>
-                </div>
-                <div className={"inputGroup"}>
-                    <input onChange={passwordHandlerACB}
-                           type={"password"}
-                           placeholder="Password"
-                           className={"inputBox"}/>
-                </div>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
-                <button type="submit" onClick={loginACB}>Log in</button>
-            </form>
-            <p>Not registered? <Link to={"/register"}>Sign up here</Link></p>
-            <p>Add username and password to an existing account? <Link to={"/updateUser"}>Click here</Link></p>
-        </div>
-    )
+    const formik = useFormik({
+        // Manage form state
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        // Submit form data
+        onSubmit: async (values) => {
+            try {
+                console.log(values)
+                await props.onLogin(values);
+            } catch (error) {
+                // Handle error during login
+                console.error('Error logging in user:', error);
+            }
+        },
+        // Validate form fields
+        validate: values => {
+            let errors = {}
+            if(!values.username){errors.username = "Required"}
+            if(!values.password){errors.password = "Required"}
+            return errors
+        }
+    })
+    return(<div className={"mainContainer"}>
+            <h1>Login here</h1>
+            {props.failedLogin && <div>Bad username or password</div>}
+            <div className={"inputContainer"}>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className="inputGroup">
+                        <label htmlFor={"username"}>Username</label>
+                        <input type={"text"} id={"username"} name={"username"}
+                               onChange={formik.handleChange}
+                               value={formik.values.username}/>
+                        {formik.errors.username ? <div className={"error-message"}>{formik.errors.username}</div> : null}
+                    </div>
+                    <div className="inputGroup">
+                        <label htmlFor={"password"}>Password</label>
+                        <input type={"password"} id={"password"} name={"password"}
+                               onChange={formik.handleChange}
+                               value={formik.values.password}/>
+                        {formik.errors.password ? <div className={"error-message"}>{formik.errors.password}</div> : null}
+                    </div>
+                <button type={"submit"}>Log in</button>
+                </form>
+            </div>
+        </div>)
 }
 
 export default LoginView;
