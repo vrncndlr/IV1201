@@ -14,6 +14,13 @@ The backend is powered by Node.js and Express, handling server-side logic, data 
 
 ### Database
 PostgreSQL
+Extra scripts needed:
+To be able to add username and password to users that dont have it an extra table is needed:
+CREATE TABLE public.account_reset_code (
+    person_id integer NOT NULL,
+    reset_code character varying(255)
+);
+ALTER TABLE public.competence OWNER TO postgres;
 
 ## Setup
 * Install Node.js and PostgreSQL
