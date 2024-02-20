@@ -15,11 +15,11 @@ class DAO {
   constructor() {
     const {Pool, Client} = require('pg');
     this.pool = new Pool({
-      user: process.env.PG_USER,
-      host: process.env.PG_HOST,
-      database: process.env.PG_DATABASE,
-      password: process.env.PG_PASSWORD,
-      port: process.env.PG_PORT
+      user: 'uphwrlnecfyotc',
+      host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
+      database: 'd5n1hras72nal1',
+      password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
+      port: '5432'
     })
   }
 
