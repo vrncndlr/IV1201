@@ -19,7 +19,10 @@ class DAO {
       host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
       database: 'd5n1hras72nal1',
       password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
-      port: '5432'
+      port: '5432',
+      ssl: {
+        rejectUnauthorized: false
+      }
     })
   }
 
