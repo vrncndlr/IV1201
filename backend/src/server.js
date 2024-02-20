@@ -11,9 +11,9 @@
 
 const SERVER_PORT = 8000;
 const path = require('path');
-const APP_ROOT_DIR = path.join('IV1201', '..');
+const APP_ROOT_DIR = path.join(__dirname + '/backend/', '..');
 
-require('./dotenv-safe').config({
+require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
     example: path.join(APP_ROOT_DIR, '.env-example'),
 });
