@@ -64,7 +64,7 @@ const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 
 const server = app.listen(
-  process.env.SERVER_PORT,
+  process.env.PORT,
   //SERVER_PORT,
   process.env.SERVER_HOST,
   () => {
