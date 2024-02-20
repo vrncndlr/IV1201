@@ -23,15 +23,9 @@ router.post('/login', async (req, res, next) => {
       return;
     }
     if(user.row_to_json){
-<<<<<<< HEAD
       //console.log(user.row_to_json)
       //if(!Authorization.verifyIfAuthorized(req, res))
-        Authorization.setAuthCookie(user.row_to_json, res);
-=======
-      console.log(user.row_to_json)
-      Authorization.setAuthCookie(user.row_to_json, res);
->>>>>>> bf69d2a (rendering the expertise option not working yet)
-      console.log("authorized");
+        Authorization.setAuthCookie(user.row_to_json, res);console.log("authorized");
     }
     return res.send(user.row_to_json);
   }catch(e){
