@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {useFormik, Field} from 'formik'
 import '../styling/forms.css'
 
-export default function CompetenceView({ competences }) {
+export default function CompetenceView({ fetchCompetences, competences }) {
     console.log("View: ", competences)
 
     const formik = useFormik({
@@ -23,7 +23,8 @@ export default function CompetenceView({ competences }) {
                         id={"expertise"}
                         name={"expertise"}
                         onChange={formik.handleChange}
-                        value={formik.values.expertise}>
+                        value={formik.values.expertise}
+                        onClick={fetchCompetences}>
                         <option value="" label="Select area of expertise"></option>
                         {/* Render a disabled option with loading message while competences are being fetched */}
                         {!competences ? (

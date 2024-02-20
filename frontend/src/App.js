@@ -5,7 +5,7 @@ import MissingUserDataUpdate from "./presenter/UpdateMissingUserDataPresenter";
 import Applicant from "./presenter/ApplicantPresenter"
 import Error from "./view/ErrorView";
 
-import {Authenticate, saveRegistrationData, restoreAccountByEmail, fetchTable} from './integration/DBCaller'
+import {Authenticate, saveRegistrationData, restoreAccountByEmail, saveUpdatedData} from './integration/DBCaller'
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
 
@@ -27,6 +27,7 @@ function App() {
   
   const[error, setError] = useState(false);
   const [registered, setRegistered] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [competenceObject, setCompetenceObject] = useState([]);
 
     useEffect(() => {
@@ -40,18 +41,18 @@ function App() {
     /**
      * Attempt to fetch rows from table competence in db,
      * so far not working
-     */
+
     useEffect(()=> {
         fetchTable().then((result)=>{
             setCompetenceObject(result);
         }).catch(error=>{
             console.error("Failed to fetch from database: ", error);
         });
-    }, [])
+    }, []) */
 
   /**
    * Function that calls the backend api and sets the result as the user state 
-   * and sets loggedIn boolean state to true in LoginPresenter on a succesful api call. 
+   * and sets loggedIn boolean state to true in LoginPresenter on a successful api call.
    * Also handles errors in failed api calls.
    * @async
    * @param {Object} user takes argument on the form of: {username: 'username', password:'pw'}
@@ -98,6 +99,18 @@ function App() {
             setRegistered(false);
         }
     }
+    async function updateData(data){
+        try {
+            const response = await saveUpdatedData(data);
+            console.log("App.js, saved data: ", response);
+            if (response) {
+                console.log("User registered successfully ", response);
+                setUpdated(true);
+            }
+        }catch (e){
+            console.error("Error saving user information: ", e);
+        }
+    }
 
   async function updateUserData(email){
     console.log("jsoning email")
@@ -107,7 +120,7 @@ function App() {
 
   return (<div className={"App"}><Router>
             <Routes>
-                <Route path="/login" element={!error && <Login 
+                <Route path="/" element={!error && <Login
                       callDB = {callDB}
                       failedLogin = {failedLogin}
                       user = {userObject}
@@ -119,7 +132,9 @@ function App() {
                   updateUserData = {updateUserData}/>}/>
                 <Route path="/register" element={!error && <Registration/>}/>
                 <Route path="/apply" element={loggedIn ? <Applicant
-                        competences={competenceObject} /> : <Error/>} />
+                        user={userObject}
+                        handleSave={updateData}
+                        /> : <Error/>} />
                 <Route path="/error" element={error && <Error/>}  />
                 
             </Routes>

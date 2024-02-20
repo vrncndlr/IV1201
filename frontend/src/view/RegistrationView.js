@@ -23,7 +23,7 @@ function RegistrationView({onRegister=[]}) {
 
     useEffect(() => {
         if (registered) {
-            navigate('/login');
+            navigate('/');
         }
     }, [registered]);
 

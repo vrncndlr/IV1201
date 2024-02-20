@@ -83,10 +83,11 @@ class Controller{
       return false;
     }
     
+  async update(person_id, name, surname, pnr, email){
+     await this.dao.updateUserInfo(person_id, name, surname, pnr, email);
+  }
   async fetch(){
-    const result = await this.dao.getRowsFromTable();
-    console.log("controller: ", result);
-    return result;
+    return await this.dao.getCompetences();
   }
 
 }
