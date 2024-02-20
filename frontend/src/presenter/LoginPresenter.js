@@ -1,5 +1,5 @@
 import LoginView from "../view/LoginView";
-import FailedLoginView from "../view/FailedLoginView"
+import UserView from "../view/UserView"
 import React, { useState} from "react";
 import Applicant from "./ApplicantPresenter";
 
