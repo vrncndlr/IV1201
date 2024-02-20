@@ -66,7 +66,7 @@ export default function RestoreAccountDataView(props){
       <button type={"submit"}>Register</button>
       </form>
   </div>
-  <p>Already have an account? <Link to={"/login"}>Sign in</Link></p>
+  <p>Already have an account? <Link to={"/"}>Sign in</Link></p>
 </div>
 
 }

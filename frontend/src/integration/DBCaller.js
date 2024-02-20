@@ -55,8 +55,7 @@ async function callAPI(url, data){
     const result = await response.json()
     //console.log("dbc")
     //console.log(result);
-    return result;
-  }catch(e) {
+    return result; }catch(e) {
     console.log(e);
   }
 }
@@ -93,5 +92,49 @@ async function saveRegistrationData(userdata) {
     return false;
   }
 }
+async function saveUpdatedData(data){
+  try {
+    const response = await fetch('http://localhost:8000/update',{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+    mode:'cors'
+    });
+    if (response.status === 201) {
+      console.log("Update successful")
+      return true;
+    }
+    if (!response.ok) {
+      throw new Error('Failed to update personal information');
+    }
+  }catch(e){
+    console.error(e);
+  }
+}
+async function fetchTable(){
+  const URL = 'http://localhost:8000/fetch';
+  try{
+    const response = await fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        mode:'cors'
+    });
+    console.log(response)
+    if(!response.ok) {
+      return response.status;
+    }
+    const data = await response.json();
+    console.log("DBCaller: ", data)
+    return data;
+  }catch(e) {
+    console.error(e);
+  }
+}
 
-export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail, fetchTable, saveUpdatedData}
