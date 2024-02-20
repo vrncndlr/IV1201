@@ -34,10 +34,9 @@ app.use(cookieParser());
  * CORS: put in root URL without / in the first header below. 
  * Has to include http://
 app.use((req, res, next) => {
-  res.set({"Access-Control-Allow-Origin": "http://localhost:3000"});
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  next();
+  res.set({"Access-Control-Allow-Origin": process.env.ALLOWED_CORS_HOST});
+  res.set('Access-Control-Allow-Headers', 'Content-Type')
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');next();
 })
  */
 
@@ -54,6 +53,12 @@ app.use(loginRoute);
 
 const registerRoute = require('./api/registration')
 app.use(registerRoute);
+
+const restoreAccountRoute = require('./api/sendRestoreMail')
+app.use(restoreAccountRoute);
+
+const UpdateAccountByEmailCodeRoute = require('./api/UpdateAccountByEmailCode');
+app.use(UpdateAccountByEmailCodeRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);

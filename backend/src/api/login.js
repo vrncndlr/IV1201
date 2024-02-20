@@ -23,7 +23,7 @@ router.post('/login', async (req, res, next) => {
       return;
     }
     if(user.row_to_json){
-      console.log(user.row_to_json)
+      //console.log(user.row_to_json)
       //if(!Authorization.verifyIfAuthorized(req, res))
         Authorization.setAuthCookie(user.row_to_json, res);
       console.log("authorized");
@@ -31,7 +31,8 @@ router.post('/login', async (req, res, next) => {
     }
     return res.send(user.row_to_json);
   }catch(e){
-    next("server or database error")
+    //next("server or database error on login")
+    next(e)
     return;
   }
 })

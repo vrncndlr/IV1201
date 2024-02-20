@@ -1,8 +1,9 @@
 import './App.css';
 import Login from "./presenter/LoginPresenter"
 import Registration from "./presenter/RegistrationPresenter";
+import MissingUserDataUpdate from "./presenter/UpdateMissingUserDataPresenter";
 import Error from "./view/ErrorView";
-import {Authenticate, saveRegistrationData} from './integration/DBCaller'
+import {Authenticate, restoreAccountByEmail, saveRegistrationData} from './integration/DBCaller'
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
@@ -19,6 +20,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userObject, setUserObject] = useState({});
   const[failedLogin, setFailedLogin] = useState(false);
+  
   const[error, setError] = useState(false);
   const [registered, setRegistered] = useState(false);
 
@@ -33,21 +35,24 @@ function App() {
    */
   async function callDB(user){
     const response = await Authenticate(user);
-    if(response === 404)
-      setFailedLogin(true)
-    else if(response !== 200 && response.name === undefined){
-      console.log(response.status)
-      console.log("error code in http response")
+    try{
+      if(response === 404)
+        setFailedLogin(true)
+      else if(response === 500)
+        throw new Error("500 http code from server")
+      else{
+        console.log("loginpresenter")
+        console.log(response)
+        setFailedLogin(false)
+        setUserObject(response)
+        setLoggedIn(true)
+      }
+    }catch(e){
+      console.log("response in callDB: " + response)
+      console.log(`error in callDB: ${e}`)
       setError(true)
     }
-    else{
-      console.log("loginpresenter")
-      console.log(response)
-      setUserObject(response)
-      setLoggedIn(true)
-    }
   }
-
     /**
      * Function that calls the backend api,
      * sets 'registered' boolean state to true on a successful api call.
@@ -69,9 +74,13 @@ function App() {
         }
     }
 
+  async function updateUserData(email){
+    console.log("jsoning email")
+    console.log(JSON.stringify(email))
+    restoreAccountByEmail(email)
+  }
 
-    return (
-        <div className={"App"}>
+  return (<div className={"App"}>
           <Router>
             <Routes>
                 <Route path="/login" element={!error && <Login 
@@ -82,9 +91,15 @@ function App() {
                 <Route path="/register" element={!error && <Registration
                         handleRegistration={handleRegistration}
                         registered={registered}/>}/>
+
+                <Route path="/updateUser" element = {!error && <MissingUserDataUpdate 
+                  updateUserData = {updateUserData}/>}/>
+                <Route path="/register" element={!error && <Registration/>}/>
                 <Route path="/error" element={error && <Error/>}  />
+                
             </Routes>
           </Router>
+          
           <div>{error && <Error/>}</div>
         </div>)
 }

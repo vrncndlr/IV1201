@@ -24,6 +24,75 @@ class DAO {
   }
 
   /**
+   * Updates the user object in the database with the supplied username and password, if the
+   * reset code is equal to the one that was sent out last. If the user data is updated also removes the 
+   * reset code.
+   * @param {Object} userdata 
+   * @returns true if succesful, otherwise throws database error. 
+   */
+  async updateUserDataByEmailCode(userdata){
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN')
+      let { rows } = await client.query("SELECT person_id FROM person WHERE email = $1", [userdata.email])
+      if(rows.length === 0) return false;
+      /*console.log("rows: ")
+      console.log(rows)*/
+      const user_id = rows[0].person_id
+      //console.log("person id: " + user_id + " reset code to string " + userdata.resetCode.toString())
+
+      rows = await client.query("SELECT * FROM account_reset_code WHERE person_id = $1 AND reset_code = $2", 
+      [user_id, userdata.resetCode.toString()])
+      /*console.log("result")
+      console.log(rows)*/
+      if(rows.length === 0) return false;
+      rows = await client.query("UPDATE person SET username = $1, password = $2 WHERE person_id = $3", 
+      [userdata.username, userdata.password, user_id])
+      if(rows.length === 0) return false;
+      /*console.log("data change result")
+      console.log(rows)*/
+      await client.query("delete from account_reset_code where person_id = $1", 
+      [user_id])
+      await client.query('COMMIT')
+      return true;
+    } catch (e) {
+      await client.query('ROLLBACK')
+      console.error(e);
+      throw new Error("database error")
+    } finally {
+      client.end()
+    }
+  }
+
+  /**
+   * Stores a account restoration code tigether with corresponding person_id.
+   * @param {Integer} person_id unique identifier for each user.
+   * @param {String} accountRestoreCode Code to be checked later when updating user data.
+   */
+  async storeAccountRestoreCode(person_id, accountRestoreCode){
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN')
+      const { rows } = await client.query("SELECT * FROM account_reset_code WHERE person_id = $1", [person_id])
+      if(rows.length === 0){
+        await client.query("INSERT INTO account_reset_code(person_id, reset_code)" +
+        "VALUES($1, $2)", [person_id, accountRestoreCode])
+      }
+      else{
+        await client.query("UPDATE account_reset_code SET reset_code = $2 WHERE person_id = $1", 
+        [person_id, accountRestoreCode])
+      }
+      await client.query('COMMIT')
+    } catch (e) {
+      await client.query('ROLLBACK')
+      console.error(e);
+      throw new Error("database error")
+    } finally {
+      client.end()
+    }
+  }
+
+  /**
   * Checks username and password with the datebase, if matching it returns the user, if not returns empty json.
   * @param  username the username input
   * @param  userpassword the password of the userinput
@@ -139,7 +208,7 @@ class DAO {
       if (rows.length == 0) {
         return false;
       } else {
-        return rows[0];
+        return rows[0].row_to_json;
       }
     } catch (e) {
       await client.query('ROLLBACK')
