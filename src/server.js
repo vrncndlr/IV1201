@@ -64,8 +64,8 @@ const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 
 const server = app.listen(
-  process.env.SERVER_PORT,
-  //SERVER_PORT,
+  //process.env.SERVER_PORT,
+  SERVER_PORT,
   process.env.SERVER_HOST,
   () => {
     console.log(`Server started at ${server.address().address}:${server.address().port}`,);
