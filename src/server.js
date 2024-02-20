@@ -21,7 +21,7 @@ require('dotenv').config({
 const express = require('express');
 const app = express();
 const cors = require('cors');
-app.use(cors({origin: '*'}))
+app.use(cors())
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
