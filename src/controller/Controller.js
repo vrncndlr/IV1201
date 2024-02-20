@@ -80,7 +80,15 @@ class Controller{
       return messageSent;
     }
     else
-      return false;}
+      return false;
+    }
+    
+  async update(person_id, name, surname, pnr, email){
+     await this.dao.updateUserInfo(person_id, name, surname, pnr, email);
+  }
+  async fetch(){
+    return await this.dao.getCompetences();
+  }
 
 }
 module.exports = Controller;
