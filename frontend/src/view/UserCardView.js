@@ -1,8 +1,10 @@
 import React from "react";
 import '../styling/forms.css';
+import '../components/ArrowButton'
 import {useFormik} from "formik";
+import ArrowButton from "../components/ArrowButton";
 
-export default function UserCardView({user, handleSave}) {
+export default function UserCardView({user, handleSave, showNext}) {
     async function storeUserData(values){
         try {
             const data = {...values, person_id: user.person_id}
@@ -22,12 +24,13 @@ export default function UserCardView({user, handleSave}) {
         },
         onSubmit: async (values)=>{
             await storeUserData(values);
+            showNext();
         },
         validate: values => {
             let errors = {}
-            if(!values.name){errors.firstname = "Required"}
-            if(!values.surname){errors.lastname = "Required" }
-            if(!values.pnr){errors.pid = "Required"}
+            if(!values.name){errors.name = "Required"}
+            if(!values.surname){errors.surname = "Required" }
+            if(!values.pnr){errors.pnr = "Required"}
             if(!values.email){errors.email = "Required"}else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
                 errors.email = "Invalid email format";}
             return errors
@@ -60,6 +63,7 @@ export default function UserCardView({user, handleSave}) {
                                 name="surname"
                                 value={formik.values.surname}
                                 onChange={formik.handleChange}/>
+                            {formik.errors.surname ? <div className={"error-message"}>{formik.errors.surname}</div> : null}
                         </div>
                     </div>
                     <div className="inputGroup">
@@ -70,6 +74,7 @@ export default function UserCardView({user, handleSave}) {
                             name="pnr"
                             value={formik.values.pnr}
                             onChange={formik.handleChange}/>
+                        {formik.errors.pnr ? <div className={"error-message"}>{formik.errors.pnr}</div> : null}
                     </div>
                     <div className="inputGroup">
                         <label htmlFor="email">Email:</label>
@@ -79,8 +84,9 @@ export default function UserCardView({user, handleSave}) {
                             name="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}/>
+                        {formik.errors.email ? <div className={"error-message"}>{formik.errors.email}</div> : null}
                     </div>
-            <button type={"submit"}>Save</button>
+                <ArrowButton type={"submit"}/>
             </form>
             </div>
         </div>

@@ -5,7 +5,7 @@ import MissingUserDataUpdate from "./presenter/UpdateMissingUserDataPresenter";
 import Applicant from "./presenter/ApplicantPresenter"
 import Error from "./view/ErrorView";
 
-import {Authenticate, saveRegistrationData, restoreAccountByEmail, saveUpdatedData} from './integration/DBCaller'
+import {Authenticate, saveRegistrationData, restoreAccountByEmail, saveUpdatedData, setAvailability} from './integration/DBCaller'
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
 
@@ -27,6 +27,7 @@ function App() {
   
   const[error, setError] = useState(false);
   const [registered, setRegistered] = useState(false);
+const [applicationSubmitted, setApplicationSubmitted] = useState(false);
 
     useEffect(() => {
     // Check sessionStorage on page load
@@ -36,17 +37,6 @@ function App() {
         setUserObject(JSON.parse(user));
         }
     }, []);
-    /**
-     * Attempt to fetch rows from table competence in db,
-     * so far not working
-
-    useEffect(()=> {
-        fetchTable().then((result)=>{
-            setCompetenceObject(result);
-        }).catch(error=>{
-            console.error("Failed to fetch from database: ", error);
-        });
-    }, []) */
 
   /**
    * Function that calls the backend api and sets the result as the user state 
@@ -97,15 +87,29 @@ function App() {
             setRegistered(false);
         }
     }
-    
 
   async function updateUserData(email){
     console.log("jsoning email")
     console.log(JSON.stringify(email))
     restoreAccountByEmail(email)
   }
+  async function sendApplication(data){
+        try {
+            const response = await saveApplicationData(data);
+            if (response) {
+                console.log('Application sent successfully');
+                setApplicationSubmitted(true);
+            } else {
+                console.error('Submission failed:', response.statusText);
+                setApplicationSubmitted(false);
+            }
+        }catch(e){
+            console.error('Error submitting users application:', e)
+        }
+  }
 
-  return (<div className={"App"}><Router>
+  return (<div className={"App"}>
+        <Router>
             <Routes>
                 <Route path="/" element={!error && <Login
                       callDB = {callDB}
@@ -120,14 +124,14 @@ function App() {
                 <Route path="/register" element={!error && <Registration/>}/>
                 <Route path="/apply" element={loggedIn ? <Applicant
                         user = {userObject}
+                        sendApplication={sendApplication}
                         /> : <Error/>} />
                 <Route path="/error" element={error && <Error/>}  />
                 
             </Routes>
-          </Router>
-          
-          <div>{error && <Error/>}</div>
-        </div>)
+        </Router>
+      <div>{error && <Error/>}</div>
+    </div>)
 }
 
 export default App;

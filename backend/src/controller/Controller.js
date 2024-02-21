@@ -89,6 +89,23 @@ class Controller{
   async fetch(){
     return await this.dao.getCompetences();
   }
+/*
+  async setAvailability(){
+    return await this.dao.createAvailability();
+  }*/
+
+  async saveApplication(){
+      try {
+        const competencePromise = this.dao.updateCompetenceProfile();
+        const availabilityPromise = this.dao.createAvailability();
+        // Wait for all promises to resolve using Promise.all()
+        const [competence, availability] = await Promise.all([competencePromise, availabilityPromise]);
+        // Return the result as an array
+        return [competence, availability];
+      } catch (error) {
+        console.error("Error saving application:", error);
+      }
+    }
 
 }
 module.exports = Controller;

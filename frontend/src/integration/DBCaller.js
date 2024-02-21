@@ -114,27 +114,72 @@ async function saveUpdatedData(data){
     console.error(e);
   }
 }
-async function fetchTable(){
+async function fetchTable() {
   const URL = 'http://localhost:8000/fetch';
-  try{
+  try {
     const response = await fetch(URL, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        mode:'cors'
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors'
     });
     console.log(response)
-    if(!response.ok) {
+    if (!response.ok) {
       return response.status;
     }
     const data = await response.json();
     console.log("DBCaller: ", data)
     return data;
-  }catch(e) {
+  } catch (e) {
     console.error(e);
   }
 }
+async function setAvailability(data){
+  try {
+    const response = await fetch('http://localhost:8000/availability',{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      mode:'cors'
+    });
+    if (response.status === 201) {
+      console.log("Availability added.")
+    }
+    if (!response.ok) {
+      throw new Error('Failed to add availability.');
+    }
+  }catch(e){
+    console.error(e);
+  }
+}
+async function saveApplicationData(data){
+  try {
+    const response = await fetch('http://localhost:8000/registration', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      mode:'cors'
+    });
+    // Check for both 200 and 201 status codes
+    if (response.status === 200 || response.status === 201) {
+      console.log("Registration successful")
+      return true;
+    }
+    if (!response.ok) {
+      throw new Error('Failed to save registration data');
+    }
+  } catch (error) {
+    console.error('Error saving registration data:', error);
+    return false;
+  }
+}
 
-export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail, fetchTable, saveUpdatedData}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail, fetchTable, saveUpdatedData, setAvailability}
