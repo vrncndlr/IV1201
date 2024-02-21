@@ -13,15 +13,15 @@ const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
-require('dotenv-safe').config({
+require('dotenv').config({
     path: path.join(APP_ROOT_DIR, '.env'),
-    example: path.join(APP_ROOT_DIR, '.env-example'),
+    //example: path.join(APP_ROOT_DIR, '.env-example'),
 });
  
 const express = require('express');
 const app = express();
 const cors = require('cors');
-app.use(cors({origin: 'http://localhost:3000'}))
+app.use(cors())
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
@@ -59,17 +59,21 @@ app.use(restoreAccountRoute);
 
 const UpdateAccountByEmailCodeRoute = require('./api/UpdateAccountByEmailCode');
 app.use(UpdateAccountByEmailCodeRoute);
+const fetchRoute = require('./api/fetch')
+app.use(fetchRoute);
+
+const updateRoute = require('./api/update')
+app.use(updateRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 
 const server = app.listen(
-  //process.env.SERVER_PORT,
-  SERVER_PORT,
+    process.env.PORT?process.env.PORT:SERVER_PORT,
   process.env.SERVER_HOST,
   () => {
     console.log(`Server started at ${server.address().address}:${server.address().port}`,);
   },
 );
 
-module.exports = server, app;
+module.exports = server;

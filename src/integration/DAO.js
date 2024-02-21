@@ -15,11 +15,14 @@ class DAO {
   constructor() {
     const {Pool, Client} = require('pg');
     this.pool = new Pool({
-      user: process.env.USER,
-      host: process.env.HOST,
-      database: process.env.NAME,
-      password: process.env.PASSWD,
-      port: process.env.PORT
+      user: 'uphwrlnecfyotc',
+      host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
+      database: 'd5n1hras72nal1',
+      password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
+      port: '5432',
+      ssl: {
+        rejectUnauthorized: false
+      }
     })
   }
 
@@ -131,16 +134,61 @@ class DAO {
     console.log("DAO: ", firstname, lastname, pid, email, username, password);
     const client = await this.pool.connect();
     try {
+      await client.query('BEGIN')
       const { rows } = await client.query("INSERT INTO public.person (name, surname, pnr, email, password, role_id, username)" +
                                           "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
                                           "RETURNING *;", [firstname, lastname, pid, email, password, username]);
-        console.log("return object (DBCaller.js): ", rows[0]);
+      await client.query('COMMIT');
         return rows[0];
     } catch (error) {
+      await client.query('ROLLBACK');
       console.error('Error inserting user:', error);
       throw error;
     } finally {
       client.end();
+    }
+  }
+  /* TODO:
+  async getRowsFromTable(){
+    const client = await this.pool.connect();
+    try {
+      const { rows } = await client.query("SELECT name FROM public.competence");
+      console.log("DAO: ", rows);
+      return rows;
+    } catch (error) {
+      console.error('Error fetching rows from table:', error);
+      throw new Error('Database error: ' + error.message);
+    } finally {
+      client.end();
+    }
+  };*/
+  /**
+   * TODO handle transactions
+   * @param person_id
+   * @param name
+   * @param surname
+   * @param pnr
+   * @param email
+   * @returns {Promise<*>}
+   */
+  async updateUserInfo(person_id, name, surname, pnr, email) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const { rows } = await client.query("UPDATE person " +
+       "SET name = $2, surname = $3, pnr = $4, email = $5 "+
+       "WHERE person_id = $1 "+
+       "RETURNING *;",
+          [person_id, name, surname, pnr, email]
+      );
+      await client.query('COMMIT');
+      return rows;
+    } catch (e) {
+      await client.query('ROLLBACK');
+      console.error(e);
+      throw new Error('Database error');
+    } finally {
+      client.release();
     }
   }
 
@@ -170,7 +218,7 @@ class DAO {
   };
 
   /**
-* Get all userers from database.
+* Get all users from database.
 * @return all user
 */
   async getAllUsers() {
@@ -326,15 +374,16 @@ class DAO {
   };
 
   /**
-* Get list of comeptence from database
+* Get list of competence from database
 * @return all competences
 */
   async getCompetences() {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT competence_id, name FROM public.competence) user_alias")
+      const { rows } = await client.query("SELECT name FROM public.competence");
+      //("SELECT row_to_json(user_alias)" +
+      //  "FROM (SELECT competence_id, name FROM public.competence) user_alias")
       await client.query('COMMIT')
       return rows;
     } catch (e) {
