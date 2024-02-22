@@ -23,7 +23,7 @@ class Authorization{
       console.log("no auth cookie found")
       return false;
     }
-    let decoded = jwt.verify(authcookie, process.env.JWT_SECRET);
+    let decoded = jwt.verify(authcookie, "1234");
     if(decoded)
       console.log("cookie verified")
     else

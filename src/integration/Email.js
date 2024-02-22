@@ -13,8 +13,9 @@ require('dotenv').config({
  */
 class Mail{
   constructor(){
-    this.accountName = process.env.EMAIL;
-    this.pw = process.env.EMAIL_PW;
+    //this.accountName = process.env.EMAIL;
+    this.accountName = "ehne";
+    this.pw = "hello";
     this.sender = this.accountName + "@kth.se"
   };
 
