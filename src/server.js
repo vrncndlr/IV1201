@@ -20,8 +20,8 @@ require('dotenv-safe').config({
  
 const express = require('express');
 const app = express();
-//const cors = require('cors');
-//app.use(cors())
+const cors = require('cors');
+app.use(cors())
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
@@ -33,12 +33,12 @@ app.use(cookieParser());
 
  // CORS: put in root URL without / in the first header below. 
 // Has to include http://
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
   res.set({"Access-Control-Allow-Origin": "*"});
   res.set('Access-Control-Allow-Headers', 'Content-Type')
   res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   next();
-})
+})*/
 
 
 /**
