@@ -34,7 +34,7 @@ app.use(cookieParser());
  // CORS: put in root URL without / in the first header below. https://archdes-frontend-5528c891010d.herokuapp.com/
 // Has to include http://
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com/")
+  res.header("Access-Control-Allow-Origin", "*")
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested, Content-Type, Accept Authorization"
