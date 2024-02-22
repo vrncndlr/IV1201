@@ -734,4 +734,3 @@ class DAO {
 }
 
 module.exports = DAO;
-
