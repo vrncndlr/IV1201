@@ -20,8 +20,8 @@ require('dotenv-safe').config({
  
 const express = require('express');
 const app = express();
-const cors = require('cors');
-app.use(cors())
+//const cors = require('cors');
+//app.use(cors())
 //app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
@@ -30,15 +30,25 @@ app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-/**
- * CORS: put in root URL without / in the first header below. 
- * Has to include http://
+
+ // CORS: put in root URL without / in the first header below. https://archdes-frontend-5528c891010d.herokuapp.com/
+// Has to include http://
 app.use((req, res, next) => {
-  res.set({"Access-Control-Allow-Origin": process.env.ALLOWED_CORS_HOST});
-  res.set('Access-Control-Allow-Headers', 'Content-Type')
-  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');next();
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested, Content-Type, Accept Authorization"
+  )
+  if (req.method === "OPTIONS") {
+    res.header(
+      "Access-Control-Allow-Methods",
+      "POST, PUT, PATCH, GET, DELETE"
+    )
+    return res.status(200).json({})
+  }
+  next()
 })
- */
+
 
 /**
  * Handles requests to /.
@@ -73,7 +83,7 @@ app.use(errorHandler);
 
 const server = app.listen(
   //process.env.SERVER_PORT,
-  SERVER_PORT,
+  process.env.PORT?process.env.PORT:SERVER_PORT,
   process.env.SERVER_HOST,
   () => {
     console.log(`Server started at ${server.address().address}:${server.address().port}`,);
