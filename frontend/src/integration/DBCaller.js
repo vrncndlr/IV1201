@@ -182,4 +182,4 @@ async function saveApplicationData(data){
   }
 }
 
-export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail, fetchTable, saveUpdatedData, setAvailability}
+export {Authenticate, restoreAccountByEmail, saveRegistrationData, updateAccountByEmail, fetchTable, saveUpdatedData, saveApplicationData, setAvailability}

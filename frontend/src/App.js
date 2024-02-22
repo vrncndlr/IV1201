@@ -5,7 +5,7 @@ import MissingUserDataUpdate from "./presenter/UpdateMissingUserDataPresenter";
 import Applicant from "./presenter/ApplicantPresenter"
 import Error from "./view/ErrorView";
 
-import {Authenticate, saveRegistrationData, restoreAccountByEmail, saveUpdatedData, setAvailability} from './integration/DBCaller'
+import {Authenticate, saveRegistrationData, restoreAccountByEmail, saveApplicationData, saveUpdatedData, setAvailability} from './integration/DBCaller'
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
 
