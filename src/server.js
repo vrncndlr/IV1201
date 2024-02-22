@@ -4,7 +4,7 @@
  * Starts the server process that receives all HTTP requests and passes them on to relevant handler component.
  * All url routes to be accessed must be registered here with app.use(<url>)
  * Sets up BodyParser, CookieParser and handles CORS permissions.
- * 
+ *
  * Handle HTTP responses - is this part needed??
  * @type {{json: Function, raw: Function, text: Function, urlencoded: Function}|{json?: *, raw?: *, text?: *, urlencoded?: *}}
  */
@@ -12,6 +12,9 @@
 const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
+
+const baseURL='';
+export default baseURL;
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
@@ -38,6 +41,7 @@ app.use((req, res, next) => {
     const allowedOrigins = ['https://archdes-frontend-5528c891010d.herokuapp.com', 'http://localhost:3000'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
+        this.baseURL = origin;
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
@@ -86,4 +90,4 @@ const server = app.listen(
   },
 );
 
-module.exports = server, app;
+module.exports = server;
