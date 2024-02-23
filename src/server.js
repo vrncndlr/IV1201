@@ -31,10 +31,9 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 
- // CORS: put in root URL without / in the first header below. "https://archdes-frontend-5528c891010d.herokuapp.com"
-// Has to include http://
-// CORS configuration
-
+/**
+ * CORS configuration to only allow requests from frontend and localhost.
+ */
 app.use((req, res, next) => {
     const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
     let origin = "";
