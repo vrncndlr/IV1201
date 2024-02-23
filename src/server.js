@@ -42,7 +42,7 @@ app.use((req, res, next) => {
         origin = "https://archdes-frontend-5528c891010d.herokuapp.com";
     } else if (allowedOrigins.indexOf(req.get('origin')) === 1){
         origin = "http://localhost:3000";
-    } else (console.log("Origin denied"));
+    } else (console.log("Origin denied by CORS"));
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
