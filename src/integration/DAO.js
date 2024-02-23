@@ -4,7 +4,9 @@ Integration module to handle all calls to database.
 
 
 */
+
 const path = require('path');
+const {address} = require("../server");
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, 'dbenv.env')
@@ -13,17 +15,27 @@ require('dotenv').config({
 //Constructor to create module and establish connection to database.
 class DAO {
   constructor() {
-    const {Pool, Client} = require('pg');
-    this.pool = new Pool({
-      user: 'uphwrlnecfyotc',
-      host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
-      database: 'd5n1hras72nal1',
-      password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
-      port: '5432',
-      ssl: {
-        rejectUnauthorized: false
-      }
-    })
+    const {Pool} = require('pg');
+    //if (address().address === 'https://archdes-frontend-5528c891010d.herokuapp.com') {
+      this.pool = new Pool({
+        user: 'uphwrlnecfyotc',
+        host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
+        database: 'd5n1hras72nal1',
+        password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
+        port: '5432',
+        ssl: {
+          rejectUnauthorized: false
+        }
+      })
+    //} else {
+      /*this.pool = new Pool({
+        user: process.env.USER,
+        host: process.env.HOST,
+        database: process.env.NAME,
+        password: process.env.PASSWD,
+        port: process.env.PORT
+      })
+    }*/
   }
 
   /**

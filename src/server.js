@@ -4,7 +4,7 @@
  * Starts the server process that receives all HTTP requests and passes them on to relevant handler component.
  * All url routes to be accessed must be registered here with app.use(<url>)
  * Sets up BodyParser, CookieParser and handles CORS permissions.
- * 
+ *
  * Handle HTTP responses - is this part needed??
  * @type {{json: Function, raw: Function, text: Function, urlencoded: Function}|{json?: *, raw?: *, text?: *, urlencoded?: *}}
  */
@@ -31,23 +31,32 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 
- // CORS: put in root URL without / in the first header below. https://archdes-frontend-5528c891010d.herokuapp.com/
+ // CORS: put in root URL without / in the first header below. "https://archdes-frontend-5528c891010d.herokuapp.com"
 // Has to include http://
+// CORS configuration
+
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept Authorization"
-  )
-  if (req.method === "OPTIONS") {
-    res.header(
-      "Access-Control-Allow-Methods",
-      "POST, PUT, PATCH, GET, DELETE"
-    )
-    return res.status(200).json({})
-  }
-  next()
-})
+    const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
+    let origin = "";
+    if(allowedOrigins.indexOf(req.get('origin')) === 0) {
+        origin = "https://archdes-frontend-5528c891010d.herokuapp.com";
+    } else if (allowedOrigins.indexOf(req.get('origin')) === 1){
+        origin = "http://localhost:3000";
+    } else (console.log("Origin denied by CORS"));
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+    // Check if it's a preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        // Respond with 200 and appropriate headers
+        res.status(200).end();
+        return;
+    }
+
+    // Pass the request to the next middleware
+    next();
+});
 
 
 /**
@@ -90,4 +99,4 @@ const server = app.listen(
   },
 );
 
-module.exports = server, app;
+module.exports = server;
