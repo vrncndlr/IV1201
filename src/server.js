@@ -39,6 +39,15 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+    // Check if it's a preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        // Respond with 200 and appropriate headers
+        res.status(200).end();
+        return;
+    }
+
+    // Pass the request to the next middleware
     next();
 });
 
