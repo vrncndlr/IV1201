@@ -37,10 +37,10 @@ app.use(cookieParser());
 app.use((req, res, next) => {
     const allowedOrigins = ['https://archdes-frontend-5528c891010d.herokuapp.com', 'http://localhost:3000'];
     const origin = req.headers.origin;
-    console.log(origin)
     if (allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Origin', ['https://archdes-frontend-5528c891010d.herokuapp.com', 'http://localhost:3000']);
     }
+    res.header('Access-Control-Allow-Origin', ['https://archdes-frontend-5528c891010d.herokuapp.com', 'http://localhost:3000']);
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
