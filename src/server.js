@@ -38,9 +38,9 @@ app.use(cookieParser());
 app.use((req, res, next) => {
     const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
     let origin = "";
-    if(allowedOrigins.indexOf(req.get('host')) === 0) {
+    if(allowedOrigins.indexOf(req.get('origin')) === 0) {
         origin = "https://archdes-frontend-5528c891010d.herokuapp.com";
-    } else if (allowedOrigins.indexOf(req.get('host')) === 1){
+    } else if (allowedOrigins.indexOf(req.get('origin')) === 1){
         origin = "http://localhost:3000";
     } else (console.log("Origin denied"));
     res.header("Access-Control-Allow-Origin", origin);
