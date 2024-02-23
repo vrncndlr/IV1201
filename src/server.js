@@ -12,7 +12,6 @@
 const SERVER_PORT = 8000;
 const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
-const baseURL='';
 
 require('dotenv-safe').config({
     path: path.join(APP_ROOT_DIR, '.env'),
@@ -39,8 +38,7 @@ app.use((req, res, next) => {
     const allowedOrigins = ['https://archdes-frontend-5528c891010d.herokuapp.com', 'http://localhost:3000'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
-        this.baseURL = origin;
-        res.header('Access-Control-Allow-Origin', baseURL);
+        res.header('Access-Control-Allow-Origin', origin);
     }
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
