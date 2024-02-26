@@ -77,6 +77,7 @@ app.use(restoreAccountRoute);
 
 const UpdateAccountByEmailCodeRoute = require('./api/UpdateAccountByEmailCode');
 app.use(UpdateAccountByEmailCodeRoute);
+
 const fetchRoute = require('./api/fetch')
 app.use(fetchRoute);
 
@@ -85,6 +86,9 @@ app.use(updateRoute);
 
 const availabilityRoute = require('./api/availability')
 app.use(availabilityRoute);
+
+const fetchApplicationsRoute = require('./api/fetchapplications')
+app.use(fetchApplicationsRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);

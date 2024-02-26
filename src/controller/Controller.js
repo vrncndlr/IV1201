@@ -90,5 +90,8 @@ async fetch(){
     return await this.dao.getCompetences();
 }
 
+    async fetchApplications(){
+        return await this.dao.getAllStatus();
+    }
 }
 module.exports = Controller;
