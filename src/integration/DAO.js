@@ -725,24 +725,6 @@ class DAO {
 * get all statuses
 * @return all user status
 */
-  async getAllStatuses() {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-          "FROM (SELECT status_id, status" +
-          "FROM public.status) user_alias")
-      await client.query('COMMIT')
-      return rows;
-    } catch (e) {
-      await client.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-    } finally {
-      client.end()
-    }
-  };
-
   async getAllStatus() {
     const client = await this.pool.connect();
     try {
