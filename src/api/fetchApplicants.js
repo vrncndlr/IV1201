@@ -4,10 +4,13 @@ const Controller = require("../controller/Controller");
 const express = require("express");
 const router = express.Router();
 
-router.get('/fetchapplications', async(req, res)=>{
+/**
+ * Handles calls to the API and forwards them to controller
+ */
+router.get('/fetchapplicants', async(req, res)=>{
     const contr = await new Controller();
     try {
-        const applications = await contr.fetchApplications();
+        const applications = await contr.fetchApplicants();
         if(applications === undefined){
             console.log("Cannot fetch")
             return res.status(404).end();

@@ -721,10 +721,10 @@ class DAO {
     }
   };
 
-/**
-* get all statuses
-* @return all user status
-*/
+  /**
+   * Gets name and status for applicants from DB and returns a promise with name, surname and status_ID
+   * @returns {Promise<*>}
+   */
   async getAllStatus() {
     const client = await this.pool.connect();
     try {

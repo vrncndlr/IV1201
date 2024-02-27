@@ -87,8 +87,8 @@ app.use(updateRoute);
 const availabilityRoute = require('./api/availability')
 app.use(availabilityRoute);
 
-const fetchApplicationsRoute = require('./api/fetchapplications')
-app.use(fetchApplicationsRoute);
+const fetchApplicantsRoute = require('./api/fetchapplicants')
+app.use(fetchApplicantsRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
