@@ -70,6 +70,9 @@ app.get('/', (req, res) => {
 const loginRoute = require('./api/login')
 app.use(loginRoute);
 
+const logoutRoute = require('./api/logout')
+app.use(logoutRoute);
+
 const registerRoute = require('./api/registration')
 app.use(registerRoute);
 
@@ -78,11 +81,15 @@ app.use(restoreAccountRoute);
 
 const UpdateAccountByEmailCodeRoute = require('./api/UpdateAccountByEmailCode');
 app.use(UpdateAccountByEmailCodeRoute);
+
 const fetchRoute = require('./api/fetch')
 app.use(fetchRoute);
 
 const updateRoute = require('./api/update')
 app.use(updateRoute);
+
+const competenceRoute = require('./api/competence')
+app.use(competenceRoute);
 
 const availabilityRoute = require('./api/availability')
 app.use(availabilityRoute);

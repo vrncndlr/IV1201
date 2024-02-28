@@ -34,7 +34,7 @@ IV1201-backend
 │   │   ├── index.js
 │   │   ├── login.js
 │   │   ├── registration.js
-│   │   ├── competences.js
+│   │   ├── competence.js
 │   │   ├── availability.js
 │   │   ├── sendRestoreMail.js
 │   │   ├── update.js

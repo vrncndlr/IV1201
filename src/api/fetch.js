@@ -12,7 +12,9 @@ router.get('/fetch', async(req, res)=>{
             console.log("Cannot fetch")
             return res.status(404).end();
         }
-        return res.status(200).json(competences);
+        //return res.status(200).json(competences);
+        console.log(competences);
+        return res.send(competences);
     }catch (e){
         console.error(e);
         res.status(500).send('Error fetching competences');

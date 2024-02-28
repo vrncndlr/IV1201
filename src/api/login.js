@@ -17,7 +17,7 @@ router.post('/login', async (req, res, next) => {
   console.log(req.body)
   try{
     const user = await contr.login(req.body.username, req.body.password);
-    if(user == undefined){
+    if((user === undefined) ||(user.username === "")){
       console.log("undefined user")
       res.status(404).end();
       return;

@@ -160,22 +160,29 @@ class DAO {
       client.end();
     }
   }
-  /* TODO:
-  async getRowsFromTable(){
+
+  /**
+   * Return all data from the competence table
+   * @returns {Promise<*>}
+   */
+  async getAllFromCompetences(){
     const client = await this.pool.connect();
     try {
-      const { rows } = await client.query("SELECT name FROM public.competence");
-      console.log("DAO: ", rows);
+      await client.query('BEGIN');
+      const { rows } = await client.query("SELECT * FROM public.competence");
+      await client.query('COMMIT');
+      console.log(rows);
       return rows;
     } catch (error) {
+      await client.query('ROLLBACK');
       console.error('Error fetching rows from table:', error);
       throw new Error('Database error: ' + error.message);
     } finally {
       client.end();
     }
-  };*/
+  }
   /**
-   * TODO handle transactions
+   * Updates the columns for a user
    * @param person_id
    * @param name
    * @param surname
@@ -386,9 +393,9 @@ class DAO {
   };
 
   /**
-* Get list of competence from database
-* @return all competences
-*/
+  * Get list of competence from database
+  * @return all competences
+  */
   async getCompetences() {
     const client = await this.pool.connect();
     try {

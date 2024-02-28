@@ -13,8 +13,8 @@ const router = express.Router();
 router.post('/availability', async (req, res) => {
     const contr = await new Controller();
     try {
-        const { from_date, to_date} = req.body;
-        const result = await contr.setAvailability(from_date, to_date);
+        const { from_date, to_date, person_id } = req.body;
+        const result = await contr.setAvailability(from_date, to_date, person_id);
         res.status(201).send('Update successful');
     } catch (error) {
         console.error('Failed to update information:', error);
