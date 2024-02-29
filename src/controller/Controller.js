@@ -66,7 +66,8 @@ async login(username, password) {
  * @returns true if registration successful and false if not {Promise<boolean>}*/
 async register(firstname, lastname, pid, email, password, username){
     try {
-    await this.dao.register(firstname, lastname, pid, email, password, username);
+    const hash = await this.crypt.generateCryptPassword(password);
+    await this.dao.register(firstname, lastname, pid, email, hash, username);
     return true;
     } catch (error) {
     console.error('Error registering user:', error);
