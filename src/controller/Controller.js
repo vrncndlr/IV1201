@@ -35,9 +35,18 @@ async updateUserDataByEmailCode(userdata){
     }
 }
 */
-async login(username, password){
-    return await this.dao.login(username, password);
-}
+async login(username, password) {
+    const hashedpassword = await this.dao.getLoginUserData(username);
+    console.log("login in controller")
+    console.log(hashedpassword)
+    const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
+    if (bool) {
+      return await this.dao.getUser(hashedpassword[0].person_id);
+    }
+    return [];
+    //return await this.dao.login(username, password);
+  }
+
 
 /**
  * Calls the database layer with register api function and returns a boolean
