@@ -445,8 +445,8 @@ class DAO {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, competence_id, years_of_experience " +
+      const { rows } = await client.query("SELECT *" +
+        "FROM (SELECT competence_profile_id, person_id, competence_id, years_of_experience " +
         "FROM public.competence_profile where person_id = $1) user_alias", [person_id])
       await client.query('COMMIT')
       return rows;
@@ -614,7 +614,6 @@ class DAO {
 * @return updated availability slot.
 */
   async createAvailability(person_id, from_date, to_date) {
-    console.log("DAO:", person_id, from_date, to_date);
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')

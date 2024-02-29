@@ -10,13 +10,12 @@ const router = express.Router();
  * On successful registration send an ok status
  * @returns boolean value true with 201 status if call was successful. otherwise false with 500 status.
  */
-router.post('/competence', async (req, res) => {
+router.post('/setCompetence', async (req, res) => {
     const contr = await new Controller();
     try {
         const { person_id, competence_id, monthsOfExperience } = req.body;
         const result = await contr.setCompetence(person_id, competence_id, monthsOfExperience);
         res.status(201).send('Competence insertion successful');
-        console.log("Inserted competence for user: " + person_id);
         //return true;
     } catch (error) {
         console.error('Insertion error:', error);

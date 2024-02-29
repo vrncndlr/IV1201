@@ -9,12 +9,13 @@ const router = express.Router();
  * On successful registration send an ok status
  * @returns data with 201 status if call was successful, otherwise 500 status.
  */
-router.get('/getCompetences/:person_id', async (req, res) => {
+router.get('/getAvailabilities/:person_id', async (req, res) => {
     const contr = await new Controller();
     const { person_id } = req.params;
     try {
-        const competences = await contr.getUserCompetences(person_id);
-        return res.send(competences);
+        const availabilities = await contr.getUserAvailabilities(person_id);
+        console.log(availabilities);
+        return res.send(availabilities);
     } catch (error) {
         console.error('Fetching error:', error);
         res.status(500).send('Fetching competence failed');

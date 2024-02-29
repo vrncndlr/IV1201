@@ -103,7 +103,6 @@ class Controller{
      * @returns {Promise<*|undefined>}
      */
     async setCompetence(person_id, competence_id, monthsOfExperience){
-        console.log("Controller: ", person_id, competence_id, monthsOfExperience);
         const yearsOfExperience = monthsOfExperience / 12;
         return await this.dao.createCompetenceProfile(person_id, competence_id, yearsOfExperience);
     }
@@ -111,12 +110,15 @@ class Controller{
      * Calls the database layer with availability api function
      * @returns {Promise<*|undefined>}
      */
-    async setAvailability(from_date, to_date, person_id){
+    async setAvailability(person_id, from_date, to_date){
         return await this.dao.createAvailability(person_id, from_date, to_date);
     }
 
     async getUserCompetences(person_id){
         return await this.dao.getUserCompetenceProfile(person_id);
+    }
+    async getUserAvailabilities(person_id){
+        return await this.dao.getUserAvailability(person_id);
     }
 }
 module.exports = Controller;

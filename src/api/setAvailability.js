@@ -10,7 +10,7 @@ const router = express.Router();
  * On successful registration send an ok status
  * @returns boolean value true with 201 status if call was successful. otherwise false with 500 status.
  */
-router.post('/availability', async (req, res) => {
+router.post('/setAvailability', async (req, res) => {
     const contr = await new Controller();
     try {
         const { person_id, from_date, to_date } = req.body;

@@ -94,6 +94,12 @@ app.use(competenceRoute);
 const availabilityRoute = require('./api/setAvailability')
 app.use(availabilityRoute);
 
+const getCompetenceRoute = require('./api/getCompetences')
+app.use(getCompetenceRoute);
+
+const getAvailabilityRoute = require('./api/getAvailabilities')
+app.use(getAvailabilityRoute);
+
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 
