@@ -77,22 +77,35 @@ class Controller{
         return false;
     }
 
+    /**
+     * Updates the users personal information
+     * @param person_id
+     * @param name
+     * @param surname
+     * @param pnr
+     * @param email
+     * @returns {Promise<void>}
+     */
     async update(person_id, name, surname, pnr, email){
         await this.dao.updateUserInfo(person_id, name, surname, pnr, email);
     }
+
+    /**
+     * Fetches all rows from the table competence in the database
+     * @returns {Promise<*>}
+     */
     async fetch(){
-        const res = await this.dao.getAllFromCompetences();
-        console.log("Controller:", res);
-        return res;
+        return await this.dao.getAllFromCompetences();
     }
     /**
      * Calls the database layer with competence api function
      * Converts the incoming data monthsOfExperience to years to fit the table
      * @returns {Promise<*|undefined>}
      */
-    async setCompetence(competence_id, monthsOfExperience, user_id){
+    async setCompetence(person_id, competence_id, monthsOfExperience){
+        console.log("Controller: ", person_id, competence_id, monthsOfExperience);
         const yearsOfExperience = monthsOfExperience / 12;
-        return await this.dao.createCompetenceProfile(user_id, competence_id, yearsOfExperience);
+        return await this.dao.createCompetenceProfile(person_id, competence_id, yearsOfExperience);
     }
     /**
      * Calls the database layer with availability api function
@@ -100,6 +113,10 @@ class Controller{
      */
     async setAvailability(from_date, to_date, person_id){
         return await this.dao.createAvailability(person_id, from_date, to_date);
+    }
+
+    async getUserCompetences(person_id){
+        return await this.dao.getUserCompetenceProfile(person_id);
     }
 }
 module.exports = Controller;

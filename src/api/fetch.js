@@ -13,7 +13,6 @@ router.get('/fetch', async(req, res)=>{
             return res.status(404).end();
         }
         //return res.status(200).json(competences);
-        console.log(competences);
         return res.send(competences);
     }catch (e){
         console.error(e);

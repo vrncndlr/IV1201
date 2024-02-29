@@ -88,10 +88,10 @@ app.use(fetchRoute);
 const updateRoute = require('./api/update')
 app.use(updateRoute);
 
-const competenceRoute = require('./api/competence')
+const competenceRoute = require('./api/setCompetence')
 app.use(competenceRoute);
 
-const availabilityRoute = require('./api/availability')
+const availabilityRoute = require('./api/setAvailability')
 app.use(availabilityRoute);
 
 const errorHandler = require('./api/ErrorHandler')

@@ -13,10 +13,10 @@ const router = express.Router();
 router.post('/competence', async (req, res) => {
     const contr = await new Controller();
     try {
-        const { person_id, competence_id, years_of_experience } = req.body;
-        const result = await contr.setCompetence(person_id, competence_id, years_of_experience);
+        const { person_id, competence_id, monthsOfExperience } = req.body;
+        const result = await contr.setCompetence(person_id, competence_id, monthsOfExperience);
         res.status(201).send('Competence insertion successful');
-        console.log("Inserted competence for user: "+ person_id);
+        console.log("Inserted competence for user: " + person_id);
         //return true;
     } catch (error) {
         console.error('Insertion error:', error);

@@ -1,8 +1,6 @@
 /*
 Database integration
 Integration module to handle all calls to database.
-
-
 */
 
 const path = require('path');
@@ -395,7 +393,7 @@ class DAO {
   /**
   * Get list of competence from database
   * @return all competences
-  */
+
   async getCompetences() {
     const client = await this.pool.connect();
     try {
@@ -413,7 +411,7 @@ class DAO {
     } finally {
       client.end()
     }
-  };
+  };  */
 
   /**
 * Get user competences from the database.
@@ -467,13 +465,13 @@ class DAO {
 * @param  competenceid the id of a specific competence
 * @return specific competence profile.
 */
-  async getSpecificCompetenceProfile(competenceid) {
+  async getSpecificCompetenceProfile(competenceID) {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
       const { rows } = await client.query("SELECT row_to_json(user_alias)" +
         "FROM (SELECT person_id, competence_id, years_of_experience " +
-        "FROM public.competence_profile where competence_id = $1) user_alias", [competenceid])
+        "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
       await client.query('COMMIT')
       return rows;
     } catch (e) {
@@ -616,6 +614,7 @@ class DAO {
 * @return updated availability slot.
 */
   async createAvailability(person_id, from_date, to_date) {
+    console.log("DAO:", person_id, from_date, to_date);
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
