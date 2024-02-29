@@ -1,5 +1,6 @@
 const DAO = require('../integration/DAO');
 const Email = require('../integration/Email');
+const Crypt = require('../model/Crypt');
 
 /**
  * Class that is called by api layer to make database calls.
@@ -7,6 +8,7 @@ const Email = require('../integration/Email');
 class Controller{
 constructor(){
     this.dao = new DAO();
+    this.crypt = new Crypt();
 }
 
 /**
@@ -35,9 +37,22 @@ async updateUserDataByEmailCode(userdata){
     }
 }
 */
-async login(username, password){
-    return await this.dao.login(username, password);
+async login(username, password) {
+    const hashedpassword = await this.dao.getLoginUserData(username);
+    //console.log("login in controller")
+    //console.log(hashedpassword)
+    if(hashedpassword[0] ==undefined)
+        return undefined;
+    const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
+
+    if (bool) {
+      return await this.dao.getUser(hashedpassword[0].person_id);
+    }
+    return undefined;
+
+    //return await this.dao.login(username, password);
 }
+
 
 /**
  * Calls the database layer with register api function and returns a boolean
