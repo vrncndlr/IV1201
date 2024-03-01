@@ -8,14 +8,14 @@ require('dotenv').config({
 });
 
 /**
- * Class that sends email messages from address found in dbenv.env. 
- * Currently only @kth.se addresses are supported.
+ * Class that sends email messages from address ehne@kth.se.
+ * Needs to have account pw in environment variables. 
  */
 class Mail{
   constructor(){
     //this.accountName = process.env.EMAIL;
     this.accountName = "ehne";
-    this.pw = "hello";
+    this.pw = process.env.EMAIL_PW ? process.env.EMAIL_PW : "bad_password";
     this.sender = this.accountName + "@kth.se"
   };
 

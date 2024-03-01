@@ -25,16 +25,8 @@ class DAO {
           rejectUnauthorized: false
         }
       })
-    //} else {
-      /*this.pool = new Pool({
-        user: process.env.USER,
-        host: process.env.HOST,
-        database: process.env.NAME,
-        password: process.env.PASSWD,
-        port: process.env.PORT
-      })
-    }*/
   }
+  
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
@@ -129,6 +121,26 @@ class DAO {
       client.end()
     }
   };
+  /** 
+  * Gets user with password to check.
+  * @param  username the username input
+  * @return selected user if password and username match.
+  */
+      async getLoginUserData(username) {
+        const client = await this.pool.connect();
+        try {
+          await client.query('BEGIN')
+          const {rows}= await client.query("SELECT password, person_id FROM public.person WHERE username = $1",[username])
+          await client.query('COMMIT')
+          return rows;
+        } catch (e) {
+          await client.query('ROLLBACK')
+          console.error(e);
+          throw new Error("database error")
+        } finally {
+          client.end()
+        }
+      };
 
   /**
    * Inserts data sent from the frontend into the PostreSQL database
@@ -726,17 +738,15 @@ class DAO {
     }
   };
 
-/**
-* get all statuses
-* @return all user status
-*/
+  /**
+   * Gets name and status for applicants from DB and returns a promise with name, surname and status_ID
+   * @returns {Promise<*>}
+   */
   async getAllStatus() {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-      "FROM (SELECT status_id, person_id, status " +
-      "FROM public.status) user_alias")
+      const { rows } = await client.query("SELECT row_to_json(user_alias) FROM (SELECT person_id, name, surname, status_id FROM public.person WHERE role_id = 2) user_alias")
       await client.query('COMMIT')
       return rows;
     } catch (e) {
