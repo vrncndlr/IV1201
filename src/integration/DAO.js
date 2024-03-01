@@ -591,7 +591,7 @@ class DAO {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
+      const { rows } = await client.query("SELECT *" +
         "FROM (SELECT availability_id, person_id, from_date, to_date " +
         "FROM public.availability where person_id = $1) user_alias", [person_id])
       await client.query('COMMIT')
