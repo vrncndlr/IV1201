@@ -733,17 +733,15 @@ class DAO {
     }
   };
 
-/**
-* get all statuses
-* @return all user status
-*/
+  /**
+   * Gets name and status for applicants from DB and returns a promise with name, surname and status_ID
+   * @returns {Promise<*>}
+   */
   async getAllStatus() {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-      "FROM (SELECT status_id, person_id, status " +
-      "FROM public.status) user_alias")
+      const { rows } = await client.query("SELECT row_to_json(user_alias) FROM (SELECT person_id, name, surname, status_id FROM public.person WHERE role_id = 2) user_alias")
       await client.query('COMMIT')
       return rows;
     } catch (e) {

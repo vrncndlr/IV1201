@@ -31,10 +31,9 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 
- // CORS: put in root URL without / in the first header below. "https://archdes-frontend-5528c891010d.herokuapp.com"
-// Has to include http://
-// CORS configuration
-
+/**
+ * CORS configuration to only allow requests from frontend and localhost.
+ */
 app.use((req, res, next) => {
     const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
     let origin = "";
@@ -78,6 +77,7 @@ app.use(restoreAccountRoute);
 
 const UpdateAccountByEmailCodeRoute = require('./api/UpdateAccountByEmailCode');
 app.use(UpdateAccountByEmailCodeRoute);
+
 const fetchRoute = require('./api/fetch')
 app.use(fetchRoute);
 
@@ -86,6 +86,9 @@ app.use(updateRoute);
 
 const availabilityRoute = require('./api/availability')
 app.use(availabilityRoute);
+
+const fetchApplicantsRoute = require('./api/fetchapplicants')
+app.use(fetchApplicantsRoute);
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
