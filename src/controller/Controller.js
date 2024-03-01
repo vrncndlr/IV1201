@@ -1,14 +1,16 @@
 const DAO = require('../integration/DAO');
 const Email = require('../integration/Email');
+const Crypt = require('../model/Crypt');
 
 /**
  * Class that is called by api layer to make database calls.
  */
 class Controller{
+
     constructor(){
         this.dao = new DAO();
+        this.crypt = new Crypt();
     }
-
     /**
      * Calls the database layer for user data update and returns the result.
      * @param {Object} userdata contains username, password, confirmPassword, email and resetCode fields.
@@ -39,24 +41,43 @@ class Controller{
         return await this.dao.login(username, password);
     }
 
-    /**
-     * Calls the database layer with register api function and returns a boolean
-     * Takes the values of the user registration as separate values
-     * @param firstname
-     * @param lastname
-     * @param pid
-     * @param email
-     * @param password
-     * @param username
-     * @returns true if registration successful and false if not {Promise<boolean>}*/
-    async register(firstname, lastname, pid, email, password, username){
-        try {
-        await this.dao.register(firstname, lastname, pid, email, password, username);
-        return true;
-        } catch (error) {
-        console.error('Error registering user:', error);
-        return false;
-        }
+}
+*/
+async login(username, password) {
+    const hashedpassword = await this.dao.getLoginUserData(username);
+    //console.log("login in controller")
+    //console.log(hashedpassword)
+    if(hashedpassword[0] ==undefined)
+        return undefined;
+    const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
+
+    if (bool) {
+      return await this.dao.getUser(hashedpassword[0].person_id);
+    }
+    return undefined;
+
+    //return await this.dao.login(username, password);
+}
+
+
+/**
+ * Calls the database layer with register api function and returns a boolean
+ * Takes the values of the user registration as separate values
+ * @param firstname
+ * @param lastname
+ * @param pid
+ * @param email
+ * @param password
+ * @param username
+ * @returns true if registration successful and false if not {Promise<boolean>}*/
+async register(firstname, lastname, pid, email, password, username){
+    try {
+    const hash = await this.crypt.generateCryptPassword(password);
+    await this.dao.register(firstname, lastname, pid, email, hash, username);
+    return true;
+    } catch (error) {
+    console.error('Error registering user:', error);
+    return false;
     }
     /**
      * Checks if a user with the supplied email exists in database and is missing username.

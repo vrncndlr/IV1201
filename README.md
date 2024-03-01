@@ -8,7 +8,7 @@ The aim is to have a functioning prototype of the system but the project also se
 ## Architecture overview
 Our application follows a semi-monolithic architecture, combining client-side rendering with separate backend and frontend servers for enhanced modularity and scalability.
 ### Frontend
-On the frontend, we use the JavaScript library React for building component-based user interfaces.
+Frontend repository is found here: https://github.com/blomquiste/IV1201-frontend
 ### Backend
 The backend is powered by Node.js and Express, handling server-side logic, data processing, and API endpoints.
 
@@ -34,6 +34,8 @@ IV1201-backend
 │   │   ├── index.js
 │   │   ├── login.js
 │   │   ├── registration.js
+│   │   ├── competences.js
+│   │   ├── availability.js
 │   │   ├── sendRestoreMail.js
 │   │   ├── update.js
 │   │   └── UpdateAccountByEmailCode.js
