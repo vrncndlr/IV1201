@@ -1,14 +1,16 @@
 const DAO = require('../integration/DAO');
 const Email = require('../integration/Email');
+const Crypt = require('../model/Crypt');
 
 /**
  * Class that is called by api layer to make database calls.
  */
 class Controller{
+
     constructor(){
         this.dao = new DAO();
+        this.crypt = new Crypt();
     }
-
     /**
      * Calls the database layer for user data update and returns the result.
      * @param {Object} userdata contains username, password, confirmPassword, email and resetCode fields.
@@ -24,32 +26,50 @@ class Controller{
      * @param {String} username username
      * @param {String} password password
      * @returns JSON object {
-        row_to_json: {
-        person_id: 1,
-        name: 'Joelle',
-        surname: 'Wilkinson',
-        pnr: null,
-        email: null,
-        role_id: 1,
-        username: 'JoelleWilkinson'
-        }
-    }
-    */
-    async login(username, password){
-        return await this.dao.login(username, password);
-    }
+     row_to_json: {
+     person_id: 1,
+     name: 'Joelle',
+     surname: 'Wilkinson',
+     pnr: null,
+     email: null,
+     role_id: 1,
+     username: 'JoelleWilkinson'
+     }
+     }
+     */
+    async login(username, password) {
+        const hashedpassword = await this.dao.getLoginUserData(username);
+        //console.log("login in controller")
+        //console.log(hashedpassword)
+        if(hashedpassword[0] ==undefined)
+            return undefined;
+        const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
 
+        if (bool) {
+            return await this.dao.getUser(hashedpassword[0].person_id);
+        }
+        return undefined;
+
+        //return await this.dao.login(username, password);
+    }
     /**
      * Calls the database layer with register api function and returns a boolean
      * Takes the values of the user registration as separate values
+     * @param firstname
+     * @param lastname
+     * @param pid
+     * @param email
+     * @param password
+     * @param username
      * @returns true if registration successful and false if not {Promise<boolean>}*/
-    async register(firstname, lastname, pid, email, password, username){
+    async register(firstname, lastname, pid, email, password, username) {
         try {
-        await this.dao.register(firstname, lastname, pid, email, password, username);
-        return true;
+            const hash = await this.crypt.generateCryptPassword(password);
+            await this.dao.register(firstname, lastname, pid, email, hash, username);
+            return true;
         } catch (error) {
-        console.error('Error registering user:', error);
-        return false;
+            console.error('Error registering user:', error);
+            return false;
         }
     }
     /**
@@ -62,44 +82,34 @@ class Controller{
         const exists = await this.dao.checkUserEmail(email);
 
         if(exists == undefined)
-        return false;
+            return false;
         if(exists != undefined && exists.username){
-        return false;
+            return false;
         }
         if(exists != undefined && exists.person_id){
-        const mailer = new Email();
-        const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)
-        console.log(messageSent + " " + accountRestoreCode)
-        await this.dao.storeAccountRestoreCode(exists.person_id, accountRestoreCode);
-        return messageSent;
+            const mailer = new Email();
+            const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)
+            console.log(messageSent + " " + accountRestoreCode)
+            await this.dao.storeAccountRestoreCode(exists.person_id, accountRestoreCode);
+            return messageSent;
         }
         else
-        return false;
+            return false;
     }
 
     async update(person_id, name, surname, pnr, email){
         await this.dao.updateUserInfo(person_id, name, surname, pnr, email);
     }
     async fetch(){
-        const res = await this.dao.getAllFromCompetences();
-        console.log("Controller:", res);
-        return res;
+        return await this.dao.getCompetences();
     }
+
     /**
-     * Calls the database layer with competence api function
-     * Converts the incoming data monthsOfExperience to years to fit the table
+     * Gets all status from databaseHandler and forwards to API
      * @returns {Promise<*|undefined>}
      */
-    async setCompetence(competence_id, monthsOfExperience, user_id){
-        const yearsOfExperience = monthsOfExperience / 12;
-        return await this.dao.createCompetenceProfile(user_id, competence_id, yearsOfExperience);
-    }
-    /**
-     * Calls the database layer with availability api function
-     * @returns {Promise<*|undefined>}
-     */
-    async setAvailability(from_date, to_date, person_id){
-        return await this.dao.createAvailability(person_id, from_date, to_date);
+    async fetchApplicants(){
+        return await this.dao.getAllStatus();
     }
 }
 module.exports = Controller;
