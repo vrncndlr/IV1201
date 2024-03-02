@@ -31,11 +31,12 @@ IV1201-backend
 │   │   ├── Authorization.js
 │   │   ├── ErrorHandler.js
 │   │   ├── fetch.js
+│   │   ├── getCompetences.js
 │   │   ├── index.js
 │   │   ├── login.js
 │   │   ├── registration.js
-│   │   ├── competences.js
-│   │   ├── availability.js
+│   │   ├── setCompetence.js
+│   │   ├── setAvailability.js
 │   │   ├── sendRestoreMail.js
 │   │   ├── update.js
 │   │   └── UpdateAccountByEmailCode.js

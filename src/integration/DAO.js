@@ -1,8 +1,6 @@
 /*
 Database integration
 Integration module to handle all calls to database.
-
-
 */
 
 const path = require('path');
@@ -172,22 +170,29 @@ class DAO {
       client.end();
     }
   }
-  /* TODO:
-  async getRowsFromTable(){
+
+  /**
+   * Return all data from the competence table
+   * @returns {Promise<*>}
+   */
+  async getAllFromCompetences(){
     const client = await this.pool.connect();
     try {
-      const { rows } = await client.query("SELECT name FROM public.competence");
-      console.log("DAO: ", rows);
+      await client.query('BEGIN');
+      const { rows } = await client.query("SELECT * FROM public.competence");
+      await client.query('COMMIT');
+      console.log(rows);
       return rows;
     } catch (error) {
+      await client.query('ROLLBACK');
       console.error('Error fetching rows from table:', error);
       throw new Error('Database error: ' + error.message);
     } finally {
       client.end();
     }
-  };*/
+  }
   /**
-   * TODO handle transactions
+   * Updates the columns for a user
    * @param person_id
    * @param name
    * @param surname
@@ -398,32 +403,9 @@ class DAO {
   };
 
   /**
-* Get list of competence from database
-* @return all competences
-*/
-  async getCompetences() {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN')
-      const { rows } = await client.query("SELECT name FROM public.competence");
-      //("SELECT row_to_json(user_alias)" +
-      //  "FROM (SELECT competence_id, name FROM public.competence) user_alias")
-      await client.query('COMMIT')
-      return rows;
-    } catch (e) {
-      await client.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-
-    } finally {
-      client.end()
-    }
-  };
-
-  /**
-* Get user competences from the database.
-* @return all competences.
-*/
+  * Get user competences from the database.
+  * @return all competences.
+  */
   async getAllCompetenceProfiles() {
     const client = await this.pool.connect();
     try {
@@ -452,8 +434,8 @@ class DAO {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, competence_id, years_of_experience " +
+      const { rows } = await client.query("SELECT *" +
+        "FROM (SELECT competence_profile_id, person_id, competence_id, years_of_experience " +
         "FROM public.competence_profile where person_id = $1) user_alias", [person_id])
       await client.query('COMMIT')
       return rows;
@@ -472,13 +454,13 @@ class DAO {
 * @param  competenceid the id of a specific competence
 * @return specific competence profile.
 */
-  async getSpecificCompetenceProfile(competenceid) {
+  async getSpecificCompetenceProfile(competenceID) {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
       const { rows } = await client.query("SELECT row_to_json(user_alias)" +
         "FROM (SELECT person_id, competence_id, years_of_experience " +
-        "FROM public.competence_profile where competence_id = $1) user_alias", [competenceid])
+        "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
       await client.query('COMMIT')
       return rows;
     } catch (e) {
@@ -598,7 +580,7 @@ class DAO {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
+      const { rows } = await client.query("SELECT *" +
         "FROM (SELECT availability_id, person_id, from_date, to_date " +
         "FROM public.availability where person_id = $1) user_alias", [person_id])
       await client.query('COMMIT')

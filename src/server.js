@@ -69,6 +69,9 @@ app.get('/', (req, res) => {
 const loginRoute = require('./api/login')
 app.use(loginRoute);
 
+const logoutRoute = require('./api/logout')
+app.use(logoutRoute);
+
 const registerRoute = require('./api/registration')
 app.use(registerRoute);
 
@@ -84,11 +87,21 @@ app.use(fetchRoute);
 const updateRoute = require('./api/update')
 app.use(updateRoute);
 
-const availabilityRoute = require('./api/availability')
+const competenceRoute = require('./api/setCompetence')
+app.use(competenceRoute);
+
+const availabilityRoute = require('./api/setAvailability')
 app.use(availabilityRoute);
+
+const getCompetenceRoute = require('./api/getCompetences')
+app.use(getCompetenceRoute);
+
+const getAvailabilityRoute = require('./api/getAvailabilities')
+app.use(getAvailabilityRoute);
 
 const fetchApplicantsRoute = require('./api/fetchapplicants')
 app.use(fetchApplicantsRoute);
+
 
 const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);

@@ -13,13 +13,9 @@ const router = express.Router();
 router.post('/registration', async (req, res) => {
     const contr = await new Controller();
     try {
-        // Extract registration data from request body
         const { firstname, lastname, pid, email, username, password} = req.body;
-        // Save registration data to the database
         const result = await contr.register(firstname, lastname, pid, email, username, password);
-        // Send success response
         res.status(201).send('Registration successful');
-        //res.status(200).send('Registration successful');
         console.log("Registered new user: "+ username);
         return true;
     } catch (error) {
