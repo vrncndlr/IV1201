@@ -403,32 +403,9 @@ class DAO {
   };
 
   /**
-  * Get list of competence from database
-  * @return all competences
-
-  async getCompetences() {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN')
-      const { rows } = await client.query("SELECT name FROM public.competence");
-      //("SELECT row_to_json(user_alias)" +
-      //  "FROM (SELECT competence_id, name FROM public.competence) user_alias")
-      await client.query('COMMIT')
-      return rows;
-    } catch (e) {
-      await client.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-
-    } finally {
-      client.end()
-    }
-  };  */
-
-  /**
-* Get user competences from the database.
-* @return all competences.
-*/
+  * Get user competences from the database.
+  * @return all competences.
+  */
   async getAllCompetenceProfiles() {
     const client = await this.pool.connect();
     try {
