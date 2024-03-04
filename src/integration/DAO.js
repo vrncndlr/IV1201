@@ -95,7 +95,7 @@ class DAO {
    * @param password
    * @returns {Promise<*>} The inserted object with user data
    */
-  async register(connection, firstname, lastname, pid, email, username, password) {
+  async register(connection, firstname, lastname, pid, email, password, username) {
     const { rows } = await connection.query("INSERT INTO public.person (name, surname, pnr, email, password, role_id, username)" +
       "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
       "RETURNING *;", [firstname, lastname, pid, email, password, username]);

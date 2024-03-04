@@ -91,7 +91,7 @@ class Controller {
         try {
             await connection.query('BEGIN')
             const hash = await this.crypt.generateCryptPassword(password);
-            await this.dao.register(connection, firstname, lastname, pid, email, username, hash);
+            await this.dao.register(connection, firstname, lastname, pid, email, hash, username);
             await connection.query('COMMIT')
             return true;
         } catch (e) {
@@ -292,6 +292,3 @@ class Controller {
     }
 }
 module.exports = Controller;
-
-const ctrl = new Controller();
-//ctrl.register("Henning", "wigfross", "8809141234", "henning.wigforss@gmail.com", "password", "henwig").then(result=>console.log(result))
