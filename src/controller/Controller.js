@@ -65,7 +65,7 @@ class Controller{
     async register(firstname, lastname, pid, email, password, username) {
         try {
             const hash = await this.crypt.generateCryptPassword(password);
-            await this.dao.register(firstname, lastname, pid, email, hash, username);
+            await this.dao.register(firstname, lastname, pid, email, username, hash);
             return true;
         } catch (error) {
             console.error('Error registering user:', error);
