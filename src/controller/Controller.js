@@ -292,3 +292,6 @@ class Controller {
     }
 }
 module.exports = Controller;
+
+const ctrl = new Controller();
+//ctrl.register("Henning", "wigfross", "8809141234", "henning.wigforss@gmail.com", "password", "henwig").then(result=>console.log(result))
