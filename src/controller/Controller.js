@@ -25,22 +25,17 @@ class Controller{
      * @async
      * @param {String} username username
      * @param {String} password password
-     * @returns JSON object {
-     row_to_json: {
+     * @returns JSON object { 
      person_id: 1,
      name: 'Joelle',
      surname: 'Wilkinson',
      pnr: null,
      email: null,
      role_id: 1,
-     username: 'JoelleWilkinson'
-     }
-     }
+     username: 'JoelleWilkinson' }
      */
     async login(username, password) {
         const hashedpassword = await this.dao.getLoginUserData(username);
-        //console.log("login in controller")
-        //console.log(hashedpassword)
         if(hashedpassword[0] ==undefined)
             return undefined;
         const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
@@ -49,8 +44,6 @@ class Controller{
             return await this.dao.getUser(hashedpassword[0].person_id);
         }
         return undefined;
-
-        //return await this.dao.login(username, password);
     }
     /**
      * Calls the database layer with register api function and returns a boolean
@@ -127,19 +120,32 @@ class Controller{
         return await this.dao.createCompetenceProfile(person_id, competence_id, yearsOfExperience);
     }
     /**
-     * Calls the database layer with availability api function
+     * Calls the DAO to insert availability data
      * @returns {Promise<*|undefined>}
      */
     async setAvailability(person_id, from_date, to_date){
     return await this.dao.createAvailability(person_id, from_date, to_date);
     }
+    /**
+     * Calls DAO to fetch all applications
+     * @returns 
+     */
     async fetchApplicants(){
         return await this.dao.getAllStatus();
     }
-
+    /**
+     * Calls DAO to get the competences for a specific user in person table
+     * @param person_id unique id for the user
+     * @returns {Promise<*>}
+     */
     async getUserCompetences(person_id){
         return await this.dao.getUserCompetenceProfile(person_id);
     }
+    /**
+     * Calls DAO to get the availabilities for a specific user in person table
+     * @param person_id unique id for the user
+     * @returns {Promise<*>}
+     */
     async getUserAvailabilities(person_id){
         return await this.dao.getUserAvailability(person_id);
     }

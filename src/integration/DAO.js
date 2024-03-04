@@ -26,7 +26,6 @@ class DAO {
         }
       })
   }
-  
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
@@ -270,10 +269,10 @@ class DAO {
   };
 
   /**
-*  Check if email exists in database.
-* @param useremail email to check.
-* @return false if not exist, return person if exits.
-*/
+  *  Check if email exists in database.
+  * @param useremail email to check.
+  * @return false if not exist, return person if exits.
+  */
   async checkUserEmail(useremail) {
     const client = await this.pool.connect();
     try {
