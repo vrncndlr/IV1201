@@ -27,7 +27,6 @@ class DAO {
     })
   }
 
-
   /**
    * Creates a connection to the database
    * @returns a database connection
@@ -47,21 +46,13 @@ class DAO {
   async updateUserDataByEmailCode(connection, userdata) {
     let { rows } = await connection.query("SELECT person_id FROM person WHERE email = $1", [userdata.email])
     if (rows.length === 0) return false;
-    /*console.log("rows: ")
-    console.log(rows)*/
     const user_id = rows[0].person_id
-    //console.log("person id: " + user_id + " reset code to string " + userdata.resetCode.toString())
-
     rows = await connection.query("SELECT * FROM account_reset_code WHERE person_id = $1 AND reset_code = $2",
       [user_id, userdata.resetCode.toString()])
-    /*console.log("result")
-    console.log(rows)*/
     if (rows.length === 0) return false;
     rows = await connection.query("UPDATE person SET username = $1, password = $2 WHERE person_id = $3",
       [userdata.username, userdata.password, user_id])
     if (rows.length === 0) return false;
-    /*console.log("data change result")
-    console.log(rows)*/
     await connection.query("delete from account_reset_code where person_id = $1",
       [user_id])
     return true;
@@ -119,6 +110,7 @@ class DAO {
     const { rows } = await connection.query("SELECT * FROM public.competence");
     return rows;
   }
+
   /**
    * Updates the columns for a user
    * @param person_id
@@ -151,9 +143,9 @@ class DAO {
   };
 
   /**
-* Get all users from database.
-* @return all user
-*/
+  * Get all users from database.
+  * @return all user
+  */
   async getAllUsers(connection) {
     const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
       "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
@@ -232,11 +224,11 @@ class DAO {
   * @return person
   */
   async createUser(connection, name, surname, pnr, email, password, username) {
-      const { rows } = await connection.query("INSERT INTO person(name, surname, pnr, email, password, role_id, username) " +
-        "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
-        "RETURNING * ;", [name, surname, pnr, email, password, username]
-      )
-      return rows;
+    const { rows } = await connection.query("INSERT INTO person(name, surname, pnr, email, password, role_id, username) " +
+      "VALUES ($1, $2, $3, $4, $5, 2, $6) " +
+      "RETURNING * ;", [name, surname, pnr, email, password, username]
+    )
+    return rows;
   };
 
   /**
@@ -244,10 +236,10 @@ class DAO {
   * @return all competences.
   */
   async getAllCompetenceProfiles(connection) {
-      const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, competence_id, years_of_experience " +
-        "FROM public.competence_profile ORDER BY person_id) user_alias")
-      return rows;
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT person_id, competence_id, years_of_experience " +
+      "FROM public.competence_profile ORDER BY person_id) user_alias")
+    return rows;
   };
 
   /**
@@ -269,10 +261,10 @@ class DAO {
 * @return specific competence profile.
 */
   async getSpecificCompetenceProfile(connection, competenceID) {
-      const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, competence_id, years_of_experience " +
-        "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
-      return rows;
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT person_id, competence_id, years_of_experience " +
+      "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
+    return rows;
   };
 
   /**
@@ -283,11 +275,11 @@ class DAO {
 * @return competence profile.
 */
   async createCompetenceProfile(connection, person_id, competence_id, years_of_experience) {
-      const { rows } = await connection.query("INSERT INTO competence_profile(person_id, competence_id, years_of_experience) " +
-        "VALUES($1, $2, $3) " +
-        "RETURNING * ", [person_id, competence_id, years_of_experience]
-      )
-      return rows
+    const { rows } = await connection.query("INSERT INTO competence_profile(person_id, competence_id, years_of_experience) " +
+      "VALUES($1, $2, $3) " +
+      "RETURNING * ", [person_id, competence_id, years_of_experience]
+    )
+    return rows
   };
 
   /**
@@ -296,9 +288,9 @@ class DAO {
 * @return number of rows deleted
 */
   async deleteCompetenceProfile(connection, competence_profile_id) {
-      const { rows } = await connection.query("DELETE FROM competence_profile " +
-        "WHERE competence_profile_id  = $1", [competence_profile_id])
-      return rows;
+    const { rows } = await connection.query("DELETE FROM competence_profile " +
+      "WHERE competence_profile_id  = $1", [competence_profile_id])
+    return rows;
   };
 
   /**
@@ -308,12 +300,12 @@ class DAO {
   * @return updated competence profile.
   */
   async updateCompetenceProfile(connection, competence_profile_id, years_of_experience) {
-      const { rows } = await connection.query("UPDATE competence_profile " +
-        "SET years_of_experience = $1 " +
-        "WHERE competence_profile_id = $2 " +
-        "RETURNING * ", [years_of_experience, competence_profile_id]
-      )
-      return rows;
+    const { rows } = await connection.query("UPDATE competence_profile " +
+      "SET years_of_experience = $1 " +
+      "WHERE competence_profile_id = $2 " +
+      "RETURNING * ", [years_of_experience, competence_profile_id]
+    )
+    return rows;
   };
 
   /**
@@ -321,10 +313,10 @@ class DAO {
 * @return all availability slots.
 */
   async getAllAvailability(connection) {
-      const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT availability_id, person_id, from_date, to_date " +
-        "FROM public.availability ORDER BY person_id) user_alias")
-      return rows;
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT availability_id, person_id, from_date, to_date " +
+      "FROM public.availability ORDER BY person_id) user_alias")
+    return rows;
   };
 
   /**
@@ -348,11 +340,11 @@ class DAO {
 * @return updated availability slot.
 */
   async createAvailability(connection, person_id, from_date, to_date) {
-      const { rows } = await connection.query("INSERT INTO availability(person_id, from_date, to_date) " +
-        "VALUES($1, $2, $3) " +
-        "RETURNING * ", [person_id, from_date, to_date]
-      )
-      return rows;
+    const { rows } = await connection.query("INSERT INTO availability(person_id, from_date, to_date) " +
+      "VALUES($1, $2, $3) " +
+      "RETURNING * ", [person_id, from_date, to_date]
+    )
+    return rows;
   };
 
   /**
@@ -361,9 +353,9 @@ class DAO {
   * @return numberr of rows deleted
   */
   async deleteAvailability(connection, availability_id) {
-      const { rows } = await connection.query("DELETE FROM availability " +
-        "WHERE availability_id  = $1", [availability_id])
-      return rows;
+    const { rows } = await connection.query("DELETE FROM availability " +
+      "WHERE availability_id  = $1", [availability_id])
+    return rows;
   };
 
   /**
@@ -372,11 +364,11 @@ class DAO {
 * @return status
 */
   async createStatus(connection, person_id) {
-      const { rows } = await connection.query("INSERT INTO status(person_id, status) " +
-        "VALUES($1, 'Pending')" +
-        "RETURNING * ", [person_id]
-      )
-      return rows;
+    const { rows } = await connection.query("INSERT INTO status(person_id, status) " +
+      "VALUES($1, 'Pending')" +
+      "RETURNING * ", [person_id]
+    )
+    return rows;
   };
 
   /**
@@ -385,10 +377,10 @@ class DAO {
 * @return user status
 */
   async getStatus(connection, person_id) {
-      const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT status_id, person_id, status " +
-        "FROM public.status where person_id = $1) user_alias", [person_id])
-      return rows;
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT status_id, person_id, status " +
+      "FROM public.status where person_id = $1) user_alias", [person_id])
+    return rows;
   };
   /**
 *  change status of user
@@ -397,12 +389,12 @@ class DAO {
 * @return user status
 */
   async changeStatus(connection, person_id, status) {
-      const { rows } = await connection.query("UPDATE status " +
-        "SET status = $1 " +
-        "WHERE person_id = $2 " +
-        "RETURNING *"
-        , [status, person_id])
-      return rows;
+    const { rows } = await connection.query("UPDATE status " +
+      "SET status = $1 " +
+      "WHERE person_id = $2 " +
+      "RETURNING *"
+      , [status, person_id])
+    return rows;
   };
 
   /**
@@ -413,7 +405,6 @@ class DAO {
     const { rows } = await connection.query("SELECT row_to_json(user_alias) FROM (SELECT person_id, name, surname, status_id FROM public.person WHERE role_id = 2) user_alias")
     return rows;
   };
-
 }
 
 module.exports = DAO;

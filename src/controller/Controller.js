@@ -16,6 +16,7 @@ class Controller {
      * @param {Object} userdata contains username, password, confirmPassword, email and resetCode fields.
      * @returns
      */
+
     async updateUserDataByEmailCode(userdata) {
         const connection = await this.dao.getConnection();
         try {
@@ -74,6 +75,7 @@ class Controller {
             connection.release()
         }
     }
+
     /**
      * Calls the database layer with register api function and returns a boolean
      * Takes the values of the user registration as separate values
@@ -82,7 +84,7 @@ class Controller {
      * @param pid
      * @param email
      * @param password
-     * @param username
+     * @param usernameF
      * @returns true if registration successful and false if not {Promise<boolean>}*/
     async register(firstname, lastname, pid, email, password, username) {
         const connection = await this.dao.getConnection();
@@ -100,6 +102,7 @@ class Controller {
             connection.release()
         }
     }
+
     /**
      * Checks if a user with the supplied email exists in database and is missing username.
      * If so, sends out a restoration code by email and stores it in the database.
@@ -115,7 +118,6 @@ class Controller {
                 await connection.query('COMMIT')
                 return false;
             }
-
             if (exists != undefined && exists.username) {
                 await connection.query('COMMIT')
                 return false;
@@ -267,6 +269,7 @@ class Controller {
             connection.release()
         }
     }
+
     /**
      * Gets the availabilities of one person
      * @param person_id the id of the person
@@ -287,7 +290,5 @@ class Controller {
             connection.release()
         }
     }
-
-
 }
 module.exports = Controller;
