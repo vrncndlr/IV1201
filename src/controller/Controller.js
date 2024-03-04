@@ -93,7 +93,7 @@ class Controller {
             const hash = await this.crypt.generateCryptPassword(password);
             await this.dao.register(connection, firstname, lastname, pid, email, username, hash);
             await connection.query('COMMIT')
-            return result;
+            return true;
         } catch (e) {
             await connection.query('ROLLBACK')
             console.error('Error registering user:', error);
