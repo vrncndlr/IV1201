@@ -4,7 +4,8 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/logout', (req, res) => {
-    res.clearCookie('authCookie'); // Clear the authCookie
+    console.log('logout')
+    res.clearCookie('authcookie'); // Clear the authCookie
     res.status(200).end();
 });
 module.exports = router;
