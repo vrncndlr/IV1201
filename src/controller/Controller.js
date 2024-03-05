@@ -39,8 +39,8 @@ class Controller{
      */
     async login(username, password) {
         const hashedpassword = await this.dao.getLoginUserData(username);
-        //console.log("login in controller")
-        //console.log(hashedpassword)
+        console.log("login in controller")
+        console.log(hashedpassword)
         if(hashedpassword[0] ==undefined)
             return undefined;
         const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
@@ -62,7 +62,7 @@ class Controller{
      * @param password
      * @param username
      * @returns true if registration successful and false if not {Promise<boolean>}*/
-    async register(firstname, lastname, pid, email, password, username) {
+    async register(firstname, lastname, pid, email, username, password) {
         try {
             const hash = await this.crypt.generateCryptPassword(password);
             await this.dao.register(firstname, lastname, pid, email, username, hash);
