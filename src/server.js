@@ -44,7 +44,8 @@ app.use((req, res, next) => {
     } else (console.log("Origin denied by CORS"));
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
+    res.header("Access-Control-Allow-Credentials", "true");
 
     // Check if it's a preflight OPTIONS request
     if (req.method === 'OPTIONS') {
