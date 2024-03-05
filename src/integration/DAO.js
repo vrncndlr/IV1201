@@ -153,7 +153,7 @@ class DAO {
    * @returns {Promise<*>} The inserted object with user data
    */
   async register(firstname, lastname, pid, email, username, password) {
-    console.log("DAO: ", firstname, lastname, pid, email, username, password);
+    //console.log("DAO: ", firstname, lastname, pid, email, username, password);
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN')
