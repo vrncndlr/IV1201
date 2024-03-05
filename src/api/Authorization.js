@@ -18,8 +18,10 @@ class Authorization{
    * @returns false if no cookie with the correct name is present in request, true otherwise
    */
   static verifyIfAuthorized(request, response){
-    const authCookie = request.cookies.authCookie;
-    if(!authCookie){
+    const authcookie = request.cookies.JWTToken;
+    //console.log("request headers in Authorization")
+    //console.log(request.headers)
+    if(!authcookie){
       console.log("no auth cookie found")
       return false;
     }
@@ -46,6 +48,7 @@ class Authorization{
       sessionCookie,
     );
     const cookieOptions = {...notAccessibleFromJs};
+    user['JWTToken'] = JWTToken;
     response.cookie(this.getAuthCookieName(), JWTToken, cookieOptions);
   }
 }
