@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/fetch', async(req, res)=>{
     const contr = await new Controller();
-    console.log("fetch")
+    console.log("/fetch, cehcking auth token")
     console.log(req.cookies.JWTToken)
     if(!Authorization.verifyIfAuthorized(req, res)){
         return res.status(500).send('unauthorized access');
