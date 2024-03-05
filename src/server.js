@@ -41,7 +41,11 @@ app.use((req, res, next) => {
         origin = "https://archdes-frontend-5528c891010d.herokuapp.com";
     } else if (allowedOrigins.indexOf(req.get('origin')) === 1){
         origin = "http://localhost:3000";
-    } else (console.log("Origin denied by CORS"));
+    } else {
+      console.log("Origin denied by CORS");
+      res.status(500).end(); //should probably be 403 access denied but the frontend only handles 500 codes atm
+      return;
+    }
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
