@@ -12,8 +12,8 @@ const router = express.Router();
  */
 router.get('/getAvailabilities/:person_id', async (req, res) => {
     const contr = await new Controller();
-    console.log("/getAvailabilities/:person_id, cehcking auth token")
-    console.log(req.cookies.JWTToken)
+    //console.log("/getAvailabilities/:person_id, cehcking auth token")
+    //console.log(req.cookies.JWTToken)
     //console.log('all cookies')
     //console.log(req)
     if(!Authorization.verifyIfAuthorized(req, res)){
@@ -22,7 +22,7 @@ router.get('/getAvailabilities/:person_id', async (req, res) => {
     const { person_id } = req.params;
     try {
         const availabilities = await contr.getUserAvailabilities(person_id);
-        console.log(availabilities);
+        //console.log(availabilities);
         return res.send(availabilities);
     } catch (error) {
         console.error('Fetching error:', error);
