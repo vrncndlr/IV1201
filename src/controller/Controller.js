@@ -157,5 +157,4 @@ class Controller {
 }
 module.exports = Controller;
 
-const ctrl = new Controller();
-//ctrl.writeToLogFile("192.3.4.5", "TESTER", "TEST TEST TEST");
+const ctrl = new Controller();s

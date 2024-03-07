@@ -11,9 +11,9 @@ class Logger{
      * @param user
      * @param text
      */
-    async log(ip, user, text) {
+    async log(user, text) {
         const loggerfile = require('fs')
-        loggerfile.appendFile("logfile.txt", user + "\t\t" + text + "\n", (err) => {
+        loggerfile.appendFile("logfile.txt", Date() +"\t\t" + user + "\t\t" + text + "\n", (err) => {
             if (err) {
                 console.log(err);
             }
@@ -23,4 +23,3 @@ class Logger{
 module.exports = Logger;
 
 const log = new Logger();
-//log.log('192.168.0.1', 'testuser', 'Succeccfully logged in');
