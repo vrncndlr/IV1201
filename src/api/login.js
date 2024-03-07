@@ -16,11 +16,12 @@ router.post('/login', async (req, res, next) => {
   console.log("post request")
   console.log(req.body)
   try {
+    let temp = req.body.username;
     const user = await contr.login(req.body.username, req.body.password);
     if ((user === undefined) || (user.username === "")) {
       console.log("undefined user")
       res.status(404).end();
-      contr.writeToLogFile("Unknown", "Login Failed");
+      contr.writeToLogFile(temp, "Login Failed");
       return;
     }
     if (user.row_to_json) {
