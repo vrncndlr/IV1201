@@ -15,6 +15,7 @@ router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
+
   try {
     let temp = req.body.username;
     const user = await contr.login(req.body.username, req.body.password);
@@ -30,7 +31,7 @@ router.post('/login', async (req, res, next) => {
       Authorization.setAuthCookie(user.row_to_json, res);
       console.log("authorized");
       contr.writeToLogFile(req.body.username, "Login Successfull");
-    }else{
+    } else {
       contr.writeToLogFile(req.body.username, "Login Failed");
     }
     //console.log(res.getHeaders())
