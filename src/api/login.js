@@ -15,13 +15,12 @@ router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
-  console.log("TEST " + clientIp);
   try {
     const user = await contr.login(req.body.username, req.body.password);
     if ((user === undefined) || (user.username === "")) {
       console.log("undefined user")
       res.status(404).end();
-      contr.log(user.username, "Login Failed");
+      contr.writeToLogFile(user.username, "Login Failed");
       return;
     }
     if (user.row_to_json) {
@@ -29,14 +28,16 @@ router.post('/login', async (req, res, next) => {
       //if(!Authorization.verifyIfAuthorized(req, res))
       Authorization.setAuthCookie(user.row_to_json, res);
       console.log("authorized");
+      contr.writeToLogFile(req.body.username, "Login Successfull");
+    }else{
+      contr.writeToLogFile(req.body.username, "Login Failed");
     }
     //console.log(res.getHeaders())
-    contr.log(user.username, "Login Successfull");
     return res.send(user.row_to_json);
   } catch (e) {
     //next("server or database error on login")
     next(e)
-    contr.log(user.username, "Login Failed");
+    contr.writeToLogFile(req.body.username, "Login Failed");
     return;
   }
 })

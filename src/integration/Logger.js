@@ -13,7 +13,7 @@ class Logger{
      */
     async log(user, text) {
         const loggerfile = require('fs')
-        loggerfile.appendFile("logfile.txt", Date() +"\t\t" + user + "\t\t" + text + "\n", (err) => {
+        loggerfile.appendFile("logfile.txt", Date() + "\t\t" + user + "\t\t" + text + "\n", (err) => {
             if (err) {
                 console.log(err);
             }
