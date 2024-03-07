@@ -28,15 +28,6 @@ class Controller {
      * @param {String} username username
      * @param {String} password password
      * @returns JSON object {
-     row_to_json: {
-     person_id: 1,
-     name: 'Joelle',
-     surname: 'Wilkinson',
-     pnr: null,
-     email: null,
-     role_id: 1,
-     username: 'JoelleWilkinson'
-     }
      }
      */
     async login(username, password) {

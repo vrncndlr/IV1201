@@ -1,7 +1,7 @@
-/*
-Database integration
-Integration module to handle all calls to database.
-*/
+/**
+ * Database integration
+ * Integration module to handle all calls to database.
+ */
 
 const path = require('path');
 const {address} = require("../server");
@@ -10,7 +10,9 @@ require('dotenv').config({
   path: path.join(__dirname, 'dbenv.env')
 });
 
-//Constructor to create module and establish connection to database.
+/**
+ * Constructor to create module and establish connection to database.
+ */
 class DAO {
   constructor() {
     const {Pool} = require('pg');
@@ -30,10 +32,10 @@ class DAO {
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
-   * reset code is equal to the one that was sent out last. If the user data is updated also removes the 
+   * reset code is equal to the one that was sent out last. If the user data is updated also removes the
    * reset code.
-   * @param {Object} userdata 
-   * @returns true if succesful, otherwise throws database error. 
+   * @param {Object} userdata
+   * @returns true if succesful, otherwise throws database error.
    */
   async updateUserDataByEmailCode(userdata){
     const client = await this.pool.connect();
@@ -100,47 +102,23 @@ class DAO {
   /**
   * Checks username and password with the datebase, if matching it returns the user, if not returns empty json.
   * @param  username the username input
-  * @param  userpassword the password of the userinput
   * @return selected user if password and username match.
   */
-  async login(username, userpassword) {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN')
-      const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
-        "FROM public.person where username = $1 AND password = $2) user_alias", [username, userpassword])
-      if (rows.length === 0) console.log("undefined user in dao")
-      await client.query('COMMIT')
-      return rows[0];
-    } catch (e) {
-      await client.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-    } finally {
-      client.end()
-    }
-  };
-  /** 
-  * Gets user with password to check.
-  * @param  username the username input
-  * @return selected user if password and username match.
-  */
-      async getLoginUserData(username) {
-        const client = await this.pool.connect();
-        try {
-          await client.query('BEGIN')
-          const {rows}= await client.query("SELECT password, person_id FROM public.person WHERE username = $1",[username])
-          await client.query('COMMIT')
-          return rows;
-        } catch (e) {
-          await client.query('ROLLBACK')
-          console.error(e);
-          throw new Error("database error")
-        } finally {
-          client.end()
-        }
-      };
+    async getLoginUserData(username) {
+      const client = await this.pool.connect();
+      try {
+        await client.query('BEGIN')
+        const {rows}= await client.query("SELECT password, person_id FROM public.person WHERE username = $1",[username])
+        await client.query('COMMIT')
+        return rows;
+      } catch (e) {
+        await client.query('ROLLBACK')
+        console.error(e);
+        throw new Error("database error")
+      } finally {
+        client.end()
+      }
+    };
 
   /**
    * Inserts data sent from the frontend into the PostreSQL database
@@ -624,7 +602,7 @@ class DAO {
   /**
   *  Delete availability slot.
   * @param availability_id the id of the availability slot.
-  * @return numberr of rows deleted
+  * @return number of rows deleted
   */
   async deleteAvailability(availability_id) {
     const client = await this.pool.connect();
@@ -632,30 +610,6 @@ class DAO {
       await client.query('BEGIN')
       const { rows } = await client.query("DELETE FROM availability " +
         "WHERE availability_id  = $1", [availability_id])
-      await client.query('COMMIT')
-      return rows;
-    } catch (e) {
-      await client.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-    } finally {
-      client.end()
-    }
-  };
-
-  /**
-*  Create new status
-* @param person_id the id of the user.
-* @return status
-*/
-  async createStatus(person_id) {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN')
-      const { rows } = await client.query("INSERT INTO status(person_id, status) " +
-        "VALUES($1, 'Pending')" +
-        "RETURNING * ", [person_id]
-      )
       await client.query('COMMIT')
       return rows;
     } catch (e) {
