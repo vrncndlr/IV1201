@@ -152,10 +152,7 @@ class Controller {
  * @param text
  */
     async writeToLogFile(user, text) {
-        this.logger.log(user, text);
+        await this.logger.log(user, text);
     }
 }
 module.exports = Controller;
-
-const ctrl = new Controller();
-//ctrl.writeToLogFile("192.3.4.5", "TESTER", "TEST TEST TEST");
