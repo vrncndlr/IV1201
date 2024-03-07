@@ -1,7 +1,7 @@
-/*
-Database integration
-Integration module to handle all calls to database.
-*/
+/**
+ * Database integration
+ * Integration module to handle all calls to database.
+ */
 
 const path = require('path');
 const { address } = require("../server");
@@ -10,7 +10,9 @@ require('dotenv').config({
   path: path.join(__dirname, 'dbenv.env')
 });
 
-//Constructor to create module and establish connection to database.
+/**
+ * Constructor to create module and establish connection to database.
+ */
 class DAO {
   constructor() {
     const { Pool } = require('pg');
@@ -350,7 +352,7 @@ class DAO {
   /**
   *  Delete availability slot.
   * @param availability_id the id of the availability slot.
-  * @return numberr of rows deleted
+  * @return number of rows deleted
   */
   async deleteAvailability(connection, availability_id) {
     const { rows } = await connection.query("DELETE FROM availability " +
@@ -358,18 +360,6 @@ class DAO {
     return rows;
   };
 
-  /**
-*  Create new status
-* @param person_id the id of the user.
-* @return status
-*/
-  async createStatus(connection, person_id) {
-    const { rows } = await connection.query("INSERT INTO status(person_id, status) " +
-      "VALUES($1, 'Pending')" +
-      "RETURNING * ", [person_id]
-    )
-    return rows;
-  };
 
   /**
 *  gets status of user
