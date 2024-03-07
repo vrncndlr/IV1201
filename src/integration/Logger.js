@@ -22,5 +22,5 @@ class Logger{
 }
 module.exports = Logger;
 
-const log = new Logger();
+//const log = new Logger();
 //log.log('192.168.0.1', 'testuser', 'Succeccfully logged in');
