@@ -1,22 +1,24 @@
 const DAO = require('../integration/DAO');
 const Email = require('../integration/Email');
 const Crypt = require('../model/Crypt');
+const Logger = require('../integration/logger');
 
 /**
  * Class that is called by api layer to make database calls.
  */
-class Controller{
+class Controller {
 
-    constructor(){
+    constructor() {
         this.dao = new DAO();
         this.crypt = new Crypt();
+        this.logger = new Logger();
     }
     /**
      * Calls the database layer for user data update and returns the result.
      * @param {Object} userdata contains username, password, confirmPassword, email and resetCode fields.
      * @returns
      */
-    async updateUserDataByEmailCode(userdata){
+    async updateUserDataByEmailCode(userdata) {
         return await this.dao.updateUserDataByEmailCode(userdata);
     }
 
@@ -41,7 +43,7 @@ class Controller{
         const hashedpassword = await this.dao.getLoginUserData(username);
         console.log("login in controller")
         console.log(hashedpassword)
-        if(hashedpassword[0] ==undefined)
+        if (hashedpassword[0] == undefined)
             return undefined;
         const bool = await this.crypt.checkPassword(password, hashedpassword[0].password);
 
@@ -78,15 +80,15 @@ class Controller{
      * @param {String} email User email address
      * @returns true if restoration code was succesfully sent, otherwise false.
      */
-    async restoreAccountByEmail(email){
+    async restoreAccountByEmail(email) {
         const exists = await this.dao.checkUserEmail(email);
 
-        if(exists == undefined)
+        if (exists == undefined)
             return false;
-        if(exists != undefined && exists.username){
+        if (exists != undefined && exists.username) {
             return false;
         }
-        if(exists != undefined && exists.person_id){
+        if (exists != undefined && exists.person_id) {
             const mailer = new Email();
             const [messageSent, accountRestoreCode] = await mailer.sendAccountRestoreMail(exists.email)
             console.log(messageSent + " " + accountRestoreCode)
@@ -106,7 +108,7 @@ class Controller{
      * @param email
      * @returns {Promise<void>}
      */
-    async update(person_id, name, surname, pnr, email){
+    async update(person_id, name, surname, pnr, email) {
         await this.dao.updateUserInfo(person_id, name, surname, pnr, email);
     }
 
@@ -114,7 +116,7 @@ class Controller{
      * Fetches all rows from the table competence in the database
      * @returns {Promise<*>}
      */
-    async fetch(){
+    async fetch() {
         return await this.dao.getAllFromCompetences();
     }
 
@@ -122,7 +124,7 @@ class Controller{
      * Gets all status from databaseHandler and forwards to API
      * @returns {Promise<*|undefined>}
      */
-    async setCompetence(person_id, competence_id, monthsOfExperience){
+    async setCompetence(person_id, competence_id, monthsOfExperience) {
         const yearsOfExperience = monthsOfExperience / 12;
         return await this.dao.createCompetenceProfile(person_id, competence_id, yearsOfExperience);
     }
@@ -130,18 +132,30 @@ class Controller{
      * Calls the database layer with availability api function
      * @returns {Promise<*|undefined>}
      */
-    async setAvailability(person_id, from_date, to_date){
-    return await this.dao.createAvailability(person_id, from_date, to_date);
+    async setAvailability(person_id, from_date, to_date) {
+        return await this.dao.createAvailability(person_id, from_date, to_date);
     }
-    async fetchApplicants(){
+    async fetchApplicants() {
         return await this.dao.getAllStatus();
     }
 
-    async getUserCompetences(person_id){
+    async getUserCompetences(person_id) {
         return await this.dao.getUserCompetenceProfile(person_id);
     }
-    async getUserAvailabilities(person_id){
+    async getUserAvailabilities(person_id) {
         return await this.dao.getUserAvailability(person_id);
+    }
+
+    /**
+ * Writes to logfile.
+ * @param user
+ * @param text
+ */
+    async writeToLogFile(user, text) {
+        this.logger.log(user, text);
     }
 }
 module.exports = Controller;
+
+const ctrl = new Controller();
+//ctrl.writeToLogFile("192.3.4.5", "TESTER", "TEST TEST TEST");

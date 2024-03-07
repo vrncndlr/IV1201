@@ -17,6 +17,7 @@ router.post('/registration', async (req, res) => {
         const result = await contr.register(firstname, lastname, pid, email, username, password);
         res.status(201).send('Registration successful');
         console.log("Registered new user: "+ username);
+        contr.log(username, "Register new user");
         return true;
     } catch (error) {
         console.error('Registration error:', error);
