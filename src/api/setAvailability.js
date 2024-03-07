@@ -17,6 +17,7 @@ router.post('/setAvailability', async (req, res) => {
         console.log({ person_id, from_date, to_date });
         const result = await contr.setAvailability(person_id, from_date, to_date);
         res.status(201).send('Availability inserted successfully for ' + person_id);
+        contr.writeToLogFile(person_id, "Set Availalibity from "+ from_date + " to "+ to_date);
     } catch (error) {
         console.error('Failed to update information:', error);
         res.status(500).send('Update failed');

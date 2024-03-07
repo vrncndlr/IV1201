@@ -13,10 +13,11 @@ const router = express.Router();
 router.post('/registration', async (req, res) => {
     const contr = await new Controller();
     try {
-        const { firstname, lastname, pid, email, username, password} = req.body;
-        const result = await contr.register(firstname, lastname, pid, email, password, username);
+        const { firstname, lastname, pid, email, username, password, confirmPassword} = req.body;
+        const result = await contr.register(firstname, lastname, pid, email, username, password);
         res.status(201).send('Registration successful');
         console.log("Registered new user: "+ username);
+        contr.writeToLogFile(username, "Register new user");
         return true;
     } catch (error) {
         console.error('Registration error:', error);
