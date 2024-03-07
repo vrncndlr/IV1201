@@ -26,9 +26,10 @@ class Authorization{
       return false;
     }
     let decoded = jwt.verify(authcookie, "1234");
-    if(decoded)
-      console.log("cookie verified")
-    else
+    //if(decoded)
+      //console.log("cookie verified")
+    //else
+    if(!decoded)
       console.log("cookie not verified")
     return true;
   }
