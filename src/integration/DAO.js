@@ -231,7 +231,7 @@ class DAO {
     try {
       await client.query('BEGIN')
       const { rows } = await client.query("SELECT row_to_json(user_alias)" +
-        "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
+        "FROM (SELECT * " +
         "FROM public.person where person_id = $1) user_alias", [person_id])
       if (rows.length === 0) console.log("undefined user in dao")
       await client.query('COMMIT')
