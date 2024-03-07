@@ -21,5 +21,3 @@ class Logger{
     }
 }
 module.exports = Logger;
-
-const log = new Logger();
