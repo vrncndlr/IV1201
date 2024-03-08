@@ -20,9 +20,6 @@ require('dotenv-safe').config({
  
 const express = require('express');
 const app = express();
-//const cors = require('cors');
-//app.use(cors())
-//app.use(express.static(path.join(APP_ROOT_DIR, 'public')));
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -50,11 +47,11 @@ app.use((req, res, next) => {
     console.log(origin)
     res.header("Access-Control-Allow-Origin", origin);
 
-     
+ 
     //res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com")
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
-    res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
+  res.header("Access-Control-Allow-Credentials", "true");
 
     // Check if it's a preflight OPTIONS request
     if (req.method === 'OPTIONS') {

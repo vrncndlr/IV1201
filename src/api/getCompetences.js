@@ -12,7 +12,7 @@ const router = express.Router();
  */
 router.get('/getCompetences/:person_id', async (req, res) => {
     const contr = await new Controller();
-    if(!Authorization.verifyIfAuthorized(req, res)){
+    if (!Authorization.verifyIfAuthorized(req, res)) {
         return res.status(500).send('unauthorized access');
     }
     const { person_id } = req.params;

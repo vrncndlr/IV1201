@@ -14,17 +14,15 @@ const router = express.Router();
  */
 router.post('/updateAccountByEmailCode', async (req, res, next) => {
   const contr = await new Controller();
-  //console.log("post request")
-  //console.log(req.body.email)
-  try{
+  try {
     console.log("hello from updateAccountByEmailCode")
     console.log(req.body)
     const result = await contr.updateUserDataByEmailCode(req.body)
-    if(result)
-      res.send({accountUpdated:true})
+    if (result)
+      res.send({ accountUpdated: true })
     else
-        res.send({accountUpdated:false})
-  }catch(e){
+      res.send({ accountUpdated: false })
+  } catch (e) {
     next(e)
   }
 })

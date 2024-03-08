@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 /**
  * Class that handles authentication and authorization of users.
  */
-class Authorization{
+class Authorization {
   /**
    * Getter that returns the name the JWT token is set as a cookie under
    * @returns name of authorization cookie
@@ -32,9 +32,9 @@ class Authorization{
     }
     let decoded = jwt.verify(authcookie, "1234");
     //if(decoded)
-      //console.log("cookie verified")
+    //console.log("cookie verified")
     //else
-    if(!decoded)
+    if (!decoded)
       console.log("cookie not verified")
     return true;
   }
@@ -44,16 +44,16 @@ class Authorization{
    * @param {Object} user : {username: <username>, password:<password>}
    * @param {HTTPResponse} response the cookie is set in this response
    */
-  static setAuthCookie(user, response){
-    const notAccessibleFromJs = {httpOnly: true};
-    const sessionCookie = {expiresIn: '1h'};
+  static setAuthCookie(user, response) {
+    const notAccessibleFromJs = { httpOnly: true };
+    const sessionCookie = { expiresIn: '1h' };
 
     const JWTToken = jwt.sign(
-      {id:user.id, user:user.username},
+      { id: user.id, user: user.username },
       "1234",
       sessionCookie,
     );
-    const cookieOptions = {...notAccessibleFromJs};
+    const cookieOptions = { ...notAccessibleFromJs };
     user['JWTToken'] = JWTToken;
     //response.cookie(this.getAuthCookieName(), JWTToken, cookieOptions);
     console.log("setting authcookie" + JWTToken)

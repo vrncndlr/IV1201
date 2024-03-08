@@ -5,7 +5,7 @@
 
 
 const path = require('path');
-const {address} = require("../server");
+const { address } = require("../server");
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, 'dbenv.env')
@@ -39,7 +39,6 @@ class DAO {
     const client = await this.pool.connect();
     return client;
   }
-
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
@@ -134,18 +133,18 @@ class DAO {
     );
   }
 
-/**
-* Get user from database.
-* @param  person_id the person id
-* @return selected user
-*/
-async getUser(connection, person_id) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT * " +
-    "FROM public.person where person_id = $1) user_alias", [person_id])
-  if (rows.length === 0) console.log("undefined user in dao")
-  return rows[0];
-};
+  /**
+  * Get user from database.
+  * @param  person_id the person id
+  * @return selected user
+  */
+  async getUser(connection, person_id) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT * " +
+      "FROM public.person where person_id = $1) user_alias", [person_id])
+    if (rows.length === 0) console.log("undefined user in dao")
+    return rows[0];
+  };
 
 /**
 * Get all users from database.
