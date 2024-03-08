@@ -17,7 +17,6 @@ router.post('/setCompetence', async (req, res) => {
         const result = await contr.setCompetence(person_id, competence_id, monthsOfExperience);
         res.status(201).send('Competence insertion successful');
         contr.writeToLogFile(person_id, "Set competence " + competence_id);
-        //return true;
     } catch (error) {
         console.error('Insertion error:', error);
         res.status(500).send('Inserting competence failed');

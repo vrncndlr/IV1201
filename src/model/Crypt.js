@@ -29,10 +29,3 @@ class Crypt {
   }
 }
 module.exports = Crypt;
-
-/*
-const bcrypt = new Crypt();
-bcrypt.generateCryptPassword("MvZ46kfC1Kr").then(result =>
-console.log(result)
-
-);*/

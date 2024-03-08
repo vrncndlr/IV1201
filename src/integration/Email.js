@@ -11,9 +11,8 @@ require('dotenv').config({
  * Class that sends email messages from address ehne@kth.se.
  * Needs to have account pw in environment variables. 
  */
-class Mail{
-  constructor(){
-    //this.accountName = process.env.EMAIL;
+class Mail {
+  constructor() {
     this.accountName = "ehne";
     this.pw = process.env.EMAIL_PW ? process.env.EMAIL_PW : "bad_password";
     this.sender = this.accountName + "@kth.se"
@@ -24,9 +23,9 @@ class Mail{
    * @param {String} email User address to be sent a account restoration code.
    * @returns [true, secretCode] if the email was sent, [false, null] otherwise.
    */
-  async sendAccountRestoreMail(email){
+  async sendAccountRestoreMail(email) {
     console.log("sending email to : " + email)
-    try{
+    try {
       const transporter = nodemailer.createTransport({
         host: "smtp.kth.se",
         port: 587,
@@ -35,9 +34,9 @@ class Mail{
           user: this.accountName,
           pass: this.pw,
         },
-        tls:{
-          ciphers:'SSLv3',
-          rejectUnauthorized : false,
+        tls: {
+          ciphers: 'SSLv3',
+          rejectUnauthorized: false,
         },
       });
 
@@ -51,15 +50,14 @@ class Mail{
       });
       console.log("Message sent: %s", info);
       return [true, accountRestoringCode];
-    }catch(e){
+    } catch (e) {
       console.log(e)
       return [false, null];
     }
   }
 
-  async getAccountRestoringCode(){
+  async getAccountRestoringCode() {
     return Math.floor(Math.random() * 10000).toString();
-    //return "1234";
   }
 
 }
