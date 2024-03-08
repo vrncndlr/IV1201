@@ -37,7 +37,7 @@ class DAO {
     const client = await this.pool.connect();
     return client;
   }
-  
+
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
@@ -138,7 +138,7 @@ class DAO {
 */
 async getUser(connection, person_id) {
   const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
+    "FROM (SELECT * " +
     "FROM public.person where person_id = $1) user_alias", [person_id])
   if (rows.length === 0) console.log("undefined user in dao")
   return rows[0];
@@ -358,18 +358,6 @@ async createAvailability(connection, person_id, from_date, to_date) {
     return rows;
   };
 
-  /**
-*  Create new status
-* @param person_id the id of the user.
-* @return status
-*/
-async createStatus(connection, person_id) {
-  const { rows } = await connection.query("INSERT INTO status(person_id, status) " +
-    "VALUES($1, 'Pending')" +
-    "RETURNING * ", [person_id]
-  )
-  return rows;
-};
 
   /**
 *  gets status of user

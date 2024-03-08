@@ -231,7 +231,6 @@ class Controller {
     } finally {
         connection.release()
     }
-}
 
 async getUserCompetences(person_id) {
   const connection = await this.dao.getConnection();
@@ -248,6 +247,7 @@ async getUserCompetences(person_id) {
       connection.release()
   }
 }
+
 async getUserAvailabilities(person_id) {
   const connection = await this.dao.getConnection();
   try {
@@ -270,7 +270,7 @@ async getUserAvailabilities(person_id) {
  * @param text
  */
     async writeToLogFile(user, text) {
-        this.logger.log(user, text);
+        await this.logger.log(user, text);
     }
 }
 module.exports = Controller;
