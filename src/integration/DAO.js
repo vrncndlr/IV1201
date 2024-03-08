@@ -16,7 +16,6 @@ require('dotenv').config({
 class DAO {
   constructor() {
     const {Pool} = require('pg');
-    //if (address().address === 'https://archdes-frontend-5528c891010d.herokuapp.com') {
       this.pool = new Pool({
         user: 'uphwrlnecfyotc',
         host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
