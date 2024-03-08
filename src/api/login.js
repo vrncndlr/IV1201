@@ -6,7 +6,7 @@ const Authorization = require('./Authorization')
 const router = express.Router();
 
 /**
- * Handles all post requests to /login, takes json object {username: <susername>, password:<password>}
+ * Handles all post requests to /login, takes json object {username: <username>, password:<password>}
  * On succesful login sets JWT as cookie in the response
  * @returns user object if username and password was found in database, otherwise sends empty response
  * with 404 status. 

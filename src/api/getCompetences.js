@@ -12,8 +12,6 @@ const router = express.Router();
  */
 router.get('/getCompetences/:person_id', async (req, res) => {
     const contr = await new Controller();
-    //console.log("/getCompetences/:person_id, cehcking auth token")
-    //console.log(req.cookies.JWTToken)
     if(!Authorization.verifyIfAuthorized(req, res)){
         return res.status(500).send('unauthorized access');
     }

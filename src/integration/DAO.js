@@ -144,7 +144,7 @@ async getUser(connection, person_id) {
   return rows[0];
 };
 
-  /**
+/**
 * Get all users from database.
 * @return all user
 */
@@ -154,8 +154,7 @@ async getAllUsers(connection) {
     "FROM public.person where role_id = 2) user_alias")
   return rows;
 };
-
-  /**
+/**
 *  Check if email exists in database.
 * @param useremail email to check.
 * @return false if not exist, return person if exits.
