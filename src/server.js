@@ -14,10 +14,10 @@ const path = require('path');
 const APP_ROOT_DIR = path.join(__dirname, '..');
 
 require('dotenv-safe').config({
-  path: path.join(APP_ROOT_DIR, '.env'),
-  example: path.join(APP_ROOT_DIR, '.env-example'),
+    path: path.join(APP_ROOT_DIR, '.env'),
+    example: path.join(APP_ROOT_DIR, '.env-example'),
 });
-
+ 
 const express = require('express');
 const app = express();
 
@@ -44,19 +44,20 @@ app.use((req, res, next) => {
     return;
   }
   res.header("Access-Control-Allow-Origin", origin);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    //res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com")
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
   res.header("Access-Control-Allow-Credentials", "true");
 
-  // Check if it's a preflight OPTIONS request
-  if (req.method === 'OPTIONS') {
-    // Respond with 200 and appropriate headers
-    res.status(200).end();
-    return;
-  }
+    // Check if it's a preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        // Respond with 200 and appropriate headers
+        res.status(200).end();
+        return;
+    }
 
-  // Pass the request to the next middleware
-  next();
+    // Pass the request to the next middleware
+    next();
 });
 
 
@@ -101,7 +102,7 @@ app.use(getCompetenceRoute);
 const getAvailabilityRoute = require('./api/getAvailabilities')
 app.use(getAvailabilityRoute);
 
-const fetchApplicantsRoute = require('./api/fetchapplicants')
+const fetchApplicantsRoute = require('./api/fetchApplicants')
 app.use(fetchApplicantsRoute);
 
 
@@ -109,7 +110,8 @@ const errorHandler = require('./api/ErrorHandler')
 app.use(errorHandler);
 
 const server = app.listen(
-  process.env.PORT ? process.env.PORT : SERVER_PORT,
+  //process.env.SERVER_PORT,
+  process.env.PORT?process.env.PORT:SERVER_PORT,
   process.env.SERVER_HOST,
   () => {
     console.log(`Server started at ${server.address().address}:${server.address().port}`,);

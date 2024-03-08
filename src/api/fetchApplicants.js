@@ -8,19 +8,19 @@ const router = express.Router();
 /**
  * Handles calls to the API and forwards them to controller
  */
-router.get('/fetchapplicants', async (req, res) => {
+router.get('/fetchApplicants', async(req, res)=>{
     const contr = await new Controller();
-    if (!Authorization.verifyIfAuthorized(req, res)) {
+    if(!Authorization.verifyIfAuthorized(req, res)){
         return res.status(500).send('unauthorized access');
     }
     try {
         const applications = await contr.fetchApplicants();
-        if (applications === undefined) {
+        if(applications === undefined){
             console.log("Cannot fetch")
             return res.status(404).end();
         }
         return res.status(200).json(applications);
-    } catch (e) {
+    }catch (e){
         console.error(e);
         res.status(500).send('Error fetching competences');
     }
