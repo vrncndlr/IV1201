@@ -12,12 +12,12 @@ const router = express.Router();
  * have already been sent
  * @returns 
  */
-function errorHandler(e, req, res, next){
-  if(res.headersSent){
-    return next(e)  
+function errorHandler(e, req, res, next) {
+  if (res.headersSent) {
+    return next(e)
   }
   console.log("ErrorHandler: " + e)
-  return res.status(500).send({error: "server or database error"})
+  return res.status(500).send({ error: "server or database error" })
 }
 
 module.exports = errorHandler;

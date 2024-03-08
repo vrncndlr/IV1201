@@ -14,18 +14,16 @@ const router = express.Router();
  */
 router.post('/restoreAccountByEmail', async (req, res, next) => {
   const contr = await new Controller();
-  //console.log("post request")
-  //console.log(req.body.email)
-  try{
+  try {
     const messageSent = await contr.restoreAccountByEmail(req.body.email);
-    if(messageSent){
+    if (messageSent) {
       console.log("successfully sent message")
-      res.send({emailSent:true})
-    }else{
+      res.send({ emailSent: true })
+    } else {
       console.log("no message sent")
       res.status(404).end();
     }
-  }catch(e){
+  } catch (e) {
     next(e)
   }
 })
