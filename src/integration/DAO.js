@@ -3,12 +3,14 @@
  * Integration module to handle all calls to database.
  */
 
+
 const path = require('path');
 const {address} = require("../server");
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, 'dbenv.env')
 });
+const Crypt = require('../model/Crypt');
 
 /**
  * Constructor to create module and establish connection to database.
@@ -26,6 +28,7 @@ class DAO {
           rejectUnauthorized: false
         }
       })
+      this.crypt = new Crypt();
   }
 
   /**
@@ -52,8 +55,9 @@ class DAO {
     rows = await connection.query("SELECT * FROM account_reset_code WHERE person_id = $1 AND reset_code = $2",
       [user_id, userdata.resetCode.toString()])
     if (rows.length === 0) return false;
+    const hash = await this.crypt.generateCryptPassword(userdata.password);
     rows = await connection.query("UPDATE person SET username = $1, password = $2 WHERE person_id = $3",
-      [userdata.username, userdata.password, user_id])
+      [userdata.username, hash, user_id])
     if (rows.length === 0) return false;
     await connection.query("delete from account_reset_code where person_id = $1",
       [user_id])

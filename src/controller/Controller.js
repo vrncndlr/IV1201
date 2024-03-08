@@ -53,6 +53,7 @@ class Controller {
           if (bool) {
               const result = await this.dao.getUser(connection, hashedpassword[0].person_id);
               await connection.query('COMMIT')
+              console.log(result)
               return result;
           }
           await connection.query('COMMIT')

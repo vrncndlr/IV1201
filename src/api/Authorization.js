@@ -11,6 +11,9 @@ class Authorization{
   static getAuthCookieName() {
     return 'authCookie';
   }
+  static getAuthHeader(cookies) {
+    return cookies.split(';')[0].split('=')[1];
+  }
   /**
    * Verifies the JWT token supplied under the cookie name.
    * @param {HTTPRequest} request The incoming http request
@@ -18,9 +21,11 @@ class Authorization{
    * @returns false if no cookie with the correct name is present in request, true otherwise
    */
   static verifyIfAuthorized(request, response){
-    const authcookie = request.cookies.JWTToken;
-    //console.log("request headers in Authorization")
+    //const authcookie = request.cookies.JWTToken;
+    const authcookie = request.headers.authcookie
+    console.log("request headers in Authorization")
     //console.log(request.headers)
+    console.log(this.getAuthHeader(request.headers.authcookie))
     if(!authcookie){
       console.log("no auth cookie found")
       return false;
@@ -33,7 +38,7 @@ class Authorization{
       console.log("cookie not verified")
     return true;
   }
-
+  
   /**
    * Sets a JSON web token, JWT, as cookie for authorization.
    * @param {Object} user : {username: <username>, password:<password>}
@@ -50,7 +55,9 @@ class Authorization{
     );
     const cookieOptions = {...notAccessibleFromJs};
     user['JWTToken'] = JWTToken;
-    response.cookie(this.getAuthCookieName(), JWTToken, cookieOptions);
+    //response.cookie(this.getAuthCookieName(), JWTToken, cookieOptions);
+    console.log("setting authcookie" + JWTToken)
+    response.setHeader('authcookie', JWTToken);
   }
 }
 
