@@ -109,7 +109,7 @@ app.use(getCompetenceRoute);
 const getAvailabilityRoute = require('./api/getAvailabilities')
 app.use(getAvailabilityRoute);
 
-const fetchApplicantsRoute = require('./api/fetchapplicants')
+const fetchApplicantsRoute = require('./api/fetchApplicants')
 app.use(fetchApplicantsRoute);
 
 
