@@ -218,59 +218,61 @@ class Controller {
       }
   }
   async fetchApplicants() {
-    const connection = await this.dao.getConnection();
-    try {
-        await connection.query('BEGIN')
-        const result = await this.dao.getAllStatus(connection)
-        await connection.query('COMMIT')
-        return result;
-    } catch (e) {
-        await connection.query('ROLLBACK')
-        console.error(e);
-        throw new Error("database error")
-    } finally {
-        connection.release()
-    }
-
-async getUserCompetences(person_id) {
-  const connection = await this.dao.getConnection();
-  try {
-      await connection.query('BEGIN')
-      const result = await this.dao.getUserCompetenceProfile(connection, person_id)
-      await connection.query('COMMIT')
-      return result;
-  } catch (e) {
-      await connection.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-  } finally {
-      connection.release()
+      const connection = await this.dao.getConnection();
+      try {
+          await connection.query('BEGIN')
+          const result = await this.dao.getAllStatus(connection)
+          await connection.query('COMMIT')
+          return result;
+      } catch (e) {
+          await connection.query('ROLLBACK')
+          console.error(e);
+          throw new Error("database error")
+      } finally {
+          connection.release()
+      }
   }
-}
-
-async getUserAvailabilities(person_id) {
-  const connection = await this.dao.getConnection();
-  try {
-      await connection.query('BEGIN')
-      const result = await this.dao.getUserAvailability(connection, person_id)
-      await connection.query('COMMIT')
-      return result;
-  } catch (e) {
-      await connection.query('ROLLBACK')
-      console.error(e);
-      throw new Error("database error")
-  } finally {
-      connection.release()
+  async getUserCompetences(person_id){
+      const connection = await this.dao.getConnection();
+      try {
+          await connection.query('BEGIN')
+          const result = await this.dao.getUserCompetenceProfile(connection, person_id)
+          await connection.query('COMMIT')
+          return result;
+      } catch (e) {
+          await connection.query('ROLLBACK')
+          console.error(e);
+          throw new Error("database error")
+      } finally {
+          connection.release()
+      }
   }
-}
 
-    /**
- * Writes to logfile.
- * @param user
- * @param text
- */
-    async writeToLogFile(user, text) {
-        await this.logger.log(user, text);
-    }
+  async getUserAvailabilities(person_id){
+      const connection = await this.dao.getConnection();
+      try {
+          await connection.query('BEGIN')
+          const result = await this.dao.getUserAvailability(connection, person_id)
+          await connection.query('COMMIT')
+          return result;
+      } catch (e) {
+          await connection.query('ROLLBACK')
+          console.error(e);
+          throw new Error("database error")
+      } finally {
+          connection.release()
+      }
+  }
+
+  /**
+   * Writes to logfile.
+   * @param user
+   * @param text
+   */
+  async writeToLogFile(user, text){
+      await this.logger.log(user, text);
+  }
+
 }
 module.exports = Controller;
+
