@@ -3,7 +3,7 @@ const path = require('path');
 Database integration
 Integration module to handle all calls to database.
 */
-class Logger{
+class Logger {
     constructor() {
     }
     /**

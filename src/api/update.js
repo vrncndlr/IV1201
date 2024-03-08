@@ -13,11 +13,11 @@ const router = express.Router();
 router.post('/update', async (req, res) => {
     const contr = await new Controller();
     try {
-        const { person_id, name, surname, pnr, email} = req.body;
+        const { person_id, name, surname, pnr, email } = req.body;
         // Update and save registration data in the database
         const result = await contr.update(person_id, name, surname, pnr, email);
         res.status(201).send('Update successful');
-        console.log("Updated user info: "+ name, surname, pnr, email);
+        console.log("Updated user info: " + name, surname, pnr, email);
         return true;
     } catch (error) {
         console.error('Failed to update information:', error);

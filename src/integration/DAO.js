@@ -4,7 +4,7 @@
  */
 
 const path = require('path');
-const {address} = require("../server");
+const { address } = require("../server");
 require('dotenv').config({
   override: true,
   path: path.join(__dirname, 'dbenv.env')
@@ -15,18 +15,17 @@ require('dotenv').config({
  */
 class DAO {
   constructor() {
-    const {Pool} = require('pg');
-    //if (address().address === 'https://archdes-frontend-5528c891010d.herokuapp.com') {
-      this.pool = new Pool({
-        user: 'uphwrlnecfyotc',
-        host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
-        database: 'd5n1hras72nal1',
-        password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
-        port: '5432',
-        ssl: {
-          rejectUnauthorized: false
-        }
-      })
+    const { Pool } = require('pg');
+    this.pool = new Pool({
+      user: 'uphwrlnecfyotc',
+      host: 'ec2-52-215-209-64.eu-west-1.compute.amazonaws.com',
+      database: 'd5n1hras72nal1',
+      password: '9dc5c74bc3d665321103a8b95694b25960a18ab93b87b1a2c6e35b6db5eca05f',
+      port: '5432',
+      ssl: {
+        rejectUnauthorized: false
+      }
+    })
   }
 
   /**
@@ -37,7 +36,6 @@ class DAO {
     const client = await this.pool.connect();
     return client;
   }
-
 
   /**
    * Updates the user object in the database with the supplied username and password, if the
@@ -131,44 +129,44 @@ class DAO {
     );
   }
 
-/**
-* Get user from database.
-* @param  person_id the person id
-* @return selected user
-*/
-async getUser(connection, person_id) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT * " +
-    "FROM public.person where person_id = $1) user_alias", [person_id])
-  if (rows.length === 0) console.log("undefined user in dao")
-  return rows[0];
-};
+  /**
+  * Get user from database.
+  * @param  person_id the person id
+  * @return selected user
+  */
+  async getUser(connection, person_id) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT * " +
+      "FROM public.person where person_id = $1) user_alias", [person_id])
+    if (rows.length === 0) console.log("undefined user in dao")
+    return rows[0];
+  };
 
-/**
-* Get all users from database.
-* @return all user
-*/
-async getAllUsers(connection) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
-    "FROM public.person where role_id = 2) user_alias")
-  return rows;
-};
-/**
-*  Check if email exists in database.
-* @param useremail email to check.
-* @return false if not exist, return person if exits.
-*/
-async checkUserEmail(connection, useremail) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT person_id, name, surname, pnr, email, role_id, username, password " +
-    "FROM public.person where email = $1) user_alias", [useremail])
-  if (rows.length == 0) {
-    return false;
-  } else {
-    return rows[0].row_to_json;
-  }
-};
+  /**
+  * Get all users from database.
+  * @return all user
+  */
+  async getAllUsers(connection) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT person_id, name, surname, pnr, email, role_id, username " +
+      "FROM public.person where role_id = 2) user_alias")
+    return rows;
+  };
+  /**
+  *  Check if email exists in database.
+  * @param useremail email to check.
+  * @return false if not exist, return person if exits.
+  */
+  async checkUserEmail(connection, useremail) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT person_id, name, surname, pnr, email, role_id, username, password " +
+      "FROM public.person where email = $1) user_alias", [useremail])
+    if (rows.length == 0) {
+      return false;
+    } else {
+      return rows[0].row_to_json;
+    }
+  };
 
   /**
   *  Check username exists in database.
@@ -248,11 +246,11 @@ async checkUserEmail(connection, useremail) {
 * @param  person_id the person id
 * @return the specified users comeptences as jason
 */
-async getUserCompetenceProfile(connection, person_id) {
-  const { rows } = await connection.query("SELECT *" +
-    "FROM (SELECT competence_profile_id, person_id, competence_id, years_of_experience " +
-    "FROM public.competence_profile where person_id = $1) user_alias", [person_id])
-  return rows;
+  async getUserCompetenceProfile(connection, person_id) {
+    const { rows } = await connection.query("SELECT *" +
+      "FROM (SELECT competence_profile_id, person_id, competence_id, years_of_experience " +
+      "FROM public.competence_profile where person_id = $1) user_alias", [person_id])
+    return rows;
   };
 
   /**
@@ -260,11 +258,11 @@ async getUserCompetenceProfile(connection, person_id) {
 * @param  competenceid the id of a specific competence
 * @return specific competence profile.
 */
-async getSpecificCompetenceProfile(connection, competenceID) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT person_id, competence_id, years_of_experience " +
-    "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
-  return rows;
+  async getSpecificCompetenceProfile(connection, competenceID) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT person_id, competence_id, years_of_experience " +
+      "FROM public.competence_profile where competence_id = $1) user_alias", [competenceID])
+    return rows;
   };
 
   /**
@@ -274,12 +272,12 @@ async getSpecificCompetenceProfile(connection, competenceID) {
 * @param years_of_experience the years of experiance the user have.
 * @return competence profile.
 */
-async createCompetenceProfile(connection, person_id, competence_id, years_of_experience) {
-  const { rows } = await connection.query("INSERT INTO competence_profile(person_id, competence_id, years_of_experience) " +
-    "VALUES($1, $2, $3) " +
-    "RETURNING * ", [person_id, competence_id, years_of_experience]
-  )
-  return rows
+  async createCompetenceProfile(connection, person_id, competence_id, years_of_experience) {
+    const { rows } = await connection.query("INSERT INTO competence_profile(person_id, competence_id, years_of_experience) " +
+      "VALUES($1, $2, $3) " +
+      "RETURNING * ", [person_id, competence_id, years_of_experience]
+    )
+    return rows
   };
 
   /**
@@ -287,10 +285,10 @@ async createCompetenceProfile(connection, person_id, competence_id, years_of_exp
 * @param competence_profile_id the id of the competence
 * @return number of rows deleted
 */
-async deleteCompetenceProfile(connection, competence_profile_id) {
-  const { rows } = await connection.query("DELETE FROM competence_profile " +
-    "WHERE competence_profile_id  = $1", [competence_profile_id])
-  return rows;
+  async deleteCompetenceProfile(connection, competence_profile_id) {
+    const { rows } = await connection.query("DELETE FROM competence_profile " +
+      "WHERE competence_profile_id  = $1", [competence_profile_id])
+    return rows;
   };
 
   /**
@@ -312,11 +310,11 @@ async deleteCompetenceProfile(connection, competence_profile_id) {
 *  Gets all availability slots from the database
 * @return all availability slots.
 */
-async getAllAvailability(connection) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT availability_id, person_id, from_date, to_date " +
-    "FROM public.availability ORDER BY person_id) user_alias")
-  return rows;
+  async getAllAvailability(connection) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT availability_id, person_id, from_date, to_date " +
+      "FROM public.availability ORDER BY person_id) user_alias")
+    return rows;
   };
 
   /**
@@ -324,11 +322,11 @@ async getAllAvailability(connection) {
 * @param person_id the id of the user
 * @return all availability slots connected to user.
 */
-async getUserAvailability(connection, person_id) {
-  const { rows } = await connection.query("SELECT *" +
-    "FROM (SELECT availability_id, person_id, from_date, to_date " +
-    "FROM public.availability where person_id = $1) user_alias", [person_id])
-  return rows;
+  async getUserAvailability(connection, person_id) {
+    const { rows } = await connection.query("SELECT *" +
+      "FROM (SELECT availability_id, person_id, from_date, to_date " +
+      "FROM public.availability where person_id = $1) user_alias", [person_id])
+    return rows;
   };
 
   /**
@@ -338,12 +336,12 @@ async getUserAvailability(connection, person_id) {
 * @param to_date the end date of the availability
 * @return updated availability slot.
 */
-async createAvailability(connection, person_id, from_date, to_date) {
-  const { rows } = await connection.query("INSERT INTO availability(person_id, from_date, to_date) " +
-    "VALUES($1, $2, $3) " +
-    "RETURNING * ", [person_id, from_date, to_date]
-  )
-  return rows;
+  async createAvailability(connection, person_id, from_date, to_date) {
+    const { rows } = await connection.query("INSERT INTO availability(person_id, from_date, to_date) " +
+      "VALUES($1, $2, $3) " +
+      "RETURNING * ", [person_id, from_date, to_date]
+    )
+    return rows;
   };
 
   /**
@@ -363,12 +361,12 @@ async createAvailability(connection, person_id, from_date, to_date) {
 * @param person_id the id of the user.
 * @return user status
 */
-async getStatus(connection, person_id) {
-  const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
-    "FROM (SELECT status_id, person_id, status " +
-    "FROM public.status where person_id = $1) user_alias", [person_id])
-  return rows;
-};
+  async getStatus(connection, person_id) {
+    const { rows } = await connection.query("SELECT row_to_json(user_alias)" +
+      "FROM (SELECT status_id, person_id, status " +
+      "FROM public.status where person_id = $1) user_alias", [person_id])
+    return rows;
+  };
 
   /**
 *  change status of user
@@ -376,14 +374,14 @@ async getStatus(connection, person_id) {
 * @param status the new status text.
 * @return user status
 */
-async changeStatus(connection, person_id, status) {
-  const { rows } = await connection.query("UPDATE status " +
-    "SET status = $1 " +
-    "WHERE person_id = $2 " +
-    "RETURNING *"
-    , [status, person_id])
-  return rows;
-};
+  async changeStatus(connection, person_id, status) {
+    const { rows } = await connection.query("UPDATE status " +
+      "SET status = $1 " +
+      "WHERE person_id = $2 " +
+      "RETURNING *"
+      , [status, person_id])
+    return rows;
+  };
 
   /**
    * Gets name and status for applicants from DB and returns a promise with name, surname and status_ID
