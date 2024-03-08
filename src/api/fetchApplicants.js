@@ -8,7 +8,7 @@ const router = express.Router();
 /**
  * Handles calls to the API and forwards them to controller
  */
-router.get('/fetchapplicants', async(req, res)=>{
+router.get('/fetchApplicants', async(req, res)=>{
     const contr = await new Controller();
     if(!Authorization.verifyIfAuthorized(req, res)){
         return res.status(500).send('unauthorized access');
