@@ -15,22 +15,31 @@ router.post('/login', async (req, res, next) => {
   const contr = await new Controller();
   console.log("post request")
   console.log(req.body)
-  try{
+
+  try {
+    let temp = req.body.username;
     const user = await contr.login(req.body.username, req.body.password);
-    if((user === undefined) ||(user.username === "")){
+    if ((user === undefined) || (user.username === "")) {
       console.log("undefined user")
       res.status(404).end();
+      contr.writeToLogFile(temp, "Login Failed");
       return;
     }
-    if(user.row_to_json){
+    if (user.row_to_json) {
       //console.log(user.row_to_json)
       //if(!Authorization.verifyIfAuthorized(req, res))
-        Authorization.setAuthCookie(user.row_to_json, res);console.log("authorized");
+      Authorization.setAuthCookie(user.row_to_json, res);
+      console.log("authorized");
+      contr.writeToLogFile(req.body.username, "Login Successfull");
+    } else {
+      contr.writeToLogFile(req.body.username, "Login Failed");
     }
+    //console.log(res.getHeaders())
     return res.send(user.row_to_json);
-  }catch(e){
+  } catch (e) {
     //next("server or database error on login")
     next(e)
+    contr.writeToLogFile(req.body.username, "Login Failed");
     return;
   }
 })

@@ -1,11 +1,17 @@
 'use strict';
 
 const Controller = require("../controller/Controller");
+const Authorization = require('./Authorization');
 const express = require("express");
 const router = express.Router();
 
 router.get('/fetch', async(req, res)=>{
     const contr = await new Controller();
+    console.log("/fetch, cehcking auth token")
+    console.log(req.cookies.JWTToken)
+    if(!Authorization.verifyIfAuthorized(req, res)){
+        return res.status(500).send('unauthorized access');
+    }
     try {
         const competences = await contr.fetch();
         if(competences === undefined){

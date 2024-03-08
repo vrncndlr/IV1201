@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('../controller/Controller');
+const Authorization = require('./Authorization');
 const express = require('express');
 const router = express.Router();
 
@@ -11,6 +12,9 @@ const router = express.Router();
  */
 router.get('/getCompetences/:person_id', async (req, res) => {
     const contr = await new Controller();
+    if(!Authorization.verifyIfAuthorized(req, res)){
+        return res.status(500).send('unauthorized access');
+    }
     const { person_id } = req.params;
     try {
         const competences = await contr.getUserCompetences(person_id);
