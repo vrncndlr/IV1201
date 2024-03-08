@@ -49,8 +49,6 @@ app.use((req, res, next) => {
     }
     console.log(origin)
     res.header("Access-Control-Allow-Origin", origin);
-
-
     //res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com")
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
