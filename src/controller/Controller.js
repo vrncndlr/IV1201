@@ -1,7 +1,7 @@
 const DAO = require('../integration/DAO');
 const Email = require('../integration/Email');
 const Crypt = require('../model/Crypt');
-const Logger = require('../integration/logger');
+const Logger = require('../integration/Logger');
 
 /**
  * Class that is called by api layer to make database calls.
