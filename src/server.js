@@ -35,7 +35,7 @@ app.use(cookieParser());
  * CORS configuration to only allow requests from frontend and localhost.
  */
 app.use((req, res, next) => {
-    const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
+    /*const allowedOrigins=["https://archdes-frontend-5528c891010d.herokuapp.com", "http://localhost:3000"]
     let origin = "";
     console.log(origin)
     if(allowedOrigins.indexOf(req.get('origin')) === 0) {
@@ -48,7 +48,10 @@ app.use((req, res, next) => {
       return;
     }
     console.log(origin)
-    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Origin", origin);/*
+
+     */
+    res.header("Access-Control-Allow-Origin", "https://archdes-frontend-5528c891010d.herokuapp.com")
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authcookie");
     res.header("Access-Control-Allow-Credentials", "true");
